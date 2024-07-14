@@ -9,7 +9,7 @@
         <div class="stat-info">
           <h3>Usuarios Registrados</h3>
           <p>7,842,900</p>
-          <router-link to="/usuarios">Todos los detalles aquí</router-link>
+          <router-link to="/">Todos los detalles aquí</router-link>
         </div>
       </div>
       <div class="stat-card">
@@ -29,7 +29,7 @@
         <div class="stat-info">
           <h3>Eventos Próximos</h3>
           <p>38,900</p>
-          <router-link to="/eventos">Todos los detalles aquí</router-link>
+          <router-link to="/">Todos los detalles aquí</router-link>
         </div>
       </div>
       <div class="stat-card">

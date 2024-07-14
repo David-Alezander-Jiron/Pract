@@ -8,25 +8,21 @@
         <form v-on:submit.prevent="agregarRegistro">
           <div class="form-group">
             <label for="nombre">Nombre:</label>
-            <input type="text" class="form-control" required name="nombre" v-model="persona.nombre" id="nombre" aria-describedby="helpId" placeholder="">
-            <small id="helpId" class="form-text text-muted">Escribe el nombre del personal</small>
+            <input type="text" class="form-control" required v-model="persona.nombre" id="nombre" placeholder="Nombre">
           </div>
           <div class="form-group">
             <label for="apellido">Apellido:</label>
-            <input type="text" class="form-control" required name="apellido" v-model="persona.apellido" id="apellido" aria-describedby="helpId" placeholder="">
-            <small id="helpId" class="form-text text-muted">Escribe el apellido del personal</small>
+            <input type="text" class="form-control" required v-model="persona.apellido" id="apellido" placeholder="Apellido">
           </div>
           <div class="form-group">
             <label for="telefono">Teléfono:</label>
-            <input type="text" class="form-control" required name="telefono" id="telefono" v-model="persona.telefono" aria-describedby="helpId" placeholder="Teléfono">
-            <small id="helpId" class="form-text text-muted">Escribe el teléfono del personal</small>
+            <input type="text" class="form-control" required v-model="persona.telefono" id="telefono" placeholder="Teléfono">
           </div>
           <div class="form-group">
             <label for="rol">Rol:</label>
-            <input type="text" class="form-control" required name="rol" id="rol" v-model="persona.rol" aria-describedby="helpId" placeholder="">
-            <small id="helpId" class="form-text text-muted">Escribe el rol del personal</small>
+            <input type="text" class="form-control" required v-model="persona.rol" id="rol" placeholder="Rol">
           </div>
-          <div class="btn-group" role="group" aria-label="">
+          <div class="btn-group">
             <button type="submit" class="btn btn-success">Agregar</button>
             <router-link to="/personal" class="btn btn-warning">Cancelar</router-link>
           </div>
@@ -67,9 +63,68 @@ export default {
 </script>
 
 <style>
-body {
+
+
+.container {
+  width: 50%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
   background-color: #f5f5f5;
-  margin: 0;
-  padding-left: 50px;
+  padding: 10px 15px;
+  font-size: 18px;
+  border-bottom: 1px solid #ddd;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  color: white;
 }
 </style>

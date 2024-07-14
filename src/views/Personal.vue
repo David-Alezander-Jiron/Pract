@@ -8,11 +8,11 @@
         <table class="table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th>Id</th>
               <th>Nombre</th>
-              <th>Correo</th>
-              <th>ROL</th>
-              <th>Acciones</th>
+              <th>Rol</th>
+              <th>Telefono</th>
+              <th>Accion</th>
 
             </tr>
           </thead>
@@ -21,9 +21,9 @@
             <tr v-for="persona in personal" :key="persona.id">
 
               <td>{{ persona.id }}</td>
-              <td>{{ persona.nombre }}</td>
-              <td>{{ persona.correo }}</td>
+              <td>{{ persona.nombre }} {{ persona.apellido }}</td>
               <td>{{ persona.rol }}</td>
+              <td>{{ persona.telefono }}</td>
               <td>
 
                 <div class="btn-group" role="group" aria-label="">
@@ -66,31 +66,25 @@ export default {
 
   },
   methods: {
-    listarPersonal() {
-      fetch('')
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-          this.personal = []
-          if (typeof data[0].success === 'undefined') {
-            this.personal = data;
-          }
-
-        })
-        .catch(console.log)
+    async listarPersonal() {
+      try {
+        const reponse = await axios.get('http://localhost:3000/personal');
+        this.personal = reponse.data;
+      } catch(error){
+        console.log(error);
+      }
     },
-    borrarPersonal(id) {
-      console.log(id)
-      fetch('' + id)
-        .then(response => response.json())
-        .then(data => {
-          console.log(data)
-          window.location.href = "/personal"
 
-        })
-        .catch(console.log)
-
+    async borrarPersonal(id) {
+      try {
+        await axios.delete('http://localhost:3000/personal/' + id);
+        this.personal = this.personal.filter(persona => persona.id !== id );
+      } catch(error){
+        console.log(error);
+      }
     }
+
+
   }
 };
 </script>

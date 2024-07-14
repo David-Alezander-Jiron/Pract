@@ -2,31 +2,33 @@
   <div class="container">
     <div class="card">
       <div class="card-header">
-        Editar Nuevo Personal
+        Editar Personal
       </div>
       <div class="card-body">
-        <form v-on:submit.prevent="actualizarRegistro">
+        <form v-on:submit.prevent="editarRegistro">
           <div class="form-group">
             <label for="nombre">Nombre:</label>
-            <input type="text" class="form-control" required name="nombre" v-model="persona.nombre" id="nombre"
-              aria-describedby="helpId" placeholder="">
+            <input type="text" class="form-control" required v-model="persona.nombre" id="nombre" aria-describedby="helpId" placeholder="">
             <small id="helpId" class="form-text text-muted">Escribe el nombre del personal</small>
           </div>
           <div class="form-group">
-            <label for="correo">Correo:</label>
-            <input type="email" class="form-control" required name="correo" id="correo" v-model="persona.correo"
-              aria-describedby="helpId" placeholder="Correo">
-            <small id="helpId" class="form-text text-muted">Escribe el correo</small>
+            <label for="apellido">Apellido:</label>
+            <input type="text" class="form-control" required v-model="persona.apellido" id="apellido" aria-describedby="helpId" placeholder="">
+            <small id="helpId" class="form-text text-muted">Escribe el apellido del personal</small>
+          </div>
+          <div class="form-group">
+            <label for="telefono">Teléfono:</label>
+            <input type="text" class="form-control" required v-model="persona.telefono" id="telefono" aria-describedby="helpId" placeholder="Teléfono">
+            <small id="helpId" class="form-text text-muted">Escribe el teléfono del personal</small>
           </div>
           <div class="form-group">
             <label for="rol">Rol:</label>
-            <input type="text" class="form-control" required name="rol" id="rol" v-model="persona.rol"
-              aria-describedby="helpId" placeholder="">
+            <input type="text" class="form-control" required v-model="persona.rol" id="rol" aria-describedby="helpId" placeholder="">
             <small id="helpId" class="form-text text-muted">Escribe el rol del personal</small>
           </div>
           <div class="btn-group" role="group" aria-label="">
-            <button type="submit" class="btn btn-success">Modificar</button>
-            <a href="/personal" type="button" class="btn btn-warning">Cancelar</a>
+            <button type="submit" class="btn btn-success">Guardar</button>
+            <router-link to="/personal" class="btn btn-warning">Cancelar</router-link>
           </div>
         </form>
       </div>
@@ -35,45 +37,53 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-  name: 'editarPersonal',
+  name: 'EditarPersonal',
   data() {
     return {
       persona: {
         nombre: '',
-        correo: '',
+        apellido: '',
+        telefono: '',
         rol: ''
       }
-    }
+    };
   },
   created() {
-    this.obtenerInformacionID();
+    this.obtenerPersonal();
   },
   methods: {
-    obtenerInformacionID() {
-      fetch(''+this.$route.params.id)
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-          if (data && data.length > 0) {
-            this.persona = data[0];
-          }
+    obtenerPersonal() {
+      const id = this.$route.params.id;
+      axios.get(`http://localhost:3000/personal/${id}`)
+        .then(response => {
+          this.persona = response.data;
         })
-        .catch(console.log);
+        .catch(error => {
+          console.log('Error al obtener el personal:', error);
+        });
     },
-    actualizarRegistro(){
-      var datosEnviar={id:this.$route.params.id,nombre:this.persona.nombre, correo:this.persona.correo, rol:this.persona.rol}
-
-fetch(''+this.$route.params.id,{
-  method: 'POST',
-  body: JSON.stringify(datosEnviar)
-})
-.then(response => response.json())
-.then(data => {
-  console.log(data);
-  window.location.href='/personal'
-})
+    editarRegistro() {
+      const id = this.$route.params.id;
+      axios.put(`http://localhost:3000/personal/${id}`, this.persona)
+        .then(response => {
+          console.log(response.data);
+          this.$router.push('/personal');
+        })
+        .catch(error => {
+          console.log('Error al actualizar el personal:', error);
+        });
     }
   }
 };
 </script>
+
+<style>
+body {
+  background-color: #f5f5f5;
+  margin: 0;
+  padding-left: 50px;
+}
+</style>

@@ -10,9 +10,9 @@
         <li><router-link to="/widgets">Widgets <span class="new-badge">NEW</span></router-link></li>
         <li><router-link to="/ui-elements">UI Elements <span class="new-badge">NEW</span></router-link></li>
         <li><router-link to="/registros">Registros</router-link></li>
-        <li><router-link to="/eventos">Eventos <span class="new-badge">NEW</span></router-link></li>
+        <li><router-link to="/evento">Eventos <span class="new-badge">NEW</span></router-link></li>
         <li><router-link to="/administrador">Administrador</router-link></li>
-        <li><router-link to="/gestion">Gestion <span class="new-badge">NEW</span></router-link></li>
+       <li><router-link to="/personal">Gestion Personal<span class="new-badge">NEW</span></router-link></li>
         <li class="submenu">
           <router-link to="#" @click.prevent="toggleSubMenu">Gestion Entradas <i :class="{'fa fa-chevron-down': !submenuOpen, 'fa fa-chevron-up': submenuOpen}"></i></router-link>
           <ul v-if="submenuOpen">

@@ -49,6 +49,7 @@
 
 <script>
 
+import axios from "axios";
 
 
 
@@ -66,7 +67,7 @@ export default {
   },
   methods: {
     listarPersonal() {
-      fetch('http://localhost/personal.php')
+      fetch('')
         .then(response => response.json())
         .then(data => {
           console.log(data);
@@ -80,7 +81,7 @@ export default {
     },
     borrarPersonal(id) {
       console.log(id)
-      fetch('http://localhost/personal.php/?borrar=' + id)
+      fetch('' + id)
         .then(response => response.json())
         .then(data => {
           console.log(data)

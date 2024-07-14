@@ -56,7 +56,7 @@ export default {
 
       var datosEnviar={nombre:this.persona.nombre, correo:this.persona.correo, rol:this.persona.rol}
 
-      fetch('http://localhost/personal.php/?insertar=1',{
+      fetch('',{
         method: 'POST',
         body: JSON.stringify(datosEnviar)
       })

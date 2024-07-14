@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     obtenerInformacionID() {
-      fetch('http://localhost/personal.php/?consultar='+this.$route.params.id)
+      fetch(''+this.$route.params.id)
         .then(response => response.json())
         .then(data => {
           console.log(data);
@@ -64,7 +64,7 @@ export default {
     actualizarRegistro(){
       var datosEnviar={id:this.$route.params.id,nombre:this.persona.nombre, correo:this.persona.correo, rol:this.persona.rol}
 
-fetch('http://localhost/personal.php/?actualizar='+this.$route.params.id,{
+fetch(''+this.$route.params.id,{
   method: 'POST',
   body: JSON.stringify(datosEnviar)
 })

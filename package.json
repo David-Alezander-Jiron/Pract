@@ -5,12 +5,22 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start-server": "cd server && nodemon index.js",
+    "start-client": "cd client && npm run serve",
+    "start": "concurrently \"npm run start-server\" \"npm run start-client\""
   },
   "dependencies": {
+    "body-parser": "^1.20.2",
     "bootstrap": "^5.3.3",
     "core-js": "^3.8.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
     "jquery": "^3.7.1",
+    "mysql2": "^3.10.2",
+    "pg": "^8.12.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.3",
     "vue": "^3.4.31",
     "vue-router": "^4.4.0"
   },
@@ -20,6 +30,7 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "concurrently": "^8.2.2",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3"
   },

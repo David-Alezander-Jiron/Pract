@@ -1,4 +1,3 @@
-<!-- src/components/Dashboard.vue -->
 <template>
   <div class="main-content">
     <div class="stat-cards">
@@ -9,7 +8,7 @@
         <div class="stat-info">
           <h3>Usuarios Registrados</h3>
           <p>7,842,900</p>
-          <router-link to="/">Todos los detalles aquí</router-link>
+          <router-link to="/" class="custom-link">Todos los detalles aquí</router-link>
         </div>
       </div>
       <div class="stat-card">
@@ -19,7 +18,7 @@
         <div class="stat-info">
           <h3>Ventas de Tickets</h3>
           <p>180,200</p>
-          <router-link to="/tickets">Todos los detalles aquí</router-link>
+          <router-link to="/tickets" class="custom-link">Todos los detalles aquí</router-link>
         </div>
       </div>
       <div class="stat-card">
@@ -29,7 +28,7 @@
         <div class="stat-info">
           <h3>Eventos Próximos</h3>
           <p>38,900</p>
-          <router-link to="/">Todos los detalles aquí</router-link>
+          <router-link to="/" class="custom-link">Todos los detalles aquí</router-link>
         </div>
       </div>
       <div class="stat-card">
@@ -39,14 +38,15 @@
         <div class="stat-info">
           <h3>Nuevos Comentarios</h3>
           <p>3,988</p>
-          <router-link to="/comentarios">Todos los detalles aquí</router-link>
+          <router-link to="/comentarios" class="custom-link">Todos los detalles aquí</router-link>
         </div>
       </div>
     </div>
+    
     <div class="notification-cards">
       <div class="card notification-card">
         <h3>Notificaciones</h3>
-        <p>Nuevas notificaciones de las ventas de tickets del evento Proximo a destacar</p>
+        <p>Nuevas notificaciones de las ventas de tickets del evento Próximo a destacar</p>
         <a href="#">Ver detalles</a>
         <span class="notification-dot"></span>
       </div>
@@ -66,6 +66,7 @@
         </div>
       </div>
     </div>
+
     <div class="extra-cards">
       <div class="card highlight-events-card">
         <h3>Próximos eventos a destacar</h3>
@@ -114,23 +115,21 @@ export default {
 
 <style scoped>
 .main-content {
-  margin-left: 250px;
-  margin-top: 100px;
   padding: 20px;
-  position: relative;
-  right: 400px;
-  bottom: 180px;
 }
-.stat-card {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+.stat-cards {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.stat-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  min-width: 190px; /* Establece un ancho mínimo */
-  max-width: 100%; /* Permite que las cartas crezcan según el contenido */
-  margin: 10px; /* Espacio entre las cartas */
+  width: calc(25% - 20px); /* Ajusta el tamaño de cada tarjeta de estadísticas */
   position: relative;
   overflow: hidden;
   font-family: Arial, sans-serif;
@@ -140,32 +139,39 @@ export default {
   position: absolute;
   top: 10px;
   right: 10px;
+  width: 100%; /* Ajusta el ancho al 100% del contenedor */
+  height: auto;
+  pointer-events: none; /* Evita que la imagen interfiera con eventos del ratón */
+  z-index: 0; /* Asegura que esté detrás del contenido de .stat-info */
+  opacity: 0.6; /* Ajusta la opacidad de la imagen */
 }
 
 .stat-icon img {
-  width: 220px; /* Ajusta el tamaño del ícono según sea necesario */
-  height: 100px;
+  width: 100%; /* Ajusta el tamaño del ícono para llenar completamente .stat-icon */
+  height: auto;
+  display: block; /* Asegura que la imagen se comporte correctamente como fondo */
 }
 
 .stat-info {
-  z-index: 1;
+  position: relative; /* Cambia a posición relativa */
+  z-index: 1; /* Asegura que esté delante de .stat-icon */
 }
 
 .stat-info h3 {
   margin: 0;
   font-size: 18px;
-  color: #fff;
+  color: #000;
 }
 
 .stat-info p {
   margin: 5px 0;
   font-size: 24px;
   font-weight: bold;
-  color: #fff;
+  color: #000;
 }
 
 .stat-info a {
-  color: #fff;
+  color: #ffffff;
   text-decoration: none;
 }
 
@@ -173,30 +179,27 @@ export default {
   text-decoration: underline;
 }
 
-.stat-cards {
-  display: flex;
-  padding: 10px;
-  margin-left: 250px; /* Ajusta el margen para que coincida con la barra lateral */
-  position: relative;
+.custom-link {
+  text-decoration: none; /* Elimina el subrayado predeterminado */
+  font-weight: bold; /* Opcional: Añade negrita u otro estilo de fuente */
+}
+
+.custom-link:hover {
+  text-decoration: underline; /* Cambia el estilo al pasar el ratón sobre el enlace */
 }
 
 .notification-cards {
   display: flex;
   gap: 20px;
   margin-top: 20px;
-  margin-left: 250px; /* Ajusta el margen para que coincida con la barra lateral */
-  width: 900px;
-  right: 7  0px;
-  position: relative;
 }
 
-.card {
+.card.notification-card {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  width: 100%;
-  position: relative;
+  width: 50%; /* Ajusta el tamaño de la tarjeta de notificaciones */
 }
 
 .notification-card h3 {
@@ -209,7 +212,6 @@ export default {
   color: #555;
   margin-right: 100px;
 }
-
 .notification-card a {
   color: #007bff;
   text-decoration: none;
@@ -226,12 +228,12 @@ export default {
   right: 10px;
 }
 
-.event-card .ticket {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  width: fit-content;
+.card.event-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 50%; /* Ajusta el tamaño de la tarjeta de evento */
 }
 
 .ticket-details h3 {
@@ -249,33 +251,23 @@ export default {
   font-weight: bold;
   color: #000;
 }
-/*tarjetas terceras */
+
 .extra-cards {
   display: flex;
+  flex-wrap: wrap;
   gap: 30px;
   margin-top: 20px;
-  margin-left: 200px; /* Ajusta el margen para que coincida con la barra lateral */
-  width: 1000px;
 }
 
 .card.highlight-events-card {
-  background-color: white;
+  background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  width: 100%;
+  width: calc(50% - 20px); /* Ajusta el tamaño de la tarjeta de eventos destacados */
 }
 
-.card.map-card {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 100%;
-}
-
-.highlight-events-card h3,
-.map-card h3 {
+.highlight-events-card h3 {
   margin-bottom: 20px;
   font-size: 24px;
 }
@@ -298,6 +290,14 @@ export default {
   margin-right: 100px;
 }
 
+.card.map-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: calc(50% - 20px); /* Ajusta el tamaño de la tarjeta de mapa */
+}
+
 .map-details p {
   margin: 0 0 10px;
   font-size: 16px;
@@ -307,6 +307,4 @@ export default {
   width: 100%;
   border-radius: 8px;
 }
-
-
 </style>

@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false
       },
+      ubicacion: { // Agregar el campo ubicacion
+        type: DataTypes.STRING, // Puedes ajustar el tipo de dato según tus necesidades
+        allowNull: true // Ajusta esto según tus necesidades (puede ser true o false)
+      },
       tipo_evento_id: {
         type: DataTypes.INTEGER,
         allowNull: false

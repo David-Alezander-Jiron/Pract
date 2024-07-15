@@ -1,36 +1,63 @@
 <template>
   <div id="app">
-    <Navbar v-if="!isLoginPage" />
-    <Sidebar v-if="!isLoginPage" />
-    <div class="main-content" :class="{ 'full-page': isLoginPage }">
-      <Header v-if="!isLoginPage" />
-      <router-view />
+    <!-- Mostrar NavbarComponent solo si no estamos en la ruta de login -->
+    <NavbarComponent v-if="$route.path !== '/login'" />
+    
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Mostrar SidebarComponent y HeaderComponent solo si no estamos en la ruta de login -->
+        <SidebarComponent v-if="$route.path !== '/login'" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar"/>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <HeaderComponent v-if="$route.path !== '/login'" />
+          
+          <!-- Solo mostrar el router-view en la ruta de login -->
+          <router-view v-if="$route.path === '/login'" />
+          
+          <!-- En otras rutas, muestra el router-view normalmente -->
+          <router-view v-else />
+        </main>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Navbar from './components/NavbarComponent.vue';
-import Sidebar from './components/SidebarComponent.vue';
-import Header from './components/HeaderComponent.vue';
+import NavbarComponent from './components/NavbarComponent.vue';
+import SidebarComponent from './components/SidebarComponent.vue';
+import HeaderComponent from './components/HeaderComponent.vue';
 
 export default {
   name: 'App',
   components: {
-    Navbar,
-    Sidebar,
-    Header
-  },
-  computed: {
-    isLoginPage() {
-      return this.$route.path === '/login';
-    }
+    NavbarComponent,
+    SidebarComponent,
+    HeaderComponent
   }
 };
 </script>
 
-<style src="./App.css"></style>
+<style>
+.container-fluid {
+  padding: 0;
+}
 
-<style scoped>
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  padding: 48px 0 0; /* Ajuste para que no se superponga con el header */
+}
 
+.main-content {
+  margin-top: 56px; /* Ajuste para que no se superponga con el header */
+  padding: 20px;
+}
+
+.content {
+  padding: 20px;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 80px); /* Ajusta la altura del contenido para que no se superponga con el header */
+}
 </style>

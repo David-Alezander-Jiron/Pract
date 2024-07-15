@@ -1,34 +1,50 @@
 <template>
-  <div class="table-container">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Rol</th>
-          <th>Teléfono</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="persona in personal" :key="persona.id">
-          <td>{{ persona.id }}</td>
-          <td>{{ persona.nombre }}</td>
-          <td>{{ persona.apellido }}</td>
-          <td>{{ persona.rol }}</td>
-          <td>{{ persona.telefono }}</td>
-          <td>
-            <div class="btn-group" role="group" aria-label="">
-              <router-link :to="{ name: 'EditarPersonal', params: { id: persona.id }}" class="btn_editar">Editar</router-link>
-              <button type="button" v-on:click="borrarPersonal(persona.id)" class="btn_eliminar">Eliminar</button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <router-link to="/personal/crear" class="btn btn-primary" role="button">Agregar Personal</router-link>
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        PERSONAL
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Nombre</th>
+              <th>Rol</th>
+              <th>Telefono</th>
+              <th>Accion</th>
+
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr v-for="persona in personal" :key="persona.id">
+
+              <td>{{ persona.id }}</td>
+              <td>{{ persona.nombre }} {{ persona.apellido }}</td>
+              <td>{{ persona.rol }}</td>
+              <td>{{ persona.telefono }}</td>
+              <td>
+
+                <div class="btn-group" role="group" aria-label="">
+
+                  <router-link :to="{name:'EditarPersonal',params:{id:persona.id}}" class="btn">Editar</router-link>
+                  <button type="button" v-on:click="borrarPersonal(persona.id)" class="btn btn-danger">Eliminar</button>
+                </div>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <a name="" id="" class="btn btn-primary" href="/personal/crear" role="button">agregar personal</a>
+
   </div>
+
+
 </template>
 
 <script>
@@ -74,94 +90,4 @@ export default {
 </script>
 
 <style>
-.table-container {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 18px;
-  text-align: left;
-}
-
-.table th, .table td {
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-}
-
-.table th {
-  background-color: #f4f4f4;
-  color: #333;
-}
-
-.table tbody tr:nth-of-type(even) {
-  background-color: #f9f9f9;
-}
-
-.table tbody tr:nth-of-type(odd) {
-  background-color: #fff;
-}
-
-.table th.sortable:hover {
-  cursor: pointer;
-  background-color: #e1e1e1;
-}
-
-.table .avatar {
-  display: flex;
-  align-items: center;
-}
-
-.table .avatar img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.table .avatar span {
-  vertical-align: middle;
-}
-
-.btn_editar {
-  padding: 8px 12px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  border-radius: 4px;
-  background-color: #4CAF50; /* Green */
-  color: white;
-  
-  color: white;
-  padding: 10px 15px;
-  text-decoration: none;
-  border-radius: 4px;
-  display: inline-block;
-  margin-top: 20px;
-  opacity: 0.8;
-} 
-
-.btn_eliminar {
-  padding: 8px 12px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  border-radius: 4px;
-  background-color: #f44336; /* Red */
-  color: white;
-  opacity: 0.8;
- 
-  color: white;
-  padding: 10px 15px;
-  text-decoration: none;
-  border-radius: 4px;
-  display: inline-block;
-  margin-top: 20px;
-
-
-} 
-
 </style>

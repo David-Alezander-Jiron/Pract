@@ -1,71 +1,102 @@
 <template>
-    <div class="container">
-      <h1>Editar Evento</h1>
-      <form @submit.prevent="submitForm">
-        <div class="row mb-3">
-          <label class="form-label col-form-label col-md-3">Nombre del Evento</label>
-          <div class="col-md-9">
-            <input type="text" v-model="evento.nombre" class="form-control is-valid" required />
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        Editar Evento
+      </div>
+      <div class="card-body">
+        <form @submit.prevent="editarEvento">
+          <div class="form-group">
+            <label for="nombre">Nombre del Evento:</label>
+            <input type="text" class="form-control" required v-model="evento.nombre" id="nombre" placeholder="Nombre del Evento">
           </div>
-        </div>
-        <!-- Repite los campos para fecha, capacidad, ubicación, organizador, descripción y tipo de evento -->
-        <button type="submit" class="btn btn-primary">Actualizar Evento</button>
-      </form>
+          <div class="form-group">
+            <label for="fecha">Fecha del Evento:</label>
+            <input type="date" class="form-control" required v-model="fechaEvento" id="fecha">
+          </div>
+          <div class="form-group">
+            <label for="capacidad">Capacidad de Personas:</label>
+            <input type="number" class="form-control" required v-model="evento.capacidad_personas" id="capacidad" placeholder="Capacidad de Personas">
+          </div>
+          <div class="form-group">
+            <label for="ubicacion">Ubicación:</label>
+            <input type="text" class="form-control" required v-model="evento.ubicacion" id="ubicacion" placeholder="Ubicación del Evento">
+          </div>
+          <div class="form-group">
+            <label for="organizador">Organizador:</label>
+            <input type="text" class="form-control" required v-model="evento.organizador_id" id="organizador" placeholder="Organizador del Evento">
+          </div>
+          <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <textarea class="form-control" required v-model="evento.descripcion" id="descripcion" rows="3" placeholder="Descripción del Evento"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="tipo">Tipo de Evento:</label>
+            <input type="text" class="form-control" required v-model="evento.tipo_evento_id" id="tipo" placeholder="Tipo de Evento">
+          </div>
+          <div class="btn-group" role="group" aria-label="">
+            <button type="submit" class="btn btn-success">Guardar Cambios</button>
+            <router-link to="/eventos" class="btn btn-warning">Cancelar</router-link>
+          </div>
+        </form>
+      </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'EditarEvento',
-    data() {
-      return {
-        evento: {
-          id: this.$route.params.id,
-          nombre: '',
-          fecha: '',
-          capacidad: '',
-          ubicacion: '',
-          organizador: '',
-          descripcion: '',
-          tipo: ''
-        }
-      };
-    },
-    created() {
-      this.obtenerEvento();
-    },
-    methods: {
-      obtenerEvento() {
-        fetch(`http://localhost/eventos.php/?id=${this.evento.id}`)
-          .then(response => response.json())
-          .then(data => {
-            console.log(data);
-            if (data && data.length > 0) {
-                this.evento = data[0];   
-            }
-          })
-          .catch(console.log);
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  name: 'EditarEvento',
+  data() {
+    return {
+      evento: {
+        id: this.$route.params.id,
+        nombre: '',
+        fecha: '', // Usaremos esta propiedad para manejar la fecha en formato adecuado
+        capacidad_personas: '',
+        ubicacion: '',
+        organizador_id: '',
+        descripcion: '',
+        tipo_evento_id: ''
       },
-      submitForm() {
-        fetch(`http://localhost/eventos.php/?actualizar=${this.evento.id}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(this.evento)
+      fechaEvento: '' // Esta variable manejará la fecha en formato legible para el input date
+    };
+  },
+  created() {
+    this.obtenerEvento();
+  },
+  methods: {
+    obtenerEvento() {
+      const id = this.$route.params.id;
+      axios.get(`http://localhost:3000/eventos/${id}`)
+        .then(response => {
+          this.evento = response.data;
+          // Formatear la fecha para que sea compatible con <input type="date">
+          this.fechaEvento = this.evento.fecha.substring(0, 10); // Tomar solo la parte de la fecha sin la hora
         })
-          .then(response => response.json())
-          .then(data => {
-            console.log(data);
-            this.$router.push('/eventos'); // Redirigir a la lista de eventos
-          })
-          .catch(console.log);
-      }
+        .catch(error => {
+          console.log('Error al obtener el evento:', error);
+        });
+    },
+    editarEvento() {
+      // Asignar la fecha formateada de vuelta al objeto evento antes de enviarlo
+      this.evento.fecha = this.fechaEvento;
+      const id = this.$route.params.id;
+      axios.put(`http://localhost:3000/eventos/${id}`, this.evento)
+        .then(response => {
+          console.log(response.data);
+          this.$router.push('/eventos');
+        })
+        .catch(error => {
+          console.log('Error al actualizar el evento:', error);
+        });
     }
-  };
-  </script>
-  
-  <style scoped>
-  /* Estilos adicionales si es necesario */
-  </style>
-  
+  }
+};
+</script>
+
+<style>
+/* Estilos adicionales si es necesario */
+</style>

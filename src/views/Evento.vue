@@ -23,13 +23,13 @@
               <td>{{ evento.id }}</td>
               <td>{{ evento.nombre }}</td>
               <td>{{ evento.fecha }}</td>
-              <td>{{ evento.capacidad }}</td>
+              <td>{{ evento.capacidad_personas }}</td>
               <td>{{ evento.ubicacion }}</td>
-              <td>{{ evento.organizador }}</td>
-              <td>{{ evento.tipo }}</td>
+              <td>{{ evento.organizador_id }}</td>
+              <td>{{ evento.tipo_evento_id }}</td>
               <td>
                 <div class="btn-group" role="group">
-                  <router-link :to="{name:'EditarEvento', params:{id: evento.id}}" class="btn">Editar</router-link>
+                  <router-link :to="{ name: 'EditarEvento', params: { id: evento.id } }" class="btn">Editar</router-link>
                   <button type="button" @click="borrarEvento(evento.id)" class="btn btn-danger">Eliminar</button>
                 </div>
               </td>
@@ -37,12 +37,14 @@
           </tbody>
         </table>
       </div>
-    </div>
+    </div> <br>
     <router-link to="/eventos/crear" class="btn btn-primary">Agregar Evento</router-link>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'ListarEventos',
   data() {
@@ -55,27 +57,22 @@ export default {
   },
   methods: {
     listarEventos() {
-      fetch('http://localhost/eventos.php')
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-          this.eventos = []
-          if (typeof data[0] .success === 'undefined') {
-            this.eventos = data;
-          }
+      axios.get('http://localhost:3000/eventos')
+        .then(response => {
+          this.eventos = response.data;
         })
-        .catch(console.log);
+        .catch(error => {
+          console.error('Error al cargar eventos:', error);
+        });
     },
     borrarEvento(id) {
-      console.log(id)
-      fetch(`http://localhost/eventos.php/?borrar=`+ id)
-        .then(response => response.json())
-        .then(data => {
-          console.log(data)
+      axios.delete(`http://localhost:3000/eventos/${id}`)
+        .then(() => {
           this.listarEventos(); // Recargar la lista de eventos
-          window.location.href = "/evento"
         })
-        .catch(console.log);
+        .catch(error => {
+          console.error('Error al eliminar evento:', error);
+        });
     }
   }
 };

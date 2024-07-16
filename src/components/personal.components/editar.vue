@@ -44,53 +44,11 @@
 </template>
 
 <script>
-import axios from 'axios';
-import imagenExito from '@/assets/visto.png'; // Importa la imagen
+
 
 export default {
   name: 'EditarPersonal',
-  data() {
-    return {
-      persona: {
-        nombre: '',
-        apellido: '',
-        telefono: '',
-        rol: ''
-      },
-      mensajeExito: false,
-      imagenExito: imagenExito // Ruta de la imagen subida
-    };
-  },
-  created() {
-    this.obtenerPersonal();
-  },
-  methods: {
-    obtenerPersonal() {
-      const id = this.$route.params.id;
-      axios.get(`http://localhost:3000/personal/${id}`)
-        .then(response => {
-          this.persona = response.data;
-        })
-        .catch(error => {
-          console.log('Error al obtener el personal:', error);
-        });
-    },
-    editarRegistro() {
-      const id = this.$route.params.id;
-      axios.put(`http://localhost:3000/personal/${id}`, this.persona)
-        .then(response => {
-          console.log(response.data);
-          this.mensajeExito = true;
-        })
-        .catch(error => {
-          console.log('Error al actualizar el personal:', error);
-        });
-    },
-    ocultarMensaje() {
-      this.mensajeExito = false;
-      this.$router.push('/personal');
-    }
-  }
+  
 };
 </script>
 

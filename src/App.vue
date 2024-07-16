@@ -6,19 +6,25 @@
     <div class="container-fluid">
       <div class="row">
         <!-- Mostrar SidebarComponent y HeaderComponent solo si no estamos en las rutas de login o registro -->
-        <SidebarComponent v-if="$route.path !== '/login' && $route.path !== '/register'" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar"/>
+        <SidebarComponent v-if="$route.path !== '/login' && $route.path !== '/register'"
+          class="col-md-3 col-lg-2 d-md-block bg-dark sidebar" />
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
           <HeaderComponent v-if="$route.path !== '/login' && $route.path !== '/register'" />
 
-          <!-- Solo mostrar el router-view en las rutas de login o registro -->
-          <router-view v-if="$route.path === '/login' || $route.path === '/register'" />
 
-          <!-- En otras rutas, muestra el router-view normalmente -->
-          <router-view v-else />
         </main>
       </div>
     </div>
+    
   </div>
+
+  <div class="router-pag">
+            <!-- Solo mostrar el router-view en las rutas de login o registro -->
+            <router-view v-if="$route.path === '/login' || $route.path === '/register'" />
+
+            <!-- En otras rutas, muestra el router-view normalmente -->
+            <router-view v-else />
+          </div>
 </template>
 
 <script>
@@ -37,6 +43,10 @@ export default {
 </script>
 
 <style>
+
+.router-pag{
+  padding-left: 240px;
+}
 .container-fluid {
   padding: 0;
 }
@@ -47,17 +57,20 @@ export default {
   bottom: 0;
   left: 0;
   z-index: 100;
-  padding: 48px 0 0; /* Ajuste para que no se superponga con el header */
+  padding: 48px 0 0;
+  /* Ajuste para que no se superponga con el header */
 }
 
 .main-content {
-  margin-top: 56px; /* Ajuste para que no se superponga con el header */
+  margin-top: 56px;
+  /* Ajuste para que no se superponga con el header */
   padding: 20px;
 }
 
 .content {
   padding: 20px;
   background-color: #f8f9fa;
-  min-height: calc(100vh - 80px); /* Ajusta la altura del contenido para que no se superponga con el header */
+  min-height: calc(100vh - 80px);
+  /* Ajusta la altura del contenido para que no se superponga con el header */
 }
 </style>

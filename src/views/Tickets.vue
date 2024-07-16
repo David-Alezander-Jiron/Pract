@@ -39,40 +39,7 @@
 <script>
 export default {
   name: 'TicketsView', // Nombre del componente
-  data() {
-    return {
-      tickets: []
-    };
-  },
-  created() {
-    this.listarTickets();
-  },
-  methods: {
-    listarTickets() {
-      fetch('http://localhost/tickets.php')
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-          this.tickets = data;
-        })
-        .catch(error => {
-          console.error('Error fetching tickets:', error);
-        });
-    },
-    borrarTicket(id) {
-      fetch(`http://localhost/tickets.php/?borrar=${id}`, {
-        method: 'DELETE'
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Ticket eliminado:', data);
-          this.listarTickets(); // Recargar la lista de tickets
-        })
-        .catch(error => {
-          console.error('Error al eliminar ticket:', error);
-        });
-    }
-  }
+  
 };
 </script>
 

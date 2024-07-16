@@ -28,39 +28,7 @@
   <script>
   export default {
     name: 'CrearTicket',
-    data() {
-      return {
-        ticket: {
-          codigo: '',
-          precio: 0,
-          estado: ''
-        }
-      };
-    },
-    methods: {
-      crearTicket() {
-        // Simulación de solicitud de creación de ticket (deberías implementar la lógica real aquí)
-        console.log('Creando ticket:', this.ticket);
-        
-        // Ejemplo: enviar datos al servidor (simulado)
-        fetch('http://localhost/tickets.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(this.ticket)
-        })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Ticket creado:', data);
-            // Redirigir al usuario después de crear el ticket (ejemplo)
-            this.$router.push('/tickets');
-          })
-          .catch(error => {
-            console.error('Error al crear ticket:', error);
-          });
-      }
-    }
+   
   };
   </script>
   

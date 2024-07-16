@@ -43,38 +43,10 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
   name: 'ListarEventos',
-  data() {
-    return {
-      eventos: []
-    };
-  },
-  created() {
-    this.listarEventos();
-  },
-  methods: {
-    listarEventos() {
-      axios.get('http://localhost:3000/eventos')
-        .then(response => {
-          this.eventos = response.data;
-        })
-        .catch(error => {
-          console.error('Error al cargar eventos:', error);
-        });
-    },
-    borrarEvento(id) {
-      axios.delete(`http://localhost:3000/eventos/${id}`)
-        .then(() => {
-          this.listarEventos(); // Recargar la lista de eventos
-        })
-        .catch(error => {
-          console.error('Error al eliminar evento:', error);
-        });
-    }
-  }
+  
 };
 </script>
 

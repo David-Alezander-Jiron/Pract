@@ -37,40 +37,7 @@
 <script>
 export default {
   name: 'ListarUsuarios',
-  data() {
-    return {
-      usuarios: []
-    };
-  },
-  created() {
-    this.listarUsuarios();
-  },
-  methods: {
-    listarUsuarios() {
-      fetch('http://localhost/usuarios.php')
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-          this.usuarios = data;
-        })
-        .catch(error => {
-          console.error('Error fetching usuarios:', error);
-        });
-    },
-    borrarUsuario(id) {
-      fetch(`http://localhost/usuarios.php/?borrar=${id}`, {
-        method: 'DELETE'
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Usuario eliminado:', data);
-          this.listarUsuarios(); // Recargar la lista de usuarios
-        })
-        .catch(error => {
-          console.error('Error al eliminar usuario:', error);
-        });
-    }
-  }
+  
 };
 </script>
 

@@ -4,16 +4,16 @@
       <img src="@/assets/logopra.png" alt="EventTix Logo" class="logo-img">
       <div class="login-box">
         <h1>EventTix</h1>
-        <form  v-on:submit.prevent="login">
+        <form  >
           <div class="form-group">
             <label for="correo">Correo:</label>
-            <input type="email" class="form-control" id="correo" v-model="usuario.correo" required>
+            <input type="email" class="form-control" id="correo"  required>
           </div>
           <div class="form-group">
             <label for="contraseña">Contraseña:</label>
-            <input type="password" class="form-control" id="contraseña" v-model="usuario.contrasena" required>
+            <input type="password" class="form-control" id="contraseña" required>
           </div>
-          <button type="submit" class="btn btn-primary">Login</button>
+          <a href="/" class="btn btn-primary">Login</a>
 
         </form>
         <router-link to="/register">No tienes Cuenta</router-link>
@@ -23,33 +23,11 @@
 </template>
 
 <script>
-import axios from 'axios';
+
 
 export default {
   name: 'LoginNew',
-  data() {
-    return {
-      usuario: {
-        correo: '',
-        contrasena: ''
-      }
-    };
-  },
-  methods: {
-    async login() {
-      try {
-        const response = await axios.post('http://localhost:3000/login', this.usuario);
-        if (response.data.token) {
-          localStorage.setItem('token', response.data.token);
-          this.$router.push('/');
-        } else{
-          this.$router.push('/');
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }
+  
 };
 </script>
 

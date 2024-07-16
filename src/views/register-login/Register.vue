@@ -4,33 +4,28 @@
       <img src="@/assets/logopra.png" alt="EventTix Logo" class="logo-img">
       <div class="register-box">
         <h1>EventTix</h1>
-        <form @submit.prevent="register">
+        <form >
           <div class="form-group">
             <label for="nombres">Nombres:</label>
-            <input type="text" class="form-control" id="nombres" v-model="usuario.nombres" required>
+            <input type="text" class="form-control" id="nombres"  required>
           </div>
           <div class="form-group">
             <label for="apellidos">Apellidos:</label>
-            <input type="text" class="form-control" id="apellidos" v-model="usuario.apellidos" required>
+            <input type="text" class="form-control" id="apellidos"  required>
           </div>
           <div class="form-group">
             <label for="correo">Correo:</label>
-            <input type="email" class="form-control" id="correo" v-model="usuario.correo" required>
+            <input type="email" class="form-control" id="correo"  required>
           </div>
           <div class="form-group">
             <label for="telefono">Teléfono:</label>
-            <input type="text" class="form-control" id="telefono" v-model="usuario.telefono" required>
+            <input type="text" class="form-control" id="telefono"  required>
           </div>
           <div class="form-group">
             <label for="contraseña">Contraseña:</label>
-            <input type="password" class="form-control" id="contrasena" v-model="usuario.contrasena" required>
+            <input type="password" class="form-control" id="contrasena"  required>
           </div>
-          <div class="form-group">
-            <label for="rol_id">Rol:</label>
-            <select class="form-control" id="rol_id" v-model="usuario.rol_id" required>
-              <option v-for="rol in roles" :key="rol.id" :value="rol.id">{{ rol.nombre }}</option>
-            </select>
-          </div>
+          
           <button type="submit" class="btn btn-primary">Registrar</button>
         </form>
         <router-link to="/login">Ya tienes una cuenta? Inicia sesión</router-link>
@@ -40,44 +35,11 @@
 </template>
 
 <script>
-import axios from 'axios';
+
 
 export default {
   name: 'RegisterV',
-  data() {
-    return {
-      usuario: {
-        nombres: '',
-        apellidos: '',
-        correo: '',
-        telefono: '',
-        contrasena: '',
-        rol_id: ''
-      },
-      roles: []
-    };
-  },
-  created() {
-    this.fetchRoles();
-  },
-  methods: {
-    async fetchRoles() {
-      try {
-        const response = await axios.get('http://localhost:3000/roles');
-        this.roles = response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    async register() {
-      try {
-        await axios.post('http://localhost:3000/usuarios_organizador', this.usuario);
-        this.$router.push('/login');
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }
+  
 };
 </script>
 

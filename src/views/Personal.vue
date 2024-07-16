@@ -45,43 +45,11 @@
 </template>
 
 <script>
-import axios from "axios";
-import imagenExito from '@/assets/visto.png'; // Importa la imagen de éxito
+
 
 export default {
   name: 'ListarPersonal',
-  data() {
-    return {
-      personal: [],
-      mensajeExito: false,
-      imagenExito: imagenExito // Ruta de la imagen de éxito
-    }
-  },
-  created() {
-    this.listarPersonal();
-  },
-  methods: {
-    async listarPersonal() {
-      try {
-        const response = await axios.get('http://localhost:3000/personal');
-        this.personal = response.data;
-      } catch(error){
-        console.log('Error al listar el personal:', error);
-      }
-    },
-    async borrarPersonal(id) {
-      try {
-        await axios.delete(`http://localhost:3000/personal/${id}`);
-        this.personal = this.personal.filter(persona => persona.id !== id);
-        this.mensajeExito = true;
-      } catch(error){
-        console.log('Error al eliminar el personal:', error);
-      }
-    },
-    ocultarMensaje() {
-      this.mensajeExito = false;
-    }
-  }
+  
 };
 </script>
 

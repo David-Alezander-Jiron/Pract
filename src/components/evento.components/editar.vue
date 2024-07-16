@@ -45,56 +45,11 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
   name: 'EditarEvento',
-  data() {
-    return {
-      evento: {
-        id: this.$route.params.id,
-        nombre: '',
-        fecha: '', // Usaremos esta propiedad para manejar la fecha en formato adecuado
-        capacidad_personas: '',
-        ubicacion: '',
-        organizador_id: '',
-        descripcion: '',
-        tipo_evento_id: ''
-      },
-      fechaEvento: '' // Esta variable manejará la fecha en formato legible para el input date
-    };
-  },
-  created() {
-    this.obtenerEvento();
-  },
-  methods: {
-    obtenerEvento() {
-      const id = this.$route.params.id;
-      axios.get(`http://localhost:3000/eventos/${id}`)
-        .then(response => {
-          this.evento = response.data;
-          // Formatear la fecha para que sea compatible con <input type="date">
-          this.fechaEvento = this.evento.fecha.substring(0, 10); // Tomar solo la parte de la fecha sin la hora
-        })
-        .catch(error => {
-          console.log('Error al obtener el evento:', error);
-        });
-    },
-    editarEvento() {
-      // Asignar la fecha formateada de vuelta al objeto evento antes de enviarlo
-      this.evento.fecha = this.fechaEvento;
-      const id = this.$route.params.id;
-      axios.put(`http://localhost:3000/eventos/${id}`, this.evento)
-        .then(response => {
-          console.log(response.data);
-          this.$router.push('/eventos');
-        })
-        .catch(error => {
-          console.log('Error al actualizar el evento:', error);
-        });
-    }
   }
-};
+  
 </script>
 
 <style>

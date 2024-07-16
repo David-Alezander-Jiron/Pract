@@ -45,36 +45,13 @@
 </template>
 
 <script>
-import axios from 'axios';
+
 
 export default {
   name: 'CrearEvento',
-  data() {
-    return {
-      evento: {
-        nombre: '',
-        fecha: '',
-        capacidad_personas: '',
-        ubicacion: '',
-        organizador_id: '',
-        descripcion: '',
-        tipo_evento_id: ''
-      }
-    };
-  },
-  methods: {
-    agregarEvento() {
-      axios.post('http://localhost:3000/eventos', this.evento)
-        .then(response => {
-          console.log(response.data);
-          this.$router.push('/eventos');
-        })
-        .catch(error => {
-          console.log('Error al agregar el evento:', error);
-        });
-    }
-  }
-};
+}
+  
+ 
 </script>
 
 <style scoped>

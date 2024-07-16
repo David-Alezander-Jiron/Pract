@@ -37,32 +37,10 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
   name: 'CrearPersonal',
-  data() {
-    return {
-      persona: {
-        nombre: '',
-        apellido: '',
-        telefono: '',
-        rol: ''
-      }
-    };
-  },
-  methods: {
-    agregarRegistro() {
-      axios.post('http://localhost:3000/personal', this.persona)
-        .then(response => {
-          console.log(response.data);
-          this.$router.push('/personal');
-        })
-        .catch(error => {
-          console.log('Error al agregar el personal:', error);
-        });
-    }
-  }
+  
 };
 </script>
 

@@ -23,7 +23,7 @@
           </div>
           <div class="form-group">
             <label for="contraseña">Contraseña:</label>
-            <input type="password" class="form-control" id="contraseña" v-model="usuario.contraseña" required>
+            <input type="password" class="form-control" id="contrasena" v-model="usuario.contrasena" required>
           </div>
           <div class="form-group">
             <label for="rol_id">Rol:</label>
@@ -39,47 +39,47 @@
   </div>
 </template>
 
-  <script>
-  import axios from 'axios';
-  
-  export default {
-    name: 'RegisterV',
-    data() {
-      return {
-        usuario: {
-          nombres: '',
-          apellidos: '',
-          correo: '',
-          telefono: '',
-          contrasena: '',
-          rol_id: ''
-        },
-        roles: []
-      };
-    },
-    created() {
-      this.fetchRoles();
-    },
-    methods: {
-      async fetchRoles() {
-        try {
-          const response = await axios.get('http://localhost:3000/roles');
-          this.roles = response.data;
-        } catch (error) {
-          console.error(error);
-        }
+<script>
+import axios from 'axios';
+
+export default {
+  name: 'RegisterV',
+  data() {
+    return {
+      usuario: {
+        nombres: '',
+        apellidos: '',
+        correo: '',
+        telefono: '',
+        contrasena: '',
+        rol_id: ''
       },
-      async register() {
-        try {
-          await axios.post('http://localhost:3000/usuarios_organizador', this.usuario);
-          this.$router.push('/login');
-        } catch (error) {
-          console.error(error);
-        }
+      roles: []
+    };
+  },
+  created() {
+    this.fetchRoles();
+  },
+  methods: {
+    async fetchRoles() {
+      try {
+        const response = await axios.get('http://localhost:3000/roles');
+        this.roles = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async register() {
+      try {
+        await axios.post('http://localhost:3000/usuarios_organizador', this.usuario);
+        this.$router.push('/login');
+      } catch (error) {
+        console.error(error);
       }
     }
-  };
-  </script>
+  }
+};
+</script>
 
 <style scoped>
 .register-container {
@@ -89,9 +89,12 @@
   height: 100vh;
   width: 1560px;
   background-image: url(@/assets/fondoticket.jpg);
-  background-size: cover; /* Ajusta el tamaño para cubrir toda el área */
-  background-repeat: no-repeat; /* Evita que la imagen se repita */
-  background-position: center; /* Centra la imagen */
+  background-size: cover;
+  /* Ajusta el tamaño para cubrir toda el área */
+  background-repeat: no-repeat;
+  /* Evita que la imagen se repita */
+  background-position: center;
+  /* Centra la imagen */
   position: relative;
   right: 300px;
 }
@@ -101,7 +104,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente */
+  background: rgba(255, 255, 255, 0.8);
+  /* Fondo semi-transparente */
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -132,6 +136,7 @@ h1 {
 .input-group {
   margin-bottom: 1rem;
 }
+
 
 input[type="text"],
 input[type="email"],
@@ -175,4 +180,3 @@ button:focus {
   text-decoration: underline;
 }
 </style>
-  

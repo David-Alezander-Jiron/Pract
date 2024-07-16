@@ -5,7 +5,7 @@ const cors = require('cors');
 const morgan = require ('morgan');
 
 // Configuración de la base de datos
-const sequelize = new Sequelize('ticket1.0', 'root', '', {
+const sequelize = new Sequelize('s', 'root', '', {
   host: 'localhost',
   port:'',
   dialect: 'mysql',

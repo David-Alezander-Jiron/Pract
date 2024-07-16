@@ -12,7 +12,7 @@
               <th>Nombre</th>
               <th>Rol</th>
               <th>Telefono</th>
-              <th>Accion</th>
+              <th>Acción</th>
             </tr>
           </thead>
           <tbody>
@@ -46,6 +46,7 @@
 
 <script>
 import axios from "axios";
+import imagenExito from '@/assets/visto.png'; // Importa la imagen de éxito
 
 export default {
   name: 'ListarPersonal',
@@ -53,10 +54,10 @@ export default {
     return {
       personal: [],
       mensajeExito: false,
-      imagenExito: '/mnt/data/visto.png' // Ruta de la imagen subida
+      imagenExito: imagenExito // Ruta de la imagen de éxito
     }
   },
-  created: function () {
+  created() {
     this.listarPersonal();
   },
   methods: {
@@ -65,16 +66,16 @@ export default {
         const response = await axios.get('http://localhost:3000/personal');
         this.personal = response.data;
       } catch(error){
-        console.log(error);
+        console.log('Error al listar el personal:', error);
       }
     },
     async borrarPersonal(id) {
       try {
-        await axios.delete('http://localhost:3000/personal/' + id);
-        this.personal = this.personal.filter(persona => persona.id !== id );
+        await axios.delete(`http://localhost:3000/personal/${id}`);
+        this.personal = this.personal.filter(persona => persona.id !== id);
         this.mensajeExito = true;
       } catch(error){
-        console.log(error);
+        console.log('Error al eliminar el personal:', error);
       }
     },
     ocultarMensaje() {

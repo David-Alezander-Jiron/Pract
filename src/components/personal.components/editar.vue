@@ -45,6 +45,7 @@
 
 <script>
 import axios from 'axios';
+import imagenExito from '@/assets/visto.png'; // Importa la imagen
 
 export default {
   name: 'EditarPersonal',
@@ -57,7 +58,7 @@ export default {
         rol: ''
       },
       mensajeExito: false,
-      imagenExito: '@/assets/visto.png' // Ruta de la imagen subida
+      imagenExito: imagenExito // Ruta de la imagen subida
     };
   },
   created() {

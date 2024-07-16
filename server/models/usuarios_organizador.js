@@ -25,8 +25,14 @@ module.exports = (sequelize, DataTypes) => {
       rol_id: {
         type: DataTypes.INTEGER,
         allowNull: false
+      },
+      contrasena : {
+        type: DataTypes.STRING(100),
+        allowNull: false
+
       }
     });
     return UsuariosOrganizador;
   };
+  
   

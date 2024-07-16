@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { Sequelize } = require('sequelize');
 const cors = require('cors');
+const morgan = require ('morgan');
 
 // Configuración de la base de datos
 const sequelize = new Sequelize('ticket1.0', 'root', '', {
@@ -43,6 +44,20 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+app.use(morgan('dev'));
+
+//iniciar rol 
+const initRoles = async () => {
+  const roles = ['Administrador', 'Usuario'];
+  for (const role of roles) {
+    await Roles.findOrCreate({
+      where: { nombre: role }
+    });
+  }
+};
+module.exports = initRoles;
+
+
 
 // Rutas para Detalles
 app.get('/detalles', async (req, res) => {
@@ -656,7 +671,33 @@ app.delete('/usuarios_organizador/:id', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor ejecutándose en el puerto ${PORT}`);
+app.post('/login', async (req, res) => {
+  const { correo, password } = req.body;
+  try {
+    const user = await UsuariosOrganizador.findOne({ where: { correo, password } });
+    if (user) {
+      res.json({ success: true, message: 'Login exitoso', user });
+    } else {
+      res.json({ success: false, message: 'Correo o contraseña incorrectos' });
+    }
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
 });
+
+
+
+const startServer = async () => {
+  try {
+    await sequelize.sync({ force: false }); // Sincroniza la base de datos
+    await initRoles(); // Inicializa los roles
+    app.listen(3000, () => {
+      console.log('Servidor corriendo en puerto 3000');
+    });
+  } catch (error) {
+    console.error('No se pudo iniciar el servidor:', error);
+  }
+};
+
+startServer();
+

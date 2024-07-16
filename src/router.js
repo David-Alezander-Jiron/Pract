@@ -5,7 +5,8 @@ import Tickets from '@/views/Tickets.vue';
 import Evento from '@/views/Evento.vue';
 import Projects from '@/views/ProjectsView.vue';
 import Users from '@/views/UsersView.vue';
-import Login from '@/views/LoginView.vue'; // Importa la vista de login
+import Login from '@/views/register-login/LoginView.vue'; // Importa la vista de login
+import RegisterNew from '@/views/register-login/Register.vue'; // Importa la vista de registro
 
 // Rutas de personal
 import CrearPersonal from '@/components/personal.components/crear.vue';
@@ -16,6 +17,7 @@ import ListarPersonal from '@/views/Personal.vue';
 import ListarEventos from '@/views/Evento.vue';
 import NewEvento from '@/components/evento.components/crear.vue';
 import EditarEvento from '@/components/evento.components/editar.vue';
+
 
 const routes = [
   {
@@ -43,6 +45,10 @@ const routes = [
     path: '/login',
     component: Login, // Usa el componente de login para esta ruta
     meta: { layout: 'login' } // Etiqueta para indicar el layout específico
+  },
+  {
+    path: '/register',
+    component: RegisterNew // Usa el componente de registro para esta ruta
   }
 ];
 

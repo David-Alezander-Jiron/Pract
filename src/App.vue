@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <!-- Mostrar NavbarComponent solo si no estamos en la ruta de login -->
-    <NavbarComponent v-if="$route.path !== '/login'" />
-    
+    <!-- Mostrar NavbarComponent solo si no estamos en las rutas de login o registro -->
+    <NavbarComponent v-if="$route.path !== '/login' && $route.path !== '/register'" />
+
     <div class="container-fluid">
       <div class="row">
-        <!-- Mostrar SidebarComponent y HeaderComponent solo si no estamos en la ruta de login -->
-        <SidebarComponent v-if="$route.path !== '/login'" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar"/>
+        <!-- Mostrar SidebarComponent y HeaderComponent solo si no estamos en las rutas de login o registro -->
+        <SidebarComponent v-if="$route.path !== '/login' && $route.path !== '/register'" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar"/>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-          <HeaderComponent v-if="$route.path !== '/login'" />
-          
-          <!-- Solo mostrar el router-view en la ruta de login -->
-          <router-view v-if="$route.path === '/login'" />
-          
+          <HeaderComponent v-if="$route.path !== '/login' && $route.path !== '/register'" />
+
+          <!-- Solo mostrar el router-view en las rutas de login o registro -->
+          <router-view v-if="$route.path === '/login' || $route.path === '/register'" />
+
           <!-- En otras rutas, muestra el router-view normalmente -->
           <router-view v-else />
         </main>

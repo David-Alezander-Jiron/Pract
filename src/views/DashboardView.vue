@@ -129,10 +129,11 @@ export default {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  width: calc(25% - 20px); /* Ajusta el tamaño de cada tarjeta de estadísticas */
+  width: calc(25% - 60px); /* Ajusta el tamaño de cada tarjeta de estadísticas */
   position: relative;
   overflow: hidden;
   font-family: Arial, sans-serif;
+  margin-left: auto;
 }
 
 .stat-icon {

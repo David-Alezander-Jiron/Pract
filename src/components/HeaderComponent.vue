@@ -22,5 +22,6 @@ export default {
 <style scoped>
 .navbar {
   margin-bottom: 20px;
+  margin-left: 290px
 }
 </style>

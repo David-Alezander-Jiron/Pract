@@ -22,12 +22,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING, // Puedes ajustar el tipo de dato según tus necesidades
         allowNull: true // Ajusta esto según tus necesidades (puede ser true o false)
       },
+      descripcion: {
+        type: DataTypes.TEXT, // Ajusta el tipo de dato según tus necesidades
+        allowNull: true
+      },
       tipo_evento_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false
       },
       organizador_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false
       }
     });

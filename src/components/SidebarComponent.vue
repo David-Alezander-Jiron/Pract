@@ -6,19 +6,65 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <router-link to="/" class="nav-link text-white" active-class="active">Dashboard</router-link>
+        <router-link to="/" class="nav-link text-white d-flex align-items-center" active-class="active">
+          <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+        </router-link>
       </li>
       <li>
-        <router-link to="/evento" class="nav-link text-white" active-class="active">Evento</router-link>
+        <router-link to="/ubicaciones" class="nav-link text-white d-flex align-items-center" active-class="active">
+          <i class="fas fa-map-marker-alt me-2"></i> Ubicaciones
+        </router-link>
       </li>
       <li>
-        <router-link to="/new-ticket" class="nav-link text-white" active-class="active">Nuevo Ticket</router-link>
+        <router-link to="/registros" class="nav-link text-white d-flex align-items-center" active-class="active">
+          <i class="fas fa-clipboard-list me-2"></i> Registros
+        </router-link>
       </li>
-      <li>
-        <router-link to="/projects" class="nav-link text-white" active-class="active">Projects</router-link>
+      <li class="nav-item">
+        <a href="#" class="nav-link text-white d-flex align-items-center" @click="toggleDropdown('eventosDropdown')">
+          <i class="fas fa-calendar-alt me-2"></i> Eventos
+          <i :class="dropdowns.eventosDropdown ? 'fas fa-chevron-up ms-auto' : 'fas fa-chevron-down ms-auto'"></i>
+        </a>
+        <ul v-show="dropdowns.eventosDropdown" class="nav flex-column ms-3">
+          <li class="nav-item">
+            <router-link to="/eventos/opciones" class="nav-link text-white">Opciones de Eventos</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/eventos" class="nav-link text-white">Listado de Eventos</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/" class="nav-link text-white">Formulario de Eventos</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/eventos/detalle" class="nav-link text-white">Detalle de Eventos</router-link>
+          </li>
+        </ul>
       </li>
-      <li>
-        <router-link to="/personal" class="nav-link text-white" active-class="active">Users</router-link>
+      <li class="nav-item">
+        <a href="#" class="nav-link text-white d-flex align-items-center" @click="toggleDropdown('adminDropdown')">
+          <i class="fas fa-user-cog me-2"></i> Administrador
+          <i :class="dropdowns.adminDropdown ? 'fas fa-chevron-up ms-auto' : 'fas fa-chevron-down ms-auto'"></i>
+        </a>
+        <ul v-show="dropdowns.adminDropdown" class="nav flex-column ms-3">
+          <li class="nav-item">
+            <router-link to="/admin/gestion-usuarios" class="nav-link text-white">Gestión de Usuarios</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/personal" class="nav-link text-white">Gestión de Personal</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/admin/gestion-patrocinadores" class="nav-link text-white">Gestión de Patrocinadores</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/admin/gestion-participantes" class="nav-link text-white">Gestión de Participantes</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/admin/gestion-tickets" class="nav-link text-white">Gestión de Tickets</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/admin/gestion-paginas" class="nav-link text-white">Gestión de Páginas</router-link>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
@@ -26,7 +72,20 @@
 
 <script>
 export default {
-  name: 'SidebarMenu'
+  name: 'SidebarMenu',
+  data() {
+    return {
+      dropdowns: {
+        eventosDropdown: false,
+        adminDropdown: false,
+      },
+    };
+  },
+  methods: {
+    toggleDropdown(dropdown) {
+      this.dropdowns[dropdown] = !this.dropdowns[dropdown];
+    },
+  },
 };
 </script>
 
@@ -45,5 +104,9 @@ export default {
 
 .vh-100 {
   height: 100vh;
+}
+
+.dropdown-menu {
+  background-color: #343a40 !important;
 }
 </style>

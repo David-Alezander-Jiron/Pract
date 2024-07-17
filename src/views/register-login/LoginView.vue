@@ -4,30 +4,26 @@
       <img src="@/assets/logopra.png" alt="EventTix Logo" class="logo-img">
       <div class="login-box">
         <h1>EventTix</h1>
-        <form  >
+        <form>
           <div class="form-group">
-            <label for="correo">Correo:</label>
-            <input type="email" class="form-control" id="correo"  required>
+            <label for="correo">Email Addres:</label>
+            <input type="email" class="form-control" id="correo" required>
           </div>
           <div class="form-group">
-            <label for="contraseña">Contraseña:</label>
+            <label for="contraseña">Password:</label>
             <input type="password" class="form-control" id="contraseña" required>
           </div>
-          <a href="/" class="btn btn-primary">Login</a>
-
+          <a href="/" class="btn btn-primary" style="background-color: #00ACAC; border-color: #00ACAC;">Sign me in</a>
         </form>
-        <router-link to="/register">No tienes Cuenta</router-link>
+        <router-link to="/register">No tienes Cuenta?</router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
-
 export default {
   name: 'LoginNew',
-  
 };
 </script>
 
@@ -37,77 +33,64 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  width: 1560px;
-  background-image: url(@/assets/fondoticket.jpg);
-  background-size: cover; /* Ajusta el tamaño para cubrir toda el área */
-  background-repeat: no-repeat; /* Evita que la imagen se repita */
-  background-position: center; /* Centra la imagen */
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   position: relative;
-  right: 300px;
 }
 
 .login-content {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente */
+  background: rgba(255, 255, 255, 0.85);
   padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  width: 500px;
-  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  max-width: 800px;
+  width: 100%;
 }
 
 .logo-img {
-  max-width: 200px;
+  max-width: 300px;
   height: auto;
-  margin-bottom: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-right: 2rem;
 }
 
 .login-box {
-  width: 100%;
-  position: relative;
+  flex-grow: 1;
+  text-align: center;
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-bottom: 1.5rem;
   color: #333;
-  position: relative;
-  margin-right: 190px;
 }
 
-.input-group {
+.form-group {
   margin-bottom: 1rem;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
 input[type="email"],
 input[type="password"] {
   width: 100%;
   padding: 0.75rem;
-  background-color: #f0f0f0;
+  background-color: #495057;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px;
   font-size: 1rem;
-  color: #333;
-}
-
-.remember-me {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
-
-.remember-me input {
-  margin-right: 0.5rem;
-}
-
-.remember-me label {
-  font-size: 0.9rem;
-  color: #666;
+  color: #fff;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 button {
@@ -116,13 +99,14 @@ button {
   background-color: #00bfa5;
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
   background-color: #009e8e;
+  transform: translateY(-2px);
 }
 
 button:focus {
@@ -133,6 +117,8 @@ button:focus {
 .router-link {
   color: #007bff;
   text-decoration: none;
+  display: block;
+  margin-top: 1rem;
 }
 
 .router-link:hover {

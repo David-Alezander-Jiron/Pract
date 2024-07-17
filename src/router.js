@@ -7,6 +7,7 @@ import Projects from '@/views/ProjectsView.vue';
 import Users from '@/views/UsersView.vue';
 import Login from '@/views/register-login/LoginView.vue'; // Importa la vista de login
 import RegisterNew from '@/views/register-login/Register.vue'; // Importa la vista de registro
+import Error404 from '@/views/Pagina404.vue'
 
 // Rutas de personal
 import CrearPersonal from '@/components/personal.components/crear.vue';
@@ -49,11 +50,18 @@ const routes = [
   {
     path: '/register',
     component: RegisterNew // Usa el componente de registro para esta ruta
-  }
+  },
+
+  //error 404
+{
+  path: '/:pathMath(.*)*',
+  component: Error404,
+}
+ 
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(process.env.BASE_URL),
   routes
 });
 

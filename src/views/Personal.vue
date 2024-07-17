@@ -16,15 +16,40 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="persona in personal" :key="persona.id">
-              <td>{{ persona.id }}</td>
-              <td>{{ persona.nombre }} {{ persona.apellido }}</td>
-              <td>{{ persona.rol }}</td>
-              <td>{{ persona.telefono }}</td>
+            <tr>
+              <td>1</td>
+              <td>Edison Flores</td>
+              <td>Mesero</td>
+              <td>0979309324</td>
               <td>
                 <div class="btn-group" role="group" aria-label="">
-                  <router-link :to="{name:'EditarPersonal',params:{id:persona.id}}" class="btn">Editar</router-link>
-                  <button type="button" v-on:click="borrarPersonal(persona.id)" class="btn btn-danger">Eliminar</button>
+                  <a href="/personal/editar/1" class="btn"> Editar </a>
+                  <button type="button" class="btn btn-danger">Eliminar</button>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>2</td>
+              <td>Edison Flores</td>
+              <td>Mesero</td>
+              <td>0979309324</td>
+              <td>
+                <div class="btn-group" role="group" aria-label="">
+                  <a href="/personal/editar/2" class="btn"> Editar </a>
+                  <button type="button" class="btn btn-danger">Eliminar</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Edison Flores</td>
+              <td>Mesero</td>
+              <td>0979309324</td>
+              <td>
+                <div class="btn-group" role="group" aria-label="">
+                  <a href="/personal/editar/3" class="btn"> Editar </a>
+                  <button type="button" class="btn btn-danger">Eliminar</button>
                 </div>
               </td>
             </tr>

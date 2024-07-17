@@ -1,52 +1,58 @@
 <template>
   <div id="app">
-    <!-- Mostrar NavbarComponent solo si no estamos en las rutas de login o registro -->
-    <NavbarComponent v-if="$route.path !== '/login' && $route.path !== '/register'" />
+    <!-- Mostrar NavbarComponent solo si no estamos en las rutas de login, registro o una ruta inexistente -->
+    <NavbarComponent v-if="shouldShowNavbar" />
 
     <div class="container-fluid">
       <div class="row">
-        <!-- Mostrar SidebarComponent y HeaderComponent solo si no estamos en las rutas de login o registro -->
-        <SidebarComponent v-if="$route.path !== '/login' && $route.path !== '/register'"
-          class="col-md-3 col-lg-2 d-md-block bg-dark sidebar" />
+        <!-- Mostrar SidebarComponent y HeaderComponent solo si no estamos en las rutas de login, registro o una ruta inexistente -->
+        <SidebarComponent v-if="shouldShowNavbar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar" />
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-          <HeaderComponent v-if="$route.path !== '/login' && $route.path !== '/register'" />
-
-
+          <HeaderComponent v-if="shouldShowNavbar" />
         </main>
       </div>
     </div>
-    
   </div>
 
   <div class="router-pag">
-            <!-- Solo mostrar el router-view en las rutas de login o registro -->
-            <router-view v-if="$route.path === '/login' || $route.path === '/register'" />
+    <!-- Solo mostrar el router-view en las rutas de login o registro -->
+    <router-view v-if="isAuthRoute" />
 
-            <!-- En otras rutas, muestra el router-view normalmente -->
-            <router-view v-else />
-          </div>
+    <!-- En otras rutas, muestra el router-view normalmente -->
+    <router-view v-else />
+  </div>
 </template>
 
 <script>
 import NavbarComponent from './components/NavbarComponent.vue';
 import SidebarComponent from './components/SidebarComponent.vue';
-import HeaderComponent from './components/HeaderComponent.vue';
+
 
 export default {
   name: 'App',
   components: {
     NavbarComponent,
     SidebarComponent,
-    HeaderComponent
+    
+  },
+  computed: {
+    shouldShowNavbar() {
+      const routePath = this.$route.path;
+      return routePath !== '/login' && routePath !== '/register' && routePath !== '/:pathMatch(.*)*';
+    },
+    isAuthRoute() {
+      const routePath = this.$route.path;
+      return routePath === '/login' || routePath === '/register';
+    }
   }
 };
 </script>
 
 <style>
-
-.router-pag{
-  padding-left: 240px;
+.router-pag {
+  padding-left: 280px;
 }
+
 .container-fluid {
   padding: 0;
 }
@@ -62,9 +68,9 @@ export default {
 }
 
 .main-content {
-  margin-top: 56px;
+  margin-top: 0px;
   /* Ajuste para que no se superponga con el header */
-  padding: 20px;
+  padding: 5px;
 }
 
 .content {

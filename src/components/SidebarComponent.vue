@@ -42,7 +42,7 @@
       </li>
       <li class="nav-item">
         <a href="#" class="nav-link text-white d-flex align-items-center" @click="toggleDropdown('personalDropdown')">
-          <i class="fas fa-calendar-alt me-2"></i> Personal
+          <i class="fas fa-user-cog me-2"></i> Personal
           <i :class="dropdowns.personalDropdown ? 'fas fa-chevron-up ms-auto' : 'fas fa-chevron-down ms-auto'"></i>
         </a>
         <ul v-show="dropdowns.personalDropdown" class="nav flex-column ms-3">

@@ -19,18 +19,18 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="evento in eventos" :key="evento.id">
-              <td>{{ evento.id }}</td>
-              <td>{{ evento.nombre }}</td>
-              <td>{{ evento.fecha }}</td>
-              <td>{{ evento.capacidad_personas }}</td>
-              <td>{{ evento.ubicacion }}</td>
-              <td>{{ evento.organizador_id }}</td>
-              <td>{{ evento.tipo_evento_id }}</td>
+            <tr >
+              <td>1</td>
+              <td>Trueno</td>
+              <td>24/11/2024</td>
+              <td>500</td>
+              <td>Estadio Atahualpa</td>
+              <td>EventTix</td>
+              <td>mediano</td>
               <td>
                 <div class="btn-group" role="group">
-                  <router-link :to="{ name: 'EditarEvento', params: { id: evento.id } }" class="btn">Editar</router-link>
-                  <button type="button" @click="borrarEvento(evento.id)" class="btn btn-danger">Eliminar</button>
+                  <a href="/eventos/editar/1" class="btn">Editar</a>
+                  <button type="button" class="btn btn-danger">Eliminar</button>
                 </div>
               </td>
             </tr>

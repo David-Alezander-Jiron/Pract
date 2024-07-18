@@ -33,27 +33,11 @@
             <router-link to="/eventos" class="nav-link text-white">Listado de Eventos</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/eventos/crear" class="nav-link text-white">Formulario de Eventos</router-link>
+            <router-link to="/" class="nav-link text-white">Formulario de Eventos</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/eventos/detalle" class="nav-link text-white">Detalle de Eventos</router-link>
           </li>
-        </ul>
-      </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link text-white d-flex align-items-center" @click="toggleDropdown('personalDropdown')">
-          <i class="fas fa-calendar-alt me-2"></i> Personal
-          <i :class="dropdowns.personalDropdown ? 'fas fa-chevron-up ms-auto' : 'fas fa-chevron-down ms-auto'"></i>
-        </a>
-        <ul v-show="dropdowns.personalDropdown" class="nav flex-column ms-3">
-          
-          <li class="nav-item">
-            <router-link to="/personal" class="nav-link text-white">Listado de Personal</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/personal/crear" class="nav-link text-white">Formulario de Personal</router-link>
-          </li>
-          
         </ul>
       </li>
       <li class="nav-item">
@@ -62,8 +46,9 @@
           <i :class="dropdowns.adminDropdown ? 'fas fa-chevron-up ms-auto' : 'fas fa-chevron-down ms-auto'"></i>
         </a>
         <ul v-show="dropdowns.adminDropdown" class="nav flex-column ms-3">
+          <!-- Nuevo enlace para Gestión de Usuarios -->
           <li class="nav-item">
-            <router-link to="/admin/gestion-usuarios" class="nav-link text-white">Gestión de Usuarios</router-link>
+            <router-link to="/users" class="nav-link text-white">Gestión de Usuarios</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/personal" class="nav-link text-white">Gestión de Personal</router-link>
@@ -80,6 +65,7 @@
           <li class="nav-item">
             <router-link to="/admin/gestion-paginas" class="nav-link text-white">Gestión de Páginas</router-link>
           </li>
+
         </ul>
       </li>
     </ul>
@@ -94,7 +80,6 @@ export default {
       dropdowns: {
         eventosDropdown: false,
         adminDropdown: false,
-        personalDropdown: false,
       },
     };
   },

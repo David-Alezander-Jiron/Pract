@@ -50,7 +50,7 @@ export default {
 
 <style>
 .router-pag {
-  margin-left: 280px;
+  padding-left: 280px;
 }
 
 .container-fluid {

@@ -44,5 +44,8 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos adicionales si es necesario */
+.container{
+  margin-top: 15px;
+}
+
 </style>

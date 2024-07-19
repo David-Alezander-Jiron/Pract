@@ -46,14 +46,12 @@
           <i :class="dropdowns.personalDropdown ? 'fas fa-chevron-up ms-auto' : 'fas fa-chevron-down ms-auto'"></i>
         </a>
         <ul v-show="dropdowns.personalDropdown" class="nav flex-column ms-3">
-          
           <li class="nav-item">
             <router-link to="/personal" class="nav-link text-white">Listado de Personal</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/personal/crear" class="nav-link text-white">Formulario de Personal</router-link>
           </li>
-          
         </ul>
       </li>
       <li class="nav-item">
@@ -63,16 +61,16 @@
         </a>
         <ul v-show="dropdowns.adminDropdown" class="nav flex-column ms-3">
           <li class="nav-item">
-            <router-link to="/admin/gestion-usuarios" class="nav-link text-white">Gestión de Usuarios</router-link>
+            <router-link to="/usuarios" class="nav-link text-white">Gestión de Usuarios</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/personal" class="nav-link text-white">Gestión de Personal</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/admin/gestion-patrocinadores" class="nav-link text-white">Gestión de Patrocinadores</router-link>
+            <router-link to="/patrocinadores" class="nav-link text-white">Gestión de Patrocinadores</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/admin/gestion-participantes" class="nav-link text-white">Gestión de Participantes</router-link>
+            <router-link to="/participantes" class="nav-link text-white">Gestión de Participantes</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/admin/gestion-tickets" class="nav-link text-white">Gestión de Tickets</router-link>

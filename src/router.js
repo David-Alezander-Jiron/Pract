@@ -4,10 +4,14 @@ import Dashboard from '@/views/DashboardView.vue';
 import Tickets from '@/views/Tickets.vue';
 import Evento from '@/views/Evento.vue';
 import Projects from '@/views/ProjectsView.vue';
-import Users from '@/views/UsersView.vue';
 import Login from '@/views/register-login/LoginView.vue'; // Importa la vista de login
 import RegisterNew from '@/views/register-login/Register.vue'; // Importa la vista de registro
-import Error404 from '@/views/Pagina404.vue'
+import Error404 from '@/views/Pagina404.vue';
+
+// Rutas de usuarios
+import ListadoUsuarios from '@/views/ListadoUsuarios.vue'; // Lista de usuarios
+import CrearUsuario from '@/components/usuario.components/crear.vue'; // Crear usuario
+import EditarUsuario from '@/components/usuario.components/editar.vue'; // Editar usuario
 
 // Rutas de personal
 import CrearPersonal from '@/components/personal.components/crear.vue';
@@ -19,6 +23,15 @@ import ListarEventos from '@/views/Evento.vue';
 import NewEvento from '@/components/evento.components/crear.vue';
 import EditarEvento from '@/components/evento.components/editar.vue';
 
+// Rutas de participantes
+import ListarParticipante from '@/views/ListarParticipante.vue';
+import CrearParticipante from '@/components/participante.components/crear.vue';
+import EditarParticipante from '@/components/participante.components/editar.vue';
+
+// Rutas de patrocinadores
+import ListarPatrocinador from '@/views/ListarPatrocinador.vue';
+import CrearPatrocinador from '@/components/patrocinador.components/crear.vue';
+import EditarPatrocinador from '@/components/patrocinador.components/editar.vue';
 
 const routes = [
   {
@@ -29,17 +42,31 @@ const routes = [
       { path: 'tickets', component: Tickets },
       { path: 'evento', component: Evento },
       { path: 'projects', component: Projects },
-      { path: 'users', component: Users },
+
+      // Rutas de usuarios
+      { path: 'usuarios', component: ListadoUsuarios },
+      { path: 'usuarios/crear', component: CrearUsuario },
+      { path: 'usuarios/editar/:id', name: 'EditarUsuario', component: EditarUsuario },
 
       // Rutas de personal
-      { path: '/personal/crear', component: CrearPersonal },
-      { path: '/personal/editar/:id', name: 'EditarPersonal', component: EditarPersonal },
-      { path: '/personal', component: ListarPersonal },
+      { path: 'personal/crear', component: CrearPersonal },
+      { path: 'personal/editar/:id', name: 'EditarPersonal', component: EditarPersonal },
+      { path: 'personal', component: ListarPersonal },
 
       // Rutas de eventos
-      { path: '/eventos', component: ListarEventos },
-      { path: '/eventos/crear', component: NewEvento },
-      { path: '/eventos/editar/:id', name: 'EditarEvento', component: EditarEvento }
+      { path: 'eventos', component: ListarEventos },
+      { path: 'eventos/crear', component: NewEvento },
+      { path: 'eventos/editar/:id', name: 'EditarEvento', component: EditarEvento },
+
+      // Rutas de participantes
+      { path: 'participantes', component: ListarParticipante },
+      { path: 'participantes/crear', component: CrearParticipante },
+      { path: 'participantes/editar/:id', name: 'EditarParticipante', component: EditarParticipante },
+
+      // Rutas de patrocinadores
+      { path: 'patrocinadores', component: ListarPatrocinador },
+      { path: 'patrocinadores/crear', component: CrearPatrocinador },
+      { path: 'patrocinadores/editar/:id', name: 'EditarPatrocinador', component: EditarPatrocinador }
     ]
   },
   {
@@ -52,12 +79,11 @@ const routes = [
     component: RegisterNew // Usa el componente de registro para esta ruta
   },
 
-  //error 404
-{
-  path: '/:pathMath(.*)*',
-  component: Error404,
-}
- 
+  // Error 404
+  {
+    path: '/:pathMatch(.*)*',
+    component: Error404,
+  }
 ];
 
 const router = createRouter({

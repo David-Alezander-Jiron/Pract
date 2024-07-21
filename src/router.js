@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import MainLayout from '@/layouts/MainLayout.vue'; // Importa el layout principal
 import Dashboard from '@/views/DashboardView.vue';
-import Tickets from '@/views/Tickets.vue';
 import Evento from '@/views/Evento.vue';
 import Projects from '@/views/ProjectsView.vue';
 import Login from '@/views/register-login/LoginView.vue'; // Importa la vista de login
 import RegisterNew from '@/views/register-login/Register.vue'; // Importa la vista de registro
 import Error404 from '@/views/Pagina404.vue';
+import Ubicaciones from '@/views/ubicacion.vue'
 
 // Rutas de usuarios
 import ListadoUsuarios from '@/views/ListadoUsuarios.vue'; // Lista de usuarios
@@ -33,13 +33,17 @@ import ListarPatrocinador from '@/views/ListarPatrocinador.vue';
 import CrearPatrocinador from '@/components/patrocinador.components/crear.vue';
 import EditarPatrocinador from '@/components/patrocinador.components/editar.vue';
 
+//Rutas de tickets
+import Tickets from '@/views/Tickets.vue';
+import crearTicket from './components/ticket.components/crear.vue';
+import editarTicket from './components/ticket.components/editar.vue';
+
 const routes = [
   {
     path: '/',
     component: MainLayout, // Layout principal para las rutas principales
     children: [
       { path: '', component: Dashboard },
-      { path: 'tickets', component: Tickets },
       { path: 'evento', component: Evento },
       { path: 'projects', component: Projects },
 
@@ -66,7 +70,12 @@ const routes = [
       // Rutas de patrocinadores
       { path: 'patrocinadores', component: ListarPatrocinador },
       { path: 'patrocinadores/crear', component: CrearPatrocinador },
-      { path: 'patrocinadores/editar/:id', name: 'EditarPatrocinador', component: EditarPatrocinador }
+      { path: 'patrocinadores/editar/:id', name: 'EditarPatrocinador', component: EditarPatrocinador },
+
+      // Rutas de tickets
+      { path: 'tickets', component: Tickets },
+      { path: 'tickets/crear', component: crearTicket },
+      { path: 'tickets/editar/:id', name: 'EditarTicket', component: editarTicket},
     ]
   },
   {
@@ -77,6 +86,9 @@ const routes = [
   {
     path: '/register',
     component: RegisterNew // Usa el componente de registro para esta ruta
+  },{
+    path: '/ubicaciones',
+    component: Ubicaciones
   },
 
   // Error 404

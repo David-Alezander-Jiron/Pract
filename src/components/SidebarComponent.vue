@@ -73,7 +73,7 @@
             <router-link to="/participantes" class="nav-link text-white">Gestión de Participantes</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/admin/gestion-tickets" class="nav-link text-white">Gestión de Tickets</router-link>
+            <router-link to="/tickets" class="nav-link text-white">Gestión de Tickets</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/admin/gestion-paginas" class="nav-link text-white">Gestión de Páginas</router-link>

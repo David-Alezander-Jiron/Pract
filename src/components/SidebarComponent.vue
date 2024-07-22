@@ -76,7 +76,7 @@
             <router-link to="/tickets" class="nav-link text-white">Gestión de Tickets</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/admin/gestion-paginas" class="nav-link text-white">Gestión de Páginas</router-link>
+            <router-link to="/pagina-gestion" class="nav-link text-white">Gestión de Páginas</router-link>
           </li>
         </ul>
       </li>

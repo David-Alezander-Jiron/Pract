@@ -38,6 +38,10 @@ import Tickets from '@/views/Tickets.vue';
 import crearTicket from './components/ticket.components/crear.vue';
 import editarTicket from './components/ticket.components/editar.vue';
 
+//Rutas Gestion paginas
+import PaginaGestion from '@/components/paginas.components/PaginaGestion.vue';
+import PaginaEvento from '@/components/paginas.components/PaginaEvento.vue';
+
 const routes = [
   {
     path: '/',
@@ -76,6 +80,10 @@ const routes = [
       { path: 'tickets', component: Tickets },
       { path: 'tickets/crear', component: crearTicket },
       { path: 'tickets/editar/:id', name: 'EditarTicket', component: editarTicket},
+
+      //Gestion eventos
+      { path: '/pagina-gestion', component: PaginaGestion },
+      { path: '/pagina/:id', component: PaginaEvento }
     ]
   },
   {

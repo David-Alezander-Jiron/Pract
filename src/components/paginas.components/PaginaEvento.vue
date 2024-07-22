@@ -22,6 +22,9 @@
         <p>‘GOTTIA TOUR’ 🌙</p>
         <img src="@/assets/tiago.jpeg" alt="Tiago PZK" class="img-fluid">
       </div>
+      <div class="additional-image p-3 rounded shadow-sm mt-4">
+        <img src="@/assets/precios-tiago.jpeg" alt="Precios Tiago PZK" class="img-fluid">
+      </div>
     </div>
   </template>
   
@@ -46,13 +49,6 @@
             descripcion: 'Un concierto impresionante con Tiago PZK en Quito! 19 de septiembre en el Coliseo Rumiñahui 20H00.',
             fecha: '19-9-2024',
             ubicacion: 'Quito, Ecuador'
-          },
-          {
-            id: 2,
-            nombre: 'Festival de Música',
-            descripcion: 'Un festival de música espectacular en Guayaquil.',
-            fecha: '2024-09-15',
-            ubicacion: 'Guayaquil, Ecuador'
           }
         ];
         this.evento = eventos.find(evento => evento.id == id);
@@ -66,40 +62,13 @@
     margin-top: 20px;
   }
   
-  .event-details {
+  .event-details, .video-container, .event-image, .additional-image {
     background-color: #343a40;
     color: #ffffff;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     margin-top: 20px;
-    text-align: left;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .video-container {
-    background-color: #343a40;
-    color: #ffffff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    margin-top: 20px;
-    text-align: center;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .event-image {
-    background-color: #343a40;
-    color: #ffffff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    margin-top: 20px;
-    text-align: center;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;

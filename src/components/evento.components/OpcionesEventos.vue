@@ -220,22 +220,22 @@ const guardarConfiguracion = () => {
 
 const añadirPersonal = () => {
   console.log('Añadir personal:', evento.value.personalNombre);
-  // Aquí puedes agregar lógica para añadir el personal
+  
 };
 
 const añadirParticipante = () => {
   console.log('Añadir participante:', evento.value.participantesLista);
-  // Aquí puedes agregar lógica para añadir el participante
+  
 };
 
 const añadirPatrocinador = () => {
   console.log('Añadir patrocinador:', evento.value.patrocinadoresLista);
-  // Aquí puedes agregar lógica para añadir el patrocinador
+  
 };
 
 const añadirEntrada = () => {
   console.log('Añadir entrada:', evento.value.tipoTickets, evento.value.precios, evento.value.descuentos);
-  // Aquí puedes agregar lógica para añadir la entrada
+  
 };
 </script>
 

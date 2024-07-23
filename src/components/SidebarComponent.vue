@@ -35,9 +35,6 @@
           <li class="nav-item">
             <router-link to="/eventos/crear" class="nav-link text-white">Formulario de Eventos</router-link>
           </li>
-          <li class="nav-item">
-            <router-link to="/eventos/detalle" class="nav-link text-white">Detalle de Eventos</router-link>
-          </li>
         </ul>
       </li>
       <li class="nav-item">
@@ -125,3 +122,5 @@ export default {
   background-color: #343a40 !important;
 }
 </style>
+
+

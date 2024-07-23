@@ -6,7 +6,7 @@ import Projects from '@/views/ProjectsView.vue';
 import Login from '@/views/register-login/LoginView.vue'; // Importa la vista de login
 import RegisterNew from '@/views/register-login/Register.vue'; // Importa la vista de registro
 import Error404 from '@/views/Pagina404.vue';
-import Ubicaciones from '@/views/ubicacion.vue'
+import Ubicaciones from '@/views/ubicacion.vue';
 
 // Rutas de usuarios
 import ListadoUsuarios from '@/views/ListadoUsuarios.vue'; // Lista de usuarios
@@ -22,6 +22,7 @@ import ListarPersonal from '@/views/Personal.vue';
 import ListarEventos from '@/views/Evento.vue';
 import NewEvento from '@/components/evento.components/crear.vue';
 import EditarEvento from '@/components/evento.components/editar.vue';
+import OpcionesEventos from '@/components/evento.components/OpcionesEventos.vue'; // Importa OpcionesEventos
 
 // Rutas de participantes
 import ListarParticipante from '@/views/ListarParticipante.vue';
@@ -33,12 +34,12 @@ import ListarPatrocinador from '@/views/ListarPatrocinador.vue';
 import CrearPatrocinador from '@/components/patrocinador.components/crear.vue';
 import EditarPatrocinador from '@/components/patrocinador.components/editar.vue';
 
-//Rutas de tickets
+// Rutas de tickets
 import Tickets from '@/views/Tickets.vue';
 import crearTicket from './components/ticket.components/crear.vue';
 import editarTicket from './components/ticket.components/editar.vue';
 
-//Rutas Gestion paginas
+// Rutas Gestión páginas
 import PaginaGestion from '@/components/paginas.components/PaginaGestion.vue';
 import PaginaEvento from '@/components/paginas.components/PaginaEvento.vue';
 
@@ -65,6 +66,7 @@ const routes = [
       { path: 'eventos', component: ListarEventos },
       { path: 'eventos/crear', component: NewEvento },
       { path: 'eventos/editar/:id', name: 'EditarEvento', component: EditarEvento },
+      { path: 'eventos/opciones', component: OpcionesEventos }, // Cambiado aquí
 
       // Rutas de participantes
       { path: 'participantes', component: ListarParticipante },
@@ -79,9 +81,9 @@ const routes = [
       // Rutas de tickets
       { path: 'tickets', component: Tickets },
       { path: 'tickets/crear', component: crearTicket },
-      { path: 'tickets/editar/:id', name: 'EditarTicket', component: editarTicket},
+      { path: 'tickets/editar/:id', name: 'EditarTicket', component: editarTicket },
 
-      //Gestion eventos
+      // Gestión páginas
       { path: '/pagina-gestion', component: PaginaGestion },
       { path: '/pagina/:id', component: PaginaEvento }
     ]
@@ -94,7 +96,8 @@ const routes = [
   {
     path: '/register',
     component: RegisterNew // Usa el componente de registro para esta ruta
-  },{
+  },
+  {
     path: '/ubicaciones',
     component: Ubicaciones
   },
@@ -112,3 +115,7 @@ const router = createRouter({
 });
 
 export default router;
+
+
+
+

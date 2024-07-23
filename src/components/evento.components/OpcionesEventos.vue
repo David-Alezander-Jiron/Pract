@@ -34,26 +34,58 @@
 
     <div class="section">
       <h2>Personal Asignado</h2>
-      <label for="personal-nombre">Nombre del Personal:</label>
-      <input v-model="evento.personalNombre" type="text" id="personal-nombre">
-      
-      <label for="personal-rol">Rol del Personal:</label>
-      <input v-model="evento.personalRol" type="text" id="personal-rol">
-      
-      <label for="personal-contacto">Contacto del Personal:</label>
-      <input v-model="evento.personalContacto" type="text" id="personal-contacto">
+      <div class="recuadro">
+        <label for="personal-nombre">Nombre del Personal:</label>
+        <input v-model="evento.personalNombre" type="text" id="personal-nombre">
+        
+        <label for="personal-rol">Rol del Personal:</label>
+        <input v-model="evento.personalRol" type="text" id="personal-rol">
+        
+        <label for="personal-contacto">Contacto del Personal:</label>
+        <input v-model="evento.personalContacto" type="text" id="personal-contacto">
+        
+        <button @click="añadirPersonal">Añadir Personal</button>
+      </div>
     </div>
     
     <div class="section">
       <h2>Participantes</h2>
-      <label for="participantes-lista">Lista de Participantes:</label>
-      <textarea v-model="evento.participantesLista" id="participantes-lista" rows="4" placeholder="Nombre del participante, email, etc."></textarea>
+      <div class="recuadro">
+        <label for="participantes-lista">Lista de Participantes:</label>
+        <textarea v-model="evento.participantesLista" id="participantes-lista" rows="4" placeholder="Nombre del participante, email, etc."></textarea>
+        
+        <button @click="añadirParticipante">Añadir Participante</button>
+      </div>
     </div>
     
     <div class="section">
       <h2>Patrocinadores</h2>
-      <label for="patrocinadores-lista">Lista de Patrocinadores:</label>
-      <textarea v-model="evento.patrocinadoresLista" id="patrocinadores-lista" rows="4" placeholder="Nombre del patrocinador, información de contacto, etc."></textarea>
+      <div class="recuadro">
+        <label for="patrocinadores-lista">Lista de Patrocinadores:</label>
+        <textarea v-model="evento.patrocinadoresLista" id="patrocinadores-lista" rows="4" placeholder="Nombre del patrocinador, información de contacto, etc."></textarea>
+        
+        <button @click="añadirPatrocinador">Añadir Patrocinador</button>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>Configuración de Entradas</h2>
+      <div class="recuadro">
+        <label for="tipo-tickets">Tipo de Tickets:</label>
+        <select v-model="evento.tipoTickets" id="tipo-tickets" multiple>
+          <option value="general">General</option>
+          <option value="vip">VIP</option>
+          <option value="early-bird">Early Bird</option>
+        </select>
+        
+        <label for="precios">Precios:</label>
+        <input v-model="evento.precios" type="text" id="precios" placeholder="General: 50, VIP: 100, Early Bird: 40">
+        
+        <label for="descuentos">Descuentos:</label>
+        <input v-model="evento.descuentos" type="text" id="descuentos" placeholder="PROMO10: 10% de descuento">
+        
+        <button @click="añadirEntrada">Añadir Entrada</button>
+      </div>
     </div>
     
     <div class="section">
@@ -81,22 +113,6 @@
         <option value="privado">Privado</option>
         <option value="invitacion">Con invitación</option>
       </select>
-    </div>
-    
-    <div class="section">
-      <h2>Configuración de Entradas</h2>
-      <label for="tipo-tickets">Tipo de Tickets:</label>
-      <select v-model="evento.tipoTickets" id="tipo-tickets" multiple>
-        <option value="general">General</option>
-        <option value="vip">VIP</option>
-        <option value="early-bird">Early Bird</option>
-      </select>
-      
-      <label for="precios">Precios:</label>
-      <input v-model="evento.precios" type="text" id="precios" placeholder="General: 50, VIP: 100, Early Bird: 40">
-      
-      <label for="descuentos">Descuentos:</label>
-      <input v-model="evento.descuentos" type="text" id="descuentos" placeholder="PROMO10: 10% de descuento">
     </div>
     
     <div class="section">
@@ -183,28 +199,43 @@ const evento = ref({
 
 const handleImageUpload = (event) => {
   const file = event.target.files[0];
-  
   console.log('Imagen cargada:', file.name);
 };
 
 const verResumenVentas = () => {
   console.log('Ver resumen de ventas');
-  
 };
 
 const verAsistenciaEsperada = () => {
   console.log('Ver asistencia esperada');
-  
 };
 
 const verComentarios = () => {
   console.log('Ver comentarios');
-  
 };
 
 const guardarConfiguracion = () => {
   console.log('Configuración guardada:', evento.value);
-  
+};
+
+const añadirPersonal = () => {
+  console.log('Añadir personal:', evento.value.personalNombre);
+  // Aquí puedes agregar lógica para añadir el personal
+};
+
+const añadirParticipante = () => {
+  console.log('Añadir participante:', evento.value.participantesLista);
+  // Aquí puedes agregar lógica para añadir el participante
+};
+
+const añadirPatrocinador = () => {
+  console.log('Añadir patrocinador:', evento.value.patrocinadoresLista);
+  // Aquí puedes agregar lógica para añadir el patrocinador
+};
+
+const añadirEntrada = () => {
+  console.log('Añadir entrada:', evento.value.tipoTickets, evento.value.precios, evento.value.descuentos);
+  // Aquí puedes agregar lógica para añadir la entrada
 };
 </script>
 
@@ -261,7 +292,16 @@ button {
 button:hover {
   background-color: #2980b9;
 }
+
+.recuadro {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+}
 </style>
+
 
 
   

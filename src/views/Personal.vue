@@ -12,44 +12,19 @@
               <th>Nombre</th>
               <th>Rol</th>
               <th>Telefono</th>
-              <th>Acción</th>
+              <th>Accion</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Edison Flores</td>
-              <td>Mesero</td>
-              <td>0979309324</td>
+            <tr v-for="persona in personal" :key="persona.id">
+              <td>{{ persona.id }}</td>
+              <td>{{ persona.nombre }} {{ persona.apellido }}</td>
+              <td>{{ persona.rol }}</td>
+              <td>{{ persona.telefono }}</td>
               <td>
                 <div class="btn-group" role="group" aria-label="">
-                  <a href="/personal/editar/1" class="btn"> Editar </a>
-                  <button type="button" class="btn btn-danger">Eliminar</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>2</td>
-              <td>Edison Flores</td>
-              <td>Mesero</td>
-              <td>0979309324</td>
-              <td>
-                <div class="btn-group" role="group" aria-label="">
-                  <a href="/personal/editar/2" class="btn"> Editar </a>
-                  <button type="button" class="btn btn-danger">Eliminar</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Edison Flores</td>
-              <td>Mesero</td>
-              <td>0979309324</td>
-              <td>
-                <div class="btn-group" role="group" aria-label="">
-                  <a href="/personal/editar/3" class="btn"> Editar </a>
-                  <button type="button" class="btn btn-danger">Eliminar</button>
+                  <router-link :to="{name:'EditarPersonal',params:{id:persona.id}}" class="btn btn-primary">Editar</router-link>
+                  <button type="button" @click="borrarPersonal(persona.id)" class="btn btn-danger">Eliminar</button>
                 </div>
               </td>
             </tr>
@@ -57,7 +32,7 @@
         </table>
       </div>
     </div>
-    <a name="" id="" class="btn btn-primary" href="/personal/crear" role="button">Agregar Personal</a>
+    <router-link to="/personal/crear" class="btn btn-primary" role="button">Agregar Personal</router-link>
 
     <div v-if="mensajeExito" class="mensaje-centro">
       <div class="mensaje-contenido">
@@ -70,11 +45,42 @@
 </template>
 
 <script>
-
+import axios from 'axios';
 
 export default {
   name: 'ListarPersonal',
-  
+  data() {
+    return {
+      personal: [],
+      mensajeExito: false,
+      imagenExito: require('@/assets/visto.png') // Ruta de la imagen
+    }
+  },
+  created() {
+    this.listarPersonal();
+  },
+  methods: {
+    async listarPersonal() {
+      try {
+        const response = await axios.get('http://localhost:9000/personal');
+        this.personal = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async borrarPersonal(id) {
+      try {
+        await axios.delete(`http://localhost:9000/personal/${id}`);
+        this.personal = this.personal.filter(persona => persona.id !== id);
+        this.mensajeExito = true;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    ocultarMensaje() {
+      this.mensajeExito = false;
+    }
+  }
 };
 </script>
 

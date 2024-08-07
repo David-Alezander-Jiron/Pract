@@ -4,39 +4,25 @@
       <img src="@/assets/logopra.png" alt="EventTix Logo" class="logo-img">
       <div class="register-box">
         <h1>EventTix</h1>
-        <form @submit.prevent="handleSubmit">
-          <div class="form-group">
-            <div class="name-container">
-              <div class="name-group">
-                <label for="nombres">Nombres:</label>
-                <input type="text" class="form-control" id="nombres" placeholder="Nombres" required>
-              </div>
-              <div class="name-group">
-                <label for="apellidos">Apellidos:</label>
-                <input type="text" class="form-control" id="apellidos" placeholder="Apellidos" required>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="correo">Correo:</label>
-            <input type="email" class="form-control" id="correo" placeholder="Correo" required>
-          </div>
-          <div class="form-group">
-            <label for="telefono">Teléfono:</label>
-            <input type="text" class="form-control" id="telefono" placeholder="Teléfono" required>
-          </div>
-          <div class="form-group">
-            <label for="contraseña">Contraseña:</label>
-            <input type="password" class="form-control" id="contrasena" placeholder="Contraseña" required>
-          </div>
-          <div class="form-group">
-            <input type="checkbox" id="terms" v-model="accepted">
-            <label for="terms">
-              Al hacer clic en Registrarse, acepta nuestros <a href="#">Términos</a> y que ha leído nuestra <a href="#">Política de datos</a>, incluido nuestro <a href="#">Uso de cookies</a>.
-            </label>
-          </div>
-          <button type="submit" class="btn btn-primary" :disabled="!accepted">Registrar</button>
-        </form>
+        <form @submit.prevent="registro">
+        <div class="input-group">
+          <input type="text" v-model="nombres" placeholder="Nombres" required />
+        </div>
+        <div class="input-group">
+          <input type="text" v-model="apellidos" placeholder="Apellidos" required />
+        </div>
+        <div class="input-group">
+          <input type="email" v-model="correo" placeholder="Correo" required />
+        </div>
+        <div class="input-group">
+          <input type="password" v-model="contrasena" placeholder="Contraseña" required />
+        </div>
+        <div class="input-group">
+          <input type="text" v-model="telefono" placeholder="Teléfono" required />
+        </div>
+        <input type="hidden" v-model="estado" value="activo" />
+        <button type="submit">Registrarse</button>
+      </form>
         <router-link to="/login">¿Ya tienes una cuenta? Inicia sesión</router-link>
       </div>
     </div>
@@ -52,25 +38,67 @@
 </template>
 
 <script>
+import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
+import Swal from 'sweetalert2';
 export default {
-  name: 'RegisterV',
+  name: 'newRegistro',
   data() {
     return {
-      accepted: false,
-      showSuccessModal: false
+      nombres: '',
+      apellidos: '',
+      correo: '',
+      contrasena: '',
+      telefono: '',
+      estado: 'activo'
     };
   },
   methods: {
-    handleSubmit() {
-      this.showSuccessModal = true;
+    async registro() {
+      try {
+        const csrfToken = await this.obtenerCsrfToken(); // Obtén el token CSRF
+        const response = await instance.post('/Register', {
+          nombres: this.nombres,
+          apellidos: this.apellidos,
+          correo: this.correo,
+          contrasena: this.contrasena,
+          telefono: this.telefono,
+          estado: this.estado
+        }, {
+          headers: {
+            'X-CSRF-Token': csrfToken // Incluye el token CSRF en el header
+          }
+        });
+
+        if (response.data.redirect) {
+          this.$router.push(response.data.redirect);
+        }
+        
+        Swal.fire({
+          icon: 'success',
+          title: response.data.message,
+          showConfirmButton: false,
+          timer: 1500
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al registrar',
+          text: error.response ? error.response.data.message : error.message,
+        });
+      }
     },
-    redirectToLogin() {
-      this.$router.push('/login');
+    async obtenerCsrfToken() {
+      try {
+        const response = await instance.get("/"); // Endpoint para obtener el token CSRF
+        return response.data.csrfToken;
+      } catch (error) {
+        console.error('Error al obtener el token CSRF:', error.message);
+        throw new Error('No se pudo obtener el token CSRF');
+      }
     }
   }
-};
+}
 </script>
-
 <style scoped>
 .register-container {
   display: flex;

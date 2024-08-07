@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import instance from '@/plugins/axios'; // Asegúrate de que la ruta sea correcta
+import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
 
 export default {
   name: 'ListarEventos',

@@ -4,17 +4,19 @@
       <img src="@/assets/logopra.png" alt="EventTix Logo" class="logo-img">
       <div class="login-box">
         <h1>EventTix</h1>
-        <form>
-          <div class="form-group">
-            <label for="correo">Email Addres:</label>
-            <input type="email" class="form-control" id="correo" required>
-          </div>
-          <div class="form-group">
-            <label for="contraseña">Password:</label>
-            <input type="password" class="form-control" id="contraseña" required>
-          </div>
-          <a href="/" class="btn btn-primary" style="background-color: #00ACAC; border-color: #00ACAC;">Sign me in</a>
-        </form>
+        <form @submit.prevent="login">
+        <div class="input-group">
+          <input type="text" v-model="username" placeholder="correo" />
+        </div>
+        <div class="input-group">
+          <input type="password" v-model="password" placeholder="contrasena" />
+        </div>
+        <div class="input-group remember-me">
+          <input type="checkbox" id="rememberMe" v-model="rememberMe" />
+          <label for="rememberMe">Recordar usuario</label>
+        </div>
+        <button type="submit">Login</button>
+      </form>
         <router-link to="/register">No tienes Cuenta?</router-link>
       </div>
     </div>
@@ -22,10 +24,54 @@
 </template>
 
 <script>
+import instance from '@/pluggins/axios';
+import Swal from 'sweetalert2';
+
 export default {
-  name: 'LoginNew',
-};
+  name: 'newLogin',
+  data() {
+    return {
+      username: '',
+      password: '',
+      rememberMe: false,
+      error: false,
+      errorMessage: ''
+    };
+  },
+  methods: {
+    async login() {
+      try {
+        // Obtener el token CSRF
+        const csrfResponse = await instance.get('/');
+        const csrfToken = csrfResponse.data.csrfToken;
+
+        // Enviar la solicitud de login
+        const response = await instance.post('/login', {
+          correo: this.username,
+          contrasena: this.password
+        }, {
+          headers: {
+            'X-CSRF-Token': csrfToken // Incluir el token CSRF en los encabezados
+          }
+        });
+        Swal.fire({
+          icon: 'success',
+          title: response.data.message,
+          showConfirmButton: false,
+          timer: 1500
+        });
+
+        // Redirigir si la autenticación es exitosa
+        this.$router.push(response.data.redirect || '/');
+      } catch (error) {
+        this.error = true;
+        this.errorMessage = error.response.data.message || 'Error en el inicio de sesión.';
+      }
+    }
+  }
+}
 </script>
+
 
 <style scoped>
 .login-container {

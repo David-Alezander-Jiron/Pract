@@ -12,7 +12,7 @@
           </div>
           <div class="form-group">
             <label for="fecha">Fecha del Evento:</label>
-            <input type="date" class="form-control" required v-model="fechaEvento" id="fecha">
+            <input type="date" class="form-control" required v-model="evento.fecha" id="fecha">
           </div>
           <div class="form-group">
             <label for="capacidad">Capacidad de Personas:</label>
@@ -45,13 +45,74 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+import instance from '@/plugins/axios'; // Asegúrate de que la ruta sea correcta
 
 export default {
   name: 'EditarEvento',
+  data() {
+    return {
+      evento: {
+        id: this.$route.params.id,
+        nombre: '',
+        fecha: '',
+        capacidad_personas: '',
+        ubicacion: '',
+        organizador_id: '',
+        descripcion: '',
+        tipo_evento_id: ''
+      },
+      csrfToken: ''
+    };
+  },
+  async mounted() {
+    try {
+      // Obtén el token CSRF del backend
+      const response = await instance.get('/');
+      this.csrfToken = response.data.csrfToken;
+      // Configura el token CSRF en Axios
+      instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
+
+      // Cargar los datos del evento a editar
+      await this.fetchEvento();
+    } catch (error) {
+      console.error('Error al obtener el token CSRF o el evento:', error);
+    }
+  },
+  methods: {
+    async fetchEvento() {
+      try {
+        const response = await instance.get(`/eventos/${this.evento.id}`);
+        this.evento = response.data;
+      } catch (error) {
+        console.error('Error al obtener el evento:', error);
+      }
+    },
+    async editarEvento() {
+      try {
+        await instance.put(`/eventos/${this.evento.id}`, this.evento, {
+          headers: {
+            'X-CSRF-Token': this.csrfToken // Asegúrate de enviar el token CSRF
+          }
+        });
+        this.$router.push('/eventos');
+      } catch (error) {
+        console.error('Error al guardar el evento:', error);
+        const message = error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : 'No se pudo guardar el evento.';
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al guardar el evento',
+          text: message
+        });
+      }
+    }
   }
-  
+};
 </script>
 
-<style>
+<style scoped>
 /* Estilos adicionales si es necesario */
 </style>

@@ -5,25 +5,25 @@
         Editar Personal
       </div>
       <div class="card-body">
-        <form>
+        <form @submit.prevent="submitForm">
           <div class="form-group">
             <label for="nombre">Nombre:</label>
-            <input type="text" class="form-control" required id="nombre" aria-describedby="helpId" placeholder="">
+            <input type="text" class="form-control" required v-model="personal.nombre" id="nombre" placeholder="">
             <small id="helpId" class="form-text text-muted">Escribe el nombre del personal</small>
           </div>
           <div class="form-group">
             <label for="apellido">Apellido:</label>
-            <input type="text" class="form-control" required id="apellido" aria-describedby="helpId" placeholder="">
+            <input type="text" class="form-control" required v-model="personal.apellido" id="apellido" placeholder="">
             <small id="helpId" class="form-text text-muted">Escribe el apellido del personal</small>
           </div>
           <div class="form-group">
             <label for="telefono">Teléfono:</label>
-            <input type="text" class="form-control" required id="telefono" aria-describedby="helpId" placeholder="Teléfono">
+            <input type="text" class="form-control" required v-model="personal.telefono" id="telefono" placeholder="Teléfono">
             <small id="helpId" class="form-text text-muted">Escribe el teléfono del personal</small>
           </div>
           <div class="form-group">
             <label for="rol">Rol:</label>
-            <input type="text" class="form-control" required id="rol" aria-describedby="helpId" placeholder="">
+            <input type="text" class="form-control" required v-model="personal.rol" id="rol" placeholder="">
             <small id="helpId" class="form-text text-muted">Escribe el rol del personal</small>
           </div>
           <div class="btn-group" role="group" aria-label="">
@@ -31,11 +31,11 @@
             <router-link to="/personal" class="btn btn-warning">Cancelar</router-link>
           </div>
         </form>
-        <div class="mensaje-centro" style="display: none;">
+        <div v-if="mensajeExito" class="mensaje-centro">
           <div class="mensaje-contenido">
-            <img src="" alt="" class="mensaje-imagen">
+            <img :src="imagenExito" alt="" class="mensaje-imagen">
             <p>Editado correctamente!!</p>
-            <button class="btn btn-primary">Aceptar</button>
+            <button @click="ocultarMensaje" class="btn btn-primary">Aceptar</button>
           </div>
         </div>
       </div>
@@ -44,10 +44,73 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+import instance from '@/plugins/axios'; // Asegúrate de que la ruta sea correcta
+
 export default {
   name: 'EditarPersonal',
+  data() {
+    return {
+      personal: {
+        nombre: '',
+        apellido: '',
+        telefono: '',
+        rol: ''
+      },
+      csrfToken: '',
+      mensajeExito: false,
+      imagenExito: '' // Asegúrate de que esta imagen esté disponible
+    };
+  },
+  async mounted() {
+    try {
+      // Obtén el token CSRF del backend
+      const response = await instance.get('/');
+      this.csrfToken = response.data.csrfToken;
+      // Configura el token CSRF en Axios
+      instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
+
+      // Obtén los datos del personal para editar
+      const id = this.$route.params.id;
+      const personalResponse = await instance.get(`/personal/${id}`);
+      this.personal = personalResponse.data;
+    } catch (error) {
+      console.error('Error al obtener el token CSRF o los datos del personal:', error);
+    }
+  },
+  methods: {
+    async submitForm() {
+      try {
+        const id = this.$route.params.id;
+        await instance.put(`/personal/${id}`, this.personal, {
+          headers: {
+            'X-CSRF-Token': this.csrfToken // Asegúrate de que este valor sea correcto
+          }
+        });
+        this.mensajeExito = true;
+        setTimeout(() => {
+          this.$router.push('/personal');
+        }, 2000); // Redirige después de mostrar el mensaje
+      } catch (error) {
+        console.error('Error al guardar el personal:', error);
+        const message = error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : 'No se pudo guardar el personal.';
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al guardar el personal',
+          text: message
+        });
+      }
+    },
+    ocultarMensaje() {
+      this.mensajeExito = false;
+    }
+  }
 };
 </script>
+
 
 <style scoped>
 .container {

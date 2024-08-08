@@ -12,19 +12,19 @@
               <th>Nombre</th>
               <th>Rol</th>
               <th>Telefono</th>
-              <th>Accion</th>
+              <th>Acción</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="persona in personal" :key="persona.id">
+            <tr v-for="persona in personalList" :key="persona.id">
               <td>{{ persona.id }}</td>
               <td>{{ persona.nombre }} {{ persona.apellido }}</td>
               <td>{{ persona.rol }}</td>
               <td>{{ persona.telefono }}</td>
               <td>
                 <div class="btn-group" role="group" aria-label="">
-                  <router-link :to="{name:'EditarPersonal',params:{id:persona.id}}" class="btn btn-primary">Editar</router-link>
-                  <button type="button" @click="borrarPersonal(persona.id)" class="btn btn-danger">Eliminar</button>
+                  <router-link :to="`/personal/editar/${persona.id}`" class="btn">Editar</router-link>
+                  <button @click="deletePersonal(persona.id)" class="btn btn-danger">Eliminar</button>
                 </div>
               </td>
             </tr>
@@ -32,7 +32,7 @@
         </table>
       </div>
     </div>
-    <router-link to="/personal/crear" class="btn btn-primary" role="button">Agregar Personal</router-link>
+    <router-link to="/personal/crear" class="btn btn-primary">Agregar Personal</router-link>
 
     <div v-if="mensajeExito" class="mensaje-centro">
       <div class="mensaje-contenido">
@@ -45,36 +45,54 @@
 </template>
 
 <script>
-import axios from 'axios';
+import Swal from 'sweetalert2';
+import instance from '@/plugins/axios'; // Asegúrate de que la ruta sea correcta
 
 export default {
   name: 'ListarPersonal',
   data() {
     return {
-      personal: [],
+      personalList: [],
+      csrfToken: '',
       mensajeExito: false,
-      imagenExito: require('@/assets/visto.png') // Ruta de la imagen
+      imagenExito: '' // Asegúrate de que esta imagen esté disponible
+    };
+  },
+  async mounted() {
+    try {
+      // Obtén el token CSRF del backend
+      const response = await instance.get('/');
+      this.csrfToken = response.data.csrfToken;
+      // Configura el token CSRF en Axios
+      instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
+
+      // Obtén la lista de personal
+      const personalResponse = await instance.get('/personal');
+      this.personalList = personalResponse.data;
+    } catch (error) {
+      console.error('Error al obtener el token CSRF o la lista de personal:', error);
     }
   },
-  created() {
-    this.listarPersonal();
-  },
   methods: {
-    async listarPersonal() {
+    async deletePersonal(id) {
       try {
-        const response = await axios.get('http://localhost:9000/personal');
-        this.personal = response.data;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    async borrarPersonal(id) {
-      try {
-        await axios.delete(`http://localhost:9000/personal/${id}`);
-        this.personal = this.personal.filter(persona => persona.id !== id);
+        await instance.delete(`/personal/${id}`, {
+          headers: {
+            'X-CSRF-Token': this.csrfToken // Asegúrate de que este valor sea correcto
+          }
+        });
         this.mensajeExito = true;
+        this.personalList = this.personalList.filter(persona => persona.id !== id);
+        setTimeout(() => {
+          this.mensajeExito = false;
+        }, 2000); // Oculta el mensaje después de 2 segundos
       } catch (error) {
-        console.log(error);
+        console.error('Error al eliminar el personal:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al eliminar el personal',
+          text: 'No se pudo eliminar el personal.'
+        });
       }
     },
     ocultarMensaje() {
@@ -83,6 +101,7 @@ export default {
   }
 };
 </script>
+
 
 <style>
 .mensaje-centro {

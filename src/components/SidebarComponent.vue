@@ -11,8 +11,8 @@
         </router-link>
       </li>
       <li>
-        <router-link to="/ubicaciones" class="nav-link text-white d-flex align-items-center" active-class="active">
-          <i class="fas fa-map-marker-alt me-2"></i> Ubicaciones
+        <router-link to="/roles" class="nav-link text-white d-flex align-items-center" active-class="active">
+          <i class="fas fa-map-marker-alt me-2"></i> Roles
         </router-link>
       </li>
       <li>

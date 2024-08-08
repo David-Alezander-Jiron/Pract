@@ -13,8 +13,6 @@
               <th>Fecha</th>
               <th>Capacidad</th>
               <th>Ubicación</th>
-              <th>Organizador</th>
-              <th>Tipo</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -25,64 +23,42 @@
               <td>{{ evento.fecha }}</td>
               <td>{{ evento.capacidad_personas }}</td>
               <td>{{ evento.ubicacion }}</td>
-              <td>{{ evento.organizador_id }}</td>
-              <td>{{ evento.tipo_evento_id }}</td>
               <td>
-                <div class="btn-group" role="group">
-                  <router-link :to="{ name: 'EditarEvento', params: { id: evento.id } }" class="btn">Editar</router-link>
-                  <button type="button" @click="borrarEvento(evento.id)" class="btn btn-danger">Eliminar</button>
-                </div>
+                <router-link :to="`/eventos/editar/${evento.id}`" class="btn btn-warning">Editar</router-link>
+                <button @click="eliminarEvento(evento.id)" class="btn btn-danger">Eliminar</button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-    </div> <br>
-    <router-link to="/eventos/crear" class="btn btn-primary">Agregar Evento</router-link>
+    </div>
   </div>
 </template>
 
 <script>
-import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
+import Swal from 'sweetalert2';
+import instance from '@/plugins/axios'; // Asegúrate de que la ruta sea correcta
 
 export default {
   name: 'ListarEventos',
   data() {
     return {
       eventos: [],
-      searchQuery: '',
-      formularioVisible: false,
-      modalTitle: '',
-      modalEvento: {
-        id: null,
-        nombre: '',
-        fecha: '',
-        capacidad_personas: '',
-        tipo_evento_id: '',
-        organizador_id: '',
-        ubicacion: ''
-      },
-      csrfToken: '', // Store CSRF token, if needed
+      csrfToken: ''
     };
   },
   async mounted() {
     try {
-      const response = await instance.get('/'); // Llamada inicial para obtener el token CSRF
+      // Obtén el token CSRF del backend
+      const response = await instance.get('/');
       this.csrfToken = response.data.csrfToken;
-      instance.defaults.headers.common['X-CSRF-Token'] = this.csrfToken;
+      // Configura el token CSRF en Axios
+      instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
+
+      // Cargar la lista de eventos
       await this.fetchEventos();
     } catch (error) {
       console.error('Error al obtener el token CSRF o los eventos:', error);
-    }
-  },
-  computed: {
-    filteredEventos() {
-      if (this.searchQuery.trim() === '') {
-        return this.eventos;
-      }
-      return this.eventos.filter(evento =>
-        evento.nombre.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
     }
   },
   methods: {
@@ -91,58 +67,33 @@ export default {
         const response = await instance.get('/eventos');
         this.eventos = response.data;
       } catch (error) {
-        console.error('Error al obtener eventos:', error);
+        console.error('Error al obtener los eventos:', error);
       }
     },
-    performSearch() {
-      // La búsqueda se maneja automáticamente por la propiedad computada
-    },
-    mostrarFormulario() {
-      this.modalTitle = 'Agregar Evento';
-      this.modalEvento = {
-        id: null,
-        nombre: '',
-        fecha: '',
-        capacidad_personas: '',
-        tipo_evento_id: '',
-        organizador_id: '',
-        ubicacion: ''
-      };
-      this.formularioVisible = true;
-    },
-    async submitForm() {
+    async eliminarEvento(id) {
       try {
-        if (this.modalEvento.id === null) {
-          await instance.post('/eventos', this.modalEvento);
-        } else {
-          await instance.put(`/eventos/${this.modalEvento.id}`, this.modalEvento);
-        }
-        await this.fetchEventos();
-        this.ocultarFormulario();
-      } catch (error) {
-        console.error('Error al guardar el evento:', error);
-      }
-    },
-    async editEvento(evento) {
-      this.modalTitle = 'Editar Evento';
-      this.modalEvento = { ...evento };
-      this.formularioVisible = true;
-    },
-    async deleteEvento(id) {
-      try {
-        await instance.delete(`/eventos/${id}`);
-        this.eventos = this.eventos.filter(evento => evento.id !== id);
+        await instance.delete(`/eventos/${id}`, {
+          headers: {
+            'X-CSRF-Token': this.csrfToken // Asegúrate de enviar el token CSRF
+          }
+        });
+        await this.fetchEventos(); // Recargar la lista de eventos después de eliminar
       } catch (error) {
         console.error('Error al eliminar el evento:', error);
+        const message = error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : 'No se pudo eliminar el evento.';
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al eliminar el evento',
+          text: message
+        });
       }
-    },
-    ocultarFormulario() {
-      this.formularioVisible = false;
     }
   }
 };
 </script>
-
 
 <style scoped>
 /* Estilos adicionales si es necesario */

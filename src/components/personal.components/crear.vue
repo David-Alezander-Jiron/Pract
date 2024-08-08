@@ -5,25 +5,25 @@
         Agregar Nuevo Personal
       </div>
       <div class="card-body">
-        <form v-on:submit.prevent="agregarRegistro">
+        <form @submit.prevent="submitForm">
           <div class="form-group">
             <label for="nombre">Nombre:</label>
-            <input type="text" class="form-control" required name="nombre" v-model="persona.nombre" id="nombre" aria-describedby="helpId" placeholder="">
+            <input type="text" class="form-control" required v-model="personal.nombre" id="nombre" placeholder="">
             <small id="helpId" class="form-text text-muted">Escribe el nombre del personal</small>
           </div>
           <div class="form-group">
             <label for="apellido">Apellido:</label>
-            <input type="text" class="form-control" required name="apellido" v-model="persona.apellido" id="apellido" aria-describedby="helpId" placeholder="">
+            <input type="text" class="form-control" required v-model="personal.apellido" id="apellido" placeholder="">
             <small id="helpId" class="form-text text-muted">Escribe el apellido del personal</small>
           </div>
           <div class="form-group">
             <label for="telefono">Teléfono:</label>
-            <input type="text" class="form-control" required name="telefono" id="telefono" v-model="persona.telefono" aria-describedby="helpId" placeholder="Teléfono">
+            <input type="text" class="form-control" required v-model="personal.telefono" id="telefono" placeholder="Teléfono">
             <small id="helpId" class="form-text text-muted">Escribe el teléfono del personal</small>
           </div>
           <div class="form-group">
             <label for="rol">Rol:</label>
-            <input type="text" class="form-control" required name="rol" id="rol" v-model="persona.rol" aria-describedby="helpId" placeholder="">
+            <input type="text" class="form-control" required v-model="personal.rol" id="rol" placeholder="">
             <small id="helpId" class="form-text text-muted">Escribe el rol del personal</small>
           </div>
           <div class="btn-group" role="group" aria-label="">
@@ -37,49 +37,88 @@
 </template>
 
 <script>
-import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
-import axios from 'axios';
+import Swal from 'sweetalert2';
+import instance from '@/plugins/axios'; // Asegúrate de que la ruta sea correcta
 
 export default {
-  name: 'CrearPersonal',
+  name: 'AgregarPersonal',
   data() {
     return {
-      persona: {
+      personal: {
         nombre: '',
         apellido: '',
         telefono: '',
         rol: ''
       },
-      csrfToken: '', // Store CSRF token, if needed
+      csrfToken: ''
     };
   },
   async mounted() {
     try {
-      const response = await instance.get('/'); // Llamada inicial para obtener el token CSRF
+      // Obtén el token CSRF del backend
+      const response = await instance.get('/');
       this.csrfToken = response.data.csrfToken;
-      instance.defaults.headers.common['X-CSRF-Token'] = this.csrfToken;
-      await this.fetchEventos();
+      // Configura el token CSRF en Axios
+      instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
     } catch (error) {
-      console.error('Error al obtener el token CSRF o los eventos:', error);
+      console.error('Error al obtener el token CSRF:', error);
     }
   },
   methods: {
-
-    
-    agregarRegistro() {
-      axios.post('http://localhost:9000/personal', this.persona)
-        .then(response => {
-          console.log(response.data);
-          this.$router.push('/personal');
-        })
-        .catch(error => {
-          console.log('Error al agregar el personal:', error);
+    async submitForm() {
+      try {
+        await instance.post('/personal', this.personal, {
+          headers: {
+            'X-CSRF-Token': this.csrfToken // Asegúrate de que este valor sea correcto
+          }
         });
+        this.$router.push('/personal');
+      } catch (error) {
+        console.error('Error al guardar el personal:', error);
+        const message = error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : 'No se pudo guardar el personal.';
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al guardar el personal',
+          text: message
+        });
+      }
     }
   }
 };
 </script>
 
-<style>
 
+<style scoped>
+.container {
+  max-width: 600px;
+  margin: 20px auto;
+}
+.card {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+.card-header {
+  background-color: #f8f9fa;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.card-body {
+  padding: 20px;
+}
+.form-group {
+  margin-bottom: 15px;
+}
+.form-text {
+  color: #6c757d;
+}
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+}
+.btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+}
 </style>

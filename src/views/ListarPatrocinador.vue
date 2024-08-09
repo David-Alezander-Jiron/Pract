@@ -1,55 +1,53 @@
 <template>
-    <div class="background">
-      <h2>Listado de patrocinadores</h2>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Correo</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(sponsor, index) in sponsors" :key="index">
-            <td>{{ sponsor.nombre }}</td>
-            <td>{{ sponsor.descripcion }}</td>
-            <td>{{ sponsor.correo }}</td>
-            <td>
-              <router-link :to="`/patrocinadores/editar/${sponsorId}`">
-                <button class="action-btn">Editar</button>
-              </router-link>
-              <button class="action-btn">Eliminar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <router-link to="/patrocinadores/crear" class="add-btn">Añadir Patrocinador</router-link>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'ListarPatrocinador',
-    data() {
-      return {
-        sponsors: [
-          { nombre: 'Kevin', descripcion: 'Patrocinador principal', correo: 'kevinmar@gmail.com' },
-          { nombre: 'Angel', descripcion: 'Patrocinador secundario', correo: 'angelher@gmail.com' },
-          { nombre: 'Alejandro', descripcion: 'Patrocinador terciario', correo: 'alejandro@gmail.com' }
-        ]
-      };
-    },
-    methods: {
-      addSponsor() {
-        // Lógica para añadir un patrocinador
-        console.log('Botón de añadir patrocinador clickeado');
-      }
+  <div class="background">
+    <h2>Listado de patrocinadores</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Correo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(sponsor, index) in sponsors" :key="index">
+          <td>{{ sponsor.nombre }}</td>
+          <td>{{ sponsor.descripcion }}</td>
+          <td>{{ sponsor.correo }}</td>
+          <td>
+            <router-link :to="`/patrocinadores/editar/${sponsor.sponsorId}`">
+              <button class="action-btn">Editar</button>
+            </router-link>
+            <button class="action-btn delete-btn">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <router-link to="/patrocinadores/crear" class="add-btn">Añadir Patrocinador</router-link>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'ListarPatrocinador',
+  data() {
+    return {
+      sponsors: [
+
+      ]
+    };
+  },
+  methods: {
+    addSponsor() {
+      // Lógica para añadir un patrocinador
+      console.log('Botón de añadir patrocinador clickeado');
     }
-  };
-  </script>
-  
-  <style scoped>
+  }
+};
+</script>
+
+<style scoped>
 .background {
   border: 1px solid #D9D9D9;
   padding: 20px;
@@ -62,14 +60,19 @@
   border-collapse: collapse;
   margin-left: 10px;
 }
+
 .table th, .table td {
-  border: 1px solid #ddd;
+  border: 1px solid black;
   padding: 8px;
   text-align: center; /* Centra el texto en las celdas */
+
 }
+
+
 .table th {
-  background-color: #f2f2f2;
+  background-color: #D9D9D9;
 }
+
 .action-btn, .add-btn, .cancel-btn {
   background-color: #2196F3;
   color: white;
@@ -79,21 +82,34 @@
   cursor: pointer;
   margin: 5px; /* Añade espacio alrededor de los botones */
 }
+
 .action-btn:hover, .add-btn:hover, .cancel-btn:hover {
   background-color: #17A1FA;
 }
+
 .add-btn {
   background-color: #17A1FA;
   padding: 10px 20px;
   margin-top: 10px;
+  margin-left: 10px
 }
-.cancel-btn {
+
+/* Estilo específico para el botón de eliminar */
+.delete-btn {
   background-color: #f44336;
+  border-radius: 15px;
 }
-.cancel-btn:hover {
+
+.delete-btn:hover {
   background-color: #d32f2f;
 }
 
+.action-btn{
+  border-radius: 15px;
+}
 
-  </style>
-  
+h2{
+  text-align: center;
+}
+
+</style>

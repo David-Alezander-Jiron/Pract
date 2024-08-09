@@ -6,7 +6,7 @@ import Projects from '@/views/ProjectsView.vue';
 import Login from '@/views/register-login/LoginView.vue'; // Importa la vista de login
 import RegisterNew from '@/views/register-login/Register.vue'; // Importa la vista de registro
 import Error404 from '@/views/Pagina404.vue';
-import Ubicaciones from '@/views/ubicacion.vue';
+
 
 // Rutas de usuarios
 import ListadoUsuarios from '@/views/ListadoUsuarios.vue'; // Lista de usuarios
@@ -96,10 +96,6 @@ const routes = [
   {
     path: '/register',
     component: RegisterNew // Usa el componente de registro para esta ruta
-  },
-  {
-    path: '/ubicaciones',
-    component: Ubicaciones
   },
 
   // Error 404

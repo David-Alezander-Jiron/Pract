@@ -20,8 +20,8 @@
           <td>
           <router-link :to="`/participantes/editar/${participanteId}`">
           <button class="action-btn">Editar</button>
-          </router-link><button class="action-btn">Eliminar</button>
-          <button class="action-btn">Opciones</button>
+          </router-link><button class="action-btn delete-btn">Eliminar</button>
+    
           </td>
         </tr>
       </tbody>
@@ -36,9 +36,7 @@ export default {
   data() {
     return {
       participants: [
-        { nombre: 'Kevin', apellido: 'Martínez', correo: 'kevinmar@gmail.com', telefono: '0987654321' },
-        { nombre: 'Angel', apellido: 'Hernández', correo: 'angelher@gmail.com', telefono: '0942154376' },
-        { nombre: 'Alejandro', apellido: 'Rodríguez', correo: 'alejandro@gmail.com', telefono: '0983412764' }
+    
       ]
     };
   },
@@ -65,12 +63,12 @@ export default {
   margin-left: 10px;
 }
 .table th, .table td {
-  border: 1px solid #ddd;
+  border: 1px solid black;
   padding: 8px;
   text-align: center; /* Centra el texto en las celdas */
 }
 .table th {
-  background-color: #f2f2f2;
+  background-color: #D9D9D9;
 }
 .action-btn, .add-btn, .cancel-btn {
   background-color: #2196F3;
@@ -83,18 +81,40 @@ export default {
 }
 .action-btn:hover, .add-btn:hover, .cancel-btn:hover {
   background-color: #17A1FA;
+  
 }
 .add-btn {
   background-color: #17A1FA;
   padding: 10px 20px;
   margin-top: 10px;
+  margin-left: 15px;
 }
 .cancel-btn {
   background-color: #f44336;
+  
 }
 .cancel-btn:hover {
   background-color: #d32f2f;
 }
 
+.action-btn{
+  border-radius: 15px;
+}
 
+
+.delete-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+
+  .delete-btn:hover {
+    background-color: red;
+  }
+
+h2{
+  text-align: center;
+}
 </style>

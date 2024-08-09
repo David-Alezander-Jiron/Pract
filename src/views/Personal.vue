@@ -24,7 +24,7 @@
               <td>
                 <div class="btn-group" role="group" aria-label="">
                   <router-link :to="`/personal/editar/${persona.id}`" class="btn">Editar</router-link>
-                  <button @click="deletePersonal(persona.id)" class="btn btn-danger">Eliminar</button>
+                  <button @click="deletePersonal(persona.id)" class="btn btn-danger delete-btn">Eliminar</button>
                 </div>
               </td>
             </tr>
@@ -32,7 +32,7 @@
         </table>
       </div>
     </div>
-    <router-link to="/personal/crear" class="btn btn-primary">Agregar Personal</router-link>
+    <router-link to="/personal/crear" class="btn btn-primary add-btn">Agregar Personal</router-link>
 
     <div v-if="mensajeExito" class="mensaje-centro">
       <div class="mensaje-contenido">
@@ -46,7 +46,7 @@
 
 <script>
 import Swal from 'sweetalert2';
-import instance from '@/plugins/axios'; // Asegúrate de que la ruta sea correcta
+import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
 
 export default {
   name: 'ListarPersonal',
@@ -102,8 +102,79 @@ export default {
 };
 </script>
 
+<style scoped>
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
-<style>
+.card {
+  border: 1px solid #D9D9D9;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.card-header {
+ 
+  padding: 10px;
+  font-size: 20px;
+  text-align: center;
+  border-radius: 10px 10px 0 0;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+}
+
+.table th {
+  background-color: #D9D9D9;
+}
+
+.btn-group .btn {
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.btn-group .btn:hover {
+  background-color: #17A1FA;
+}
+
+.add-btn {
+  background-color: #17A1FA;
+  padding: 10px 20px;
+  margin-top: 10px;
+}
+
+.delete-btn {
+  background-color: #f44336;
+  border-radius: 15px;
+}
+
+.delete-btn:hover {
+  background-color: #d32f2f;
+}
+
+.btn {
+  border-radius: 15px;
+}
+
 .mensaje-centro {
   position: fixed;
   top: 0;

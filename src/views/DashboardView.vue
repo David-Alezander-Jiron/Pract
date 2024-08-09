@@ -43,29 +43,69 @@
       </div>
     </div>
     
+    <div class="main-content">
+  <div class="cards-container">
     <div class="notification-cards">
-      <div class="card notification-card">
-        <h3>Notificaciones</h3>
-        <p>Nuevas notificaciones de las ventas de tickets del evento Próximo a destacar</p>
-        <a href="#">Ver detalles</a>
-        <span class="notification-dot"></span>
-      </div>
-      <div class="card event-card">
-        <div class="ticket">
-          <div class="ticket-details">
-            <h3>NOMBRE DEL EVENTO</h3>
-            <p>@ DEL EVENTO</p>
-            <p>10/12/2023 | 10:00 PM</p>
-            <p>ACCESO 21:00 PM</p>
-            <p>PALCO FICO'S</p>
-            <p>¡Un evento inigualable!</p>
+      <div class="card">
+        <div class="container">
+          <div class="left">
+            <div class="status-ind"></div>
           </div>
-          <div class="ticket-price">
-            <p>$18</p>
+          <div class="right">
+            <div class="text-wrap">
+              <p class="text-content">
+                <a class="text-link" href="#">Notificaciones</a> Nuevas notificaciones acerca de nuevos eventos proximos
+                <a class="text-link" href="#">ver detalles</a> acerca de nuevos eventos.
+              </p>
+              <p class="time">Hace 2 horas </p>
+            </div>
+            <div class="button-wrap">
+              <button class="primary-cta">ver detalles</button>
+              <button class="secondary-cta">Mark as read</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="event-card">
+      <div class="ticket">
+        <div class="ticket-header">
+          <h2>Isabel & Pedro</h2>
+          <p>LOS INVITAN A EMBARCAR A LA FIESTA DE SU CASAMIENTO</p>
+        </div>
+        <div class="ticket-body">
+          <div class="ticket-details">
+            <div class="ticket-detail">
+              <p>FECHA:</p>
+              <p>24 DE OCTUBRE, 2024</p>
+            </div>
+            <div class="ticket-detail">
+              <p>DESTINO:</p>
+              <p>BORCELLE CLUB</p>
+            </div>
+            <div class="ticket-detail">
+              <p>HORA:</p>
+              <p>21 HORAS</p>
+            </div>
+            <div class="ticket-detail">
+              <p>TERMINAL:</p>
+              <p>CALLE CUALQUIERA 123, CUALQUIER LUGAR</p>
+            </div>
+          </div>
+          <div class="ticket-date">
+            <p>OCT</p>
+            <h3>24</h3>
+            <p>2024</p>
+            <p>VUELO: 123456</p>
+            <p>RSVP: (55) 1234-5678</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
     <div class="extra-cards">
       <div class="card highlight-events-card">
@@ -96,13 +136,14 @@
         </div>
       </div>
       <div class="card map-card">
-        <h3>Vista del mapa de más ventas de tickets de eventos</h3>
-        <div class="map-details">
-          <p><strong>Mapa tiempo real</strong></p>
-          <p>08 de julio de 2024</p>
-          <img src="@/assets/mapa.png" alt="Mapa" />
-        </div>
-      </div>
+  <h3>Vista del mapa de más ventas de tickets de eventos</h3>
+  <div class="map-details">
+    <p><img src="@/assets/locacion.png" alt="Mapa Icono" class="icon"> <strong>Mapa tiempo real</strong></p>
+    <p><img src="@/assets/calendario.png" alt="Calendario Icono" class="icon"> 08 de julio de 2024</p>
+    <img src="@/assets/mapa.png" alt="Mapa" />
+  </div>
+</div>
+
     </div>
   </div>
 </template>
@@ -189,68 +230,190 @@ export default {
   text-decoration: underline; /* Cambia el estilo al pasar el ratón sobre el enlace */
 }
 
-.notification-cards {
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: calc(50% - 20px); /* Asegura que ambas cartas ocupen el 50% del ancho */
+  margin-left: 85px; /* Ajusta este valor para mover la carta a la derecha */
+}
+
+
+
+.card:hover {
+  background-color: #d3ddf1;
+  border: 1.5px solid #1677ff;
+}
+
+
+.cards-container {
   display: flex;
-  gap: 20px;
-  margin-top: 20px;
+  gap: 20px; /* Espacio entre las cartas */
 }
 
-.card.notification-card {
-  background-color: #fff;
+.notification-cards .card,
+.event-card {
+  width: 50%; /* Ajusta el ancho para que ocupen la mitad del contenedor */
+}
+
+.notification-cards .card {
+  background-color: #f9f9f9;
   border-radius: 8px;
+  padding: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 50%; /* Ajusta el tamaño de la tarjeta de notificaciones */
 }
 
-.notification-card h3 {
-  margin: 0 0 10px;
-  font-size: 18px;
+
+.status-ind {
+  width: 0.625em;
+  height: 0.625em;
+  background-color: #ff0000;
+  margin: 0.375em 0;
+  border-radius: 0.5em;
 }
 
-.notification-card p {
-  margin: 0 0 10px;
-  color: #555;
-  margin-right: 100px;
+.text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  color: #333;
 }
-.notification-card a {
-  color: #007bff;
+
+.time {
+  font-size: 0.875em;
+  color: #777;
+}
+
+.text-link {
+  font-weight: 500;
   text-decoration: none;
-  font-weight: bold;
+  color: black;
 }
 
-.notification-dot {
-  width: 10px;
-  height: 10px;
-  background-color: red;
-  border-radius: 50%;
-  position: absolute;
-  top: 10px;
-  right: 10px;
+.button-wrap {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  align-items: center;
 }
 
-.card.event-card {
-  background-color: #fff;
+.secondary-cta {
+  background-color: transparent;
+  border: none;
+  font-size: 15px;
+  font-weight: 400;
+  color: #666;
+  cursor: pointer;
+}
+
+.primary-cta {
+  font-size: 15px;
+  background-color: transparent;
+  font-weight: 600;
+  color: #1677ff;
+  border: none;
+  border-radius: 1.5em;
+  cursor: pointer;
+}
+
+button:hover {
+  text-decoration: underline;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875em;
+}
+
+
+.event-card {
+  background-image: url('@/assets/messages.png');
+  background-size: cover;
+  background-position: center;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  width: 50%; /* Ajusta el tamaño de la tarjeta de evento */
+  color: white;
+  font-family: 'Arial', sans-serif;
+  position: relative;
+  margin-left: 30px
 }
 
-.ticket-details h3 {
-  margin: 0 0 5px;
-  font-size: 18px;
+.ticket {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.ticket-details p {
-  margin: 0 0 5px;
+.ticket-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.ticket-header h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #007bff;
+}
+
+.ticket-header p {
+  margin: 5px 0 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.ticket-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ticket-details {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.ticket-detail {
+  margin-bottom: 10px;
+}
+
+.ticket-detail p {
+  margin: 0;
+  font-size: 14px;
   color: #555;
 }
 
-.ticket-price p {
-  font-size: 24px;
+.ticket-detail p:first-child {
   font-weight: bold;
-  color: #000;
+  color: #007bff;
+}
+
+.ticket-date {
+  text-align: center;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 8px;
+  width: 150px;
+}
+
+.ticket-date p {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.ticket-date h3 {
+  margin: 5px 0;
+  font-size: 32px;
+  color: #007bff;
+}
+
+.ticket-date p:last-child {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #555;
 }
 
 .extra-cards {
@@ -261,34 +424,47 @@ export default {
 }
 
 .card.highlight-events-card {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9; /* Fondo claro */
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
   padding: 20px;
   width: calc(50% - 20px); /* Ajusta el tamaño de la tarjeta de eventos destacados */
+  max-width: 800px; /* Limita el ancho máximo */
+  margin: 20px auto; /* Centra la tarjeta */
+  font-family: 'Arial', sans-serif;
+  margin-top: -1px;
 }
 
 .highlight-events-card h3 {
   margin-bottom: 20px;
-  font-size: 24px;
+  font-size: 26px;
+  text-align: center;
+  color: #333;
 }
 
 .highlight-event {
-  background-color: #D8D2BF;
+  background-color: #FFFFFF; /* Fondo blanco para cada evento */
   border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Sombra suave para cada evento */
+  transition: transform 0.3s ease; /* Efecto de transición suave */
+}
+
+.highlight-event:hover {
+  transform: translateY(-5px); /* Efecto de levantamiento en hover */
 }
 
 .highlight-event h4 {
-  margin: 0 0 5px;
-  font-size: 18px;
+  margin: 0 0 8px;
+  font-size: 20px;
+  color: #2c3e50;
 }
 
 .highlight-event p {
-  margin: 0 0 5px;
-  color: #555;
-  margin-right: 100px;
+  margin: 0 0 8px;
+  color: #7f8c8d;
+  font-size: 16px;
 }
 
 .card.map-card {
@@ -302,10 +478,20 @@ export default {
 .map-details p {
   margin: 0 0 10px;
   font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.map-details img.icon {
+  width: 70px; /* Ajusta el tamaño del icono */
+  height: 35px;
+  margin-right: 8px; /* Espacio entre la imagen y el texto */
 }
 
 .map-details img {
   width: 100%;
   border-radius: 8px;
 }
+
+
 </style>

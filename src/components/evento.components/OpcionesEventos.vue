@@ -252,6 +252,7 @@ const añadirEntrada = () => {
 
 h1, h2 {
   color: #2c3e50;
+  text-align: center
 }
 
 .section {
@@ -261,6 +262,12 @@ h1, h2 {
   margin-bottom: 20px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
+
+.section button {
+  margin-right: 10px; /* Espacio a la derecha de cada botón */
+  margin-bottom: 10px; /* Espacio debajo de cada botón en caso de que estén en múltiples líneas */
+}
+
 
 label {
   display: block;
@@ -300,6 +307,8 @@ button:hover {
   background-color: #f9f9f9;
   margin-bottom: 10px;
 }
+
+
 </style>
 
 

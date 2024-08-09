@@ -3,6 +3,7 @@
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
       <span class="fs-4">EventTix</span>
     </a>
+    <img src="@/assets/logopra.png" alt="EventTix Logo" class="sidebar-logo mb-3">
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
@@ -121,6 +122,11 @@ export default {
 .dropdown-menu {
   background-color: #343a40 !important;
 }
+
+.sidebar-logo {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
 </style>
-
-

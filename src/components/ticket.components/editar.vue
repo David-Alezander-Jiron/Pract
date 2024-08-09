@@ -1,42 +1,47 @@
 <template>
-  <div class="background">
+  <div class="container">
     <h2>Crear Ticket</h2>
-    <form @submit.prevent="createSponsor">
-      <label>Codigo:</label>
-      <input v-model="Codigo" type="text" required>
-      <label>Precio:</label>
-      <input v-model="Precio" type="text" required>
-      <label for="estado">Estado:</label>
+    <form @submit.prevent="guardarTicket">
+      <div class="form-group">
+        <label for="codigo">Código:</label>
+        <input v-model="nuevoTicket.codigo" type="text" id="codigo" required />
+      </div>
+      <div class="form-group">
+        <label for="precio">Precio:</label>
+        <input v-model="nuevoTicket.precio" type="text" id="precio" required />
+      </div>
+      <div class="form-group">
+        <label for="estado">Estado:</label>
         <select id="estado" v-model="nuevoTicket.estado" required>
           <option value="">Seleccionar</option>
           <option value="Activo">Activo</option>
           <option value="Cancelado">Cancelado</option>
           <option value="Vendido">Vendido</option>
         </select>
-
-      <label>Participantes:</label>
-      <input v-model="Participantes" type="text" required>
-
-      <div class="button-group">
-        <a href="/tickets" class="action-btn">Editar</a>
-        <a href="/tickets" class="cancel-btn">Cancelar</a>
+      </div>
+      <div class="form-group">
+        <label for="participantes">Participantes:</label>
+        <input v-model="nuevoTicket.participantes" type="text" id="participantes" required />
+      </div>
+      <div class="btn-group-custom">
+        <router-link to="/tickets" class="btn btn-editar">Editar</router-link>
+        <router-link to="/tickets" class="btn btn-cancelar">Cancelar</router-link>
       </div>
     </form>
   </div>
 </template>
 
-  
-  <script>
-  export default {
-    name: 'CrearTicket',
-    data() {
+<script>
+export default {
+  name: 'CrearTicket',
+  data() {
     return {
       nuevoTicket: {
         codigo: '',
-        precio: 0,
+        precio: '',
         estado: '',
-        participantes: '',
-      },
+        participantes: ''
+      }
     };
   },
   methods: {
@@ -46,62 +51,91 @@
       // Limpia el formulario después de guardar
       this.nuevoTicket = {
         codigo: '',
-        precio: 0,
+        precio: '',
         estado: '',
-        participantes: '',
+        participantes: ''
       };
-    },
-    cancelarAgregar() {
-      // Lógica para cancelar la creación y probablemente cerrar el formulario
-      console.log('Cancelada la creación del ticket');
-      // Puedes ocultar el formulario aquí (dependiendo de tu implementación)
-    },
-  },
-  };
-  </script>
-  
-  <style scoped>
-  .background {
-    border: 1px solid black;
-    padding: 20px;
-    max-width: 800px; /* Ajusta el ancho máximo según tu preferencia */
-    margin: 80px auto; /* Centra horizontalmente */
+    }
   }
-  form {
-    display: flex;
-    flex-direction: column;
-  }
-  label {
-    margin-top: 10px;
-  }
-  input {
-    padding: 5px;
-    margin-top: 5px;
-  }
-  .button-group {
-    display: flex;
-    justify-content: flex-start; /* Cambia a flex-start para alinear los botones al inicio */
-    gap: 10px; /* Ajusta el espacio entre los botones */
-    margin-top: 20px;
-    margin-left: 270px
-  }
-  .action-btn, .cancel-btn {
-    background-color: #2196F3;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  .cancel-btn {
-    background-color: #f44336;
-  }
-  .cancel-btn:hover {
-    background-color: #d32f2f;
-  }
-  .action-btn:hover {
-    background-color: #0b7dda;
-  }
-  </style>
-  
-  
+};
+</script>
+
+<style scoped>
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  margin-top: 30px;
+}
+
+h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+input:focus, select:focus {
+  outline: none;
+  box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+}
+
+.btn-group-custom {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  margin-left: 270px;
+}
+
+.btn {
+  background-color: #17A1FA;
+  border-color: #17A1FA;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-editar {
+  background-color: #007bff;
+}
+
+.btn-cancelar {
+  background-color: #ff3b30;
+}
+
+.btn-editar:hover {
+  background-color: #0f8de3;
+}
+
+.btn-cancelar:hover {
+  background-color: #d32f2f;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+</style>

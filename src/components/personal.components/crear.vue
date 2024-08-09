@@ -27,9 +27,10 @@
             <small id="helpId" class="form-text text-muted">Escribe el rol del personal</small>
           </div>
           <div class="btn-group" role="group" aria-label="">
-            <button type="submit" class="btn btn-success">Agregar</button>
-            <router-link to="/personal" class="btn btn-warning">Cancelar</router-link>
-          </div>
+    <button type="submit" class="btn btn-primary">Agregar</button> <!-- Cambiado a azul -->
+    <router-link to="/personal" class="btn btn-danger">Cancelar</router-link> <!-- Cambiado a rojo -->
+</div>
+
         </form>
       </div>
     </div>
@@ -38,7 +39,7 @@
 
 <script>
 import Swal from 'sweetalert2';
-import instance from '@/plugins/axios'; // Asegúrate de que la ruta sea correcta
+import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
 
 export default {
   name: 'AgregarPersonal',

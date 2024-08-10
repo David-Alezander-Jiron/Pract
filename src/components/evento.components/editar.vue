@@ -5,7 +5,7 @@
         Editar Evento
       </div>
       <div class="card-body">
-        <form @submit.prevent="editarEvento">
+        <form @submit.prevent="submitForm">
           <div class="form-group">
             <label for="nombre">Nombre del Evento:</label>
             <input type="text" class="form-control" required v-model="evento.nombre" id="nombre" placeholder="Nombre del Evento">
@@ -32,7 +32,14 @@
           </div>
           <div class="form-group">
             <label for="tipo">Tipo de Evento:</label>
-            <input type="text" class="form-control" required v-model="evento.tipo_evento_id" id="tipo" placeholder="Tipo de Evento">
+            <select class="form-control" required v-model="evento.tipo_evento" id="tipo">
+              <option value="medianos">Medianos</option>
+              <option value="pequeños">Pequeños</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="estado">Estado:</label>
+            <input type="text" class="form-control" required v-model="evento.estado" id="estado" disabled>
           </div>
           <div class="btn-group" role="group" aria-label="">
             <button type="submit" class="btn btn-success">Guardar Cambios</button>
@@ -53,14 +60,14 @@ export default {
   data() {
     return {
       evento: {
-        id: this.$route.params.id,
         nombre: '',
         fecha: '',
         capacidad_personas: '',
         ubicacion: '',
         organizador_id: '',
         descripcion: '',
-        tipo_evento_id: ''
+        tipo_evento: '',
+        estado: ''
       },
       csrfToken: ''
     };
@@ -72,27 +79,19 @@ export default {
       this.csrfToken = response.data.csrfToken;
       // Configura el token CSRF en Axios
       instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
-
-      // Cargar los datos del evento a editar
-      await this.fetchEvento();
+      // Obtén el evento por ID
+      const eventoResponse = await instance.get('/eventos/' + this.$route.params.id);
+      this.evento = eventoResponse.data;
     } catch (error) {
-      console.error('Error al obtener el token CSRF o el evento:', error);
+      console.error('Error al obtener el evento:', error);
     }
   },
   methods: {
-    async fetchEvento() {
+    async submitForm() {
       try {
-        const response = await instance.get(`/eventos/${this.evento.id}`);
-        this.evento = response.data;
-      } catch (error) {
-        console.error('Error al obtener el evento:', error);
-      }
-    },
-    async editarEvento() {
-      try {
-        await instance.put(`/eventos/${this.evento.id}`, this.evento, {
+        await instance.put('/eventos/' + this.$route.params.id, this.evento, {
           headers: {
-            'X-CSRF-Token': this.csrfToken // Asegúrate de enviar el token CSRF
+            'X-CSRF-Token': this.csrfToken // Asegúrate de que este valor sea correcto
           }
         });
         this.$router.push('/eventos');

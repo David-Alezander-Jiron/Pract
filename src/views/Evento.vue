@@ -13,6 +13,9 @@
               <th>Fecha</th>
               <th>Capacidad</th>
               <th>Ubicación</th>
+              <th>Descripción</th>
+              <th>Tipo de Evento</th>
+              <th>Organizador</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -20,9 +23,12 @@
             <tr v-for="evento in eventos" :key="evento.id">
               <td>{{ evento.id }}</td>
               <td>{{ evento.nombre }}</td>
-              <td>{{ evento.fecha }}</td>
+              <td>{{ formatFecha(evento.fecha) }}</td> <!-- Formateo de la fecha -->
               <td>{{ evento.capacidad_personas }}</td>
               <td>{{ evento.ubicacion }}</td>
+              <td>{{ evento.descripcion }}</td>
+              <td>{{ evento.tipo_evento }}</td>
+              <td>{{ evento.organizador_id }}</td>
               <td>
                 <router-link :to="`/eventos/editar/${evento.id}`" class="btn btn-warning">Editar</router-link>
                 <button @click="eliminarEvento(evento.id)" class="btn btn-danger">Eliminar</button>
@@ -69,6 +75,9 @@ export default {
       } catch (error) {
         console.error('Error al obtener los eventos:', error);
       }
+    },
+    formatFecha(fecha) {
+      return new Date(fecha).toLocaleDateString(); // Formatear la fecha a una representación legible
     },
     async eliminarEvento(id) {
       try {

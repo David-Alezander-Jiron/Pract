@@ -32,7 +32,10 @@
           </div>
           <div class="form-group">
             <label for="tipo">Tipo de Evento:</label>
-            <input type="text" class="form-control" required v-model="evento.tipo_evento_id" id="tipo" placeholder="Tipo de Evento">
+            <select class="form-control" required v-model="evento.tipo_evento" id="tipo">
+              <option value="medianos">Medianos</option>
+              <option value="pequeños">Pequeños</option>
+            </select>
           </div>
           <div class="btn-group" role="group" aria-label="">
             <button type="submit" class="btn btn-success">Agregar Evento</button>
@@ -59,7 +62,9 @@ export default {
         ubicacion: '',
         organizador_id: '',
         descripcion: '',
-        tipo_evento_id: ''
+        tipo_evento: '',
+        estado: 'activo',
+
       },
       csrfToken: ''
     };

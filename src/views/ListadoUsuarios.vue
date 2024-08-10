@@ -1,98 +1,102 @@
 <template>
-    <div class="background">
-      <h2>Listado de Usuarios</h2>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Rol</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(usuario, index) in usuarios" :key="index">
-            <td>{{ usuario.nombre }}</td>
-            <td>{{ usuario.email }}</td>
-            <td>{{ usuario.rol }}</td>
-            <td>
-              <router-link :to="`/usuarios/editar/${usuario.id}`">
-                <button class="action-btn">Editar</button>
-              </router-link>
-              <button class="action-btn" @click="eliminarUsuario(usuario.id)">Eliminar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <router-link to="/usuarios/crear" class="add-btn">Añadir Usuario</router-link>
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        Lista de Usuarios
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombres</th>
+              <th>Apellidos</th>
+              <th>Correo</th>
+              <th>Teléfono</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="usuario in usuarios" :key="usuario.id">
+              <td>{{ usuario.id }}</td>
+              <td>{{ usuario.nombres }}</td>
+              <td>{{ usuario.apellidos }}</td>
+              <td>{{ usuario.correo }}</td>
+              <td>{{ usuario.telefono }}</td>
+              <td>{{ usuario.estado }}</td>
+              <td>
+                <router-link :to="`/usuarios/editar/${usuario.id}`" class="btn btn-warning">Editar</router-link>
+                <button @click="eliminarUsuario(usuario.id)" class="btn btn-danger">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'ListadoUsuarios',
-    data() {
-      return {
-        usuarios: [
-          { id: 1, nombre: 'Kevin Martínez', email: 'kevinmar@gmail.com', rol: 'Administrador' },
-          { id: 2, nombre: 'Angel Hernández', email: 'angelher@gmail.com', rol: 'Editor' },
-          { id: 3, nombre: 'Alejandro Rodríguez', email: 'alejandro@gmail.com', rol: 'Viewer' }
-        ]
-      };
+  </div>
+</template>
+
+<script>
+import Swal from 'sweetalert2';
+import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
+
+export default {
+  name: 'ListarUsuarios',
+  data() {
+    return {
+      usuarios: [],
+      csrfToken: ''
+    };
+  },
+  async mounted() {
+    try {
+      // Obtén el token CSRF del backend
+      const response = await instance.get('/');
+      this.csrfToken = response.data.csrfToken;
+      // Configura el token CSRF en Axios
+      instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
+
+      // Cargar la lista de usuarios
+      await this.fetchUsuarios();
+    } catch (error) {
+      console.error('Error al obtener el token CSRF o los usuarios:', error);
+    }
+  },
+  methods: {
+    async fetchUsuarios() {
+      try {
+        const response = await instance.get('/usuarios');
+        this.usuarios = response.data;
+      } catch (error) {
+        console.error('Error al obtener los usuarios:', error);
+      }
     },
-    methods: {
-      eliminarUsuario(id) {
-        // Lógica para eliminar un usuario
-        console.log('Eliminar usuario con ID:', id);
-        this.usuarios = this.usuarios.filter(usuario => usuario.id !== id);
+    async eliminarUsuario(id) {
+      try {
+        await instance.delete(`/usuarios/${id}`, {
+          headers: {
+            'X-CSRF-Token': this.csrfToken // Asegúrate de enviar el token CSRF
+          }
+        });
+        await this.fetchUsuarios(); // Recargar la lista de usuarios después de eliminar
+      } catch (error) {
+        console.error('Error al eliminar el usuario:', error);
+        const message = error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : 'No se pudo eliminar el usuario.';
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al eliminar el usuario',
+          text: message
+        });
       }
     }
-  };
-  </script>
-  
-  <style scoped>
-  .background {
-    border: 1px solid #D9D9D9;
-    padding: 20px;
-    max-width: 1600px; /* Ajusta el ancho máximo según tu preferencia */
-    margin: 0 auto; /* Centra horizontalmente */
   }
-  
-  .table {
-    width: 100%; /* Ajusta el ancho de la tabla al contenedor */
-    border-collapse: collapse;
-    margin-left: 10px;
-  }
-  .table th, .table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center; /* Centra el texto en las celdas */
-  }
-  .table th {
-    background-color: #f2f2f2;
-  }
-  .action-btn, .add-btn, .cancel-btn {
-    background-color: #2196F3;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 5px; /* Añade espacio alrededor de los botones */
-  }
-  .action-btn:hover, .add-btn:hover, .cancel-btn:hover {
-    background-color: #17A1FA;
-  }
-  .add-btn {
-    background-color: #17A1FA;
-    padding: 10px 20px;
-    margin-top: 10px;
-  }
-  .cancel-btn {
-    background-color: #f44336;
-  }
-  .cancel-btn:hover {
-    background-color: #d32f2f;
-  }
-  </style>
-  
+};
+</script>
+
+<style scoped>
+/* Estilos adicionales si es necesario */
+</style>

@@ -23,14 +23,18 @@
           </div>
           <div class="form-group">
             <label for="rol">Rol:</label>
-            <input type="text" class="form-control" required v-model="personal.rol" id="rol" placeholder="">
-            <small id="helpId" class="form-text text-muted">Escribe el rol del personal</small>
+            <select class="form-control" required v-model="personal.rol" id="rol">
+              <option value="" disabled>Selecciona un rol</option>
+              <option v-for="rol in roles" :key="rol.id" :value="rol.nombre">
+                {{ rol.nombre }}
+              </option>
+            </select>
+            <small id="helpId" class="form-text text-muted">Selecciona el rol del personal</small>
           </div>
           <div class="btn-group" role="group" aria-label="">
-    <button type="submit" class="btn btn-primary">Agregar</button> <!-- Cambiado a azul -->
-    <router-link to="/personal" class="btn btn-danger">Cancelar</router-link> <!-- Cambiado a rojo -->
-</div>
-
+            <button type="submit" class="btn btn-primary">Agregar</button> <!-- Cambiado a azul -->
+            <router-link to="/personal" class="btn btn-danger">Cancelar</router-link> <!-- Cambiado a rojo -->
+          </div>
         </form>
       </div>
     </div>
@@ -51,6 +55,7 @@ export default {
         telefono: '',
         rol: ''
       },
+      roles: [], // Añadir aquí para almacenar los roles obtenidos de la API
       csrfToken: ''
     };
   },
@@ -61,8 +66,12 @@ export default {
       this.csrfToken = response.data.csrfToken;
       // Configura el token CSRF en Axios
       instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
+
+      // Obtener los roles desde la API
+      const rolesResponse = await instance.get('/roles'); // Asegúrate de que la ruta sea correcta
+      this.roles = rolesResponse.data;
     } catch (error) {
-      console.error('Error al obtener el token CSRF:', error);
+      console.error('Error al obtener los datos:', error);
     }
   },
   methods: {
@@ -90,7 +99,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .container {

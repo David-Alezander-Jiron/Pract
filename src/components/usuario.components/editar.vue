@@ -1,59 +1,106 @@
 <template>
-    <div class="background">
-      <h2>Editar Usuario</h2>
-      <form @submit.prevent="updateUser">
-        <label>Nombre:</label>
-        <input v-model="nombre" type="text" required>
-        <label>Email:</label>
-        <input v-model="email" type="email" required>
-        <label>Rol:</label>
-        <input v-model="rol" type="text" required>
-        <div class="button-group">
-          <button type="submit" class="action-btn">Actualizar</button>
-          <button type="button" class="cancel-btn" @click="cancelEdit">Cancelar</button>
-        </div>
-      </form>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'EditarUsuario',
-    data() {
-      return {
-        nombre: '',
-        email: '',
-        rol: ''
-      };
-    },
-    created() {
-      // Lógica para cargar los datos del usuario a editar (esto es un ejemplo)
-      const userId = this.$route.params.id;
-      // Aquí podrías hacer una llamada a una API para obtener los datos del usuario
-      // Simulación de datos para el ejemplo
-      if (userId === '1') {
-        this.nombre = 'Juan Pérez';
-        this.email = 'juan.perez@example.com';
-        this.rol = 'Admin';
-      }
-    },
-    methods: {
-      updateUser() {
-        // Lógica para actualizar el usuario
-        console.log('Usuario actualizado:', this.nombre, this.email, this.rol);
-        // Aquí podrías redirigir a la lista de usuarios
-        this.$router.push('/usuarios');
+  <div class="background">
+    <h2>Editar Usuario</h2>
+    <form @submit.prevent="updateUser">
+      <label>Nombre:</label>
+      <input v-model="usuario.nombres" type="text" required>
+      <label>Apellidos:</label>
+      <input v-model="usuario.apellidos" type="text" required>
+      <label>Correo Electrónico:</label>
+      <input v-model="usuario.correo" type="email" required>
+      <label>Teléfono:</label>
+      <input v-model="usuario.telefono" type="text" required>
+      <label>Estado:</label>
+      <select v-model="usuario.estado" required>
+        <option value="activo">Activo</option>
+        <option value="inactivo">Inactivo</option>
+        <option value="eliminado">Eliminado</option>
+      </select>
+      <div class="button-group">
+        <button type="submit" class="action-btn">Actualizar</button>
+        <button type="button" class="cancel-btn" @click="cancelEdit">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</template>
+
+<script>
+import Swal from 'sweetalert2';
+import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
+
+export default {
+  name: 'EditarUsuario',
+  data() {
+    return {
+      usuario: {
+        nombres: '',
+        apellidos: '',
+        correo: '',
+        telefono: '',
+        estado: 'activo'
       },
-      cancelEdit() {
-        // Lógica para cancelar la edición y volver a la lista de usuarios
-        this.$router.push('/usuarios');
-      }
+      csrfToken: ''
+    };
+  },
+  async created() {
+    try {
+      // Obtener el token CSRF del backend
+      const response = await instance.get('/');
+      this.csrfToken = response.data.csrfToken;
+      // Configurar el token CSRF en Axios
+      instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
+
+      // Cargar los datos del usuario
+      const usuarioId = this.$route.params.id;
+      const userResponse = await instance.get(`/usuarios/${usuarioId}`);
+      this.usuario = userResponse.data;
+    } catch (error) {
+      console.error('Error al obtener el token CSRF o los datos del usuario:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error al cargar los datos del usuario'
+      });
+      this.$router.push('/usuarios');
     }
-  };
-  </script>
-  
-  <style scoped>
-  .background {
+  },
+  methods: {
+    async updateUser() {
+      try {
+        const usuarioId = this.$route.params.id;
+        await instance.put(`/usuarios/${usuarioId}`, this.usuario, {
+          headers: {
+            'X-CSRF-Token': this.csrfToken // Asegúrate de enviar el token CSRF
+          }
+        });
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'Usuario actualizado correctamente'
+        });
+        this.$router.push('/usuarios');
+      } catch (error) {
+        console.error('Error al actualizar el usuario:', error);
+        const message = error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : 'No se pudo actualizar el usuario.';
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: message
+        });
+      }
+    },
+    cancelEdit() {
+      this.$router.push('/usuarios');
+    }
+  }
+};
+</script>
+
+<style scoped>
+.background {
   border: 1px solid black;
   padding: 20px;
   max-width: 800px; /* Ajusta el ancho máximo según tu preferencia */
@@ -69,7 +116,7 @@ label {
   margin-top: 10px;
 }
 
-input {
+input, select {
   padding: 5px;
   margin-top: 5px;
 }
@@ -101,6 +148,4 @@ input {
 .action-btn:hover {
   background-color: #0b7dda;
 }
-
-  </style>
-  
+</style>

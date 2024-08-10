@@ -10,14 +10,7 @@
             <label for="nombre">Nombre:</label>
             <input type="text" v-model="nuevoRol.nombre" class="form-control" id="nombre" required>
           </div>
-          <div class="form-group">
-            <label for="estado">Estado:</label>
-            <select v-model="nuevoRol.estado" class="form-control" id="estado" required>
-              <option value="activo">Activo</option>
-              <option value="inactivo">Inactivo</option>
-              <option value="eliminado">Eliminado</option>
-            </select>
-          </div>
+          
           <div class="form-group">
             <label for="descripcion">Descripción:</label>
             <textarea v-model="nuevoRol.descripcion" class="form-control" id="descripcion"></textarea>
@@ -49,7 +42,6 @@
               <td>{{ rol.estado }}</td>
               <td>{{ rol.descripcion }}</td>
               <td>
-                <router-link :to="`/roles/editar/${rol.id}`" class="btn btn-warning">Editar</router-link>
                 <button @click="eliminarRol(rol.id)" class="btn btn-danger">Eliminar</button>
               </td>
             </tr>

@@ -6,6 +6,7 @@ import Projects from '@/views/ProjectsView.vue';
 import Login from '@/views/register-login/LoginView.vue'; // Importa la vista de login
 import RegisterNew from '@/views/register-login/Register.vue'; // Importa la vista de registro
 import Error404 from '@/views/Pagina404.vue';
+import Roles from '@/views/roles.vue';
 
 
 // Rutas de usuarios
@@ -43,6 +44,7 @@ import editarTicket from './components/ticket.components/editar.vue';
 import PaginaGestion from '@/components/paginas.components/PaginaGestion.vue';
 import PaginaEvento from '@/components/paginas.components/PaginaEvento.vue';
 
+
 const routes = [
   {
     path: '/',
@@ -51,6 +53,7 @@ const routes = [
       { path: '', component: Dashboard },
       { path: 'evento', component: Evento },
       { path: 'projects', component: Projects },
+      { path: 'roles', component: Roles },
 
       // Rutas de usuarios
       { path: 'usuarios', component: ListadoUsuarios },

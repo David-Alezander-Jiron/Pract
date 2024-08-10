@@ -5,27 +5,27 @@
       <div class="login-box">
         <h1>EventTix</h1>
         <form @submit.prevent="login">
-        <div class="input-group">
-          <input type="text" v-model="username" placeholder="correo" />
-        </div>
-        <div class="input-group">
-          <input type="password" v-model="password" placeholder="contrasena" />
-        </div>
-        <div class="input-group remember-me">
-          <input type="checkbox" id="rememberMe" v-model="rememberMe" />
-          <label for="rememberMe">Recordar usuario</label>
-        </div>
-        <button type="submit">Login</button>
-      </form>
-        <router-link to="/register">No tienes Cuenta?</router-link>
+          <div class="input-group">
+            <input type="text" v-model="username" placeholder="Correo" required />
+          </div>
+          <div class="input-group">
+            <input type="password" v-model="password" placeholder="Contraseña" required />
+          </div>
+          <div class="input-group remember-me">
+            <input type="checkbox" id="rememberMe" v-model="rememberMe" />
+            <label for="rememberMe">Recordar usuario</label>
+          </div>
+          <button type="submit">Iniciar sesión</button>
+        </form>
+        <router-link to="/register">¿No tienes cuenta? Regístrate</router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import instance from '@/pluggins/axios';
 import Swal from 'sweetalert2';
+import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
 
 export default {
   name: 'newLogin',
@@ -72,8 +72,11 @@ export default {
 }
 </script>
 
-
 <style scoped>
+.body {
+  background-color: #767171; /* Este es un tono de gris claro */
+}
+
 .login-container {
   display: flex;
   justify-content: center;
@@ -116,19 +119,13 @@ h1 {
   color: #333;
 }
 
-.form-group {
+.input-group {
   margin-bottom: 1rem;
   text-align: left;
 }
 
-.form-group label {
+.input-group input {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-input[type="email"],
-input[type="password"] {
   width: 100%;
   padding: 0.75rem;
   background-color: #495057;

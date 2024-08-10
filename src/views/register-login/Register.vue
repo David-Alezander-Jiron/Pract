@@ -5,24 +5,29 @@
       <div class="register-box">
         <h1>EventTix</h1>
         <form @submit.prevent="registro">
-        <div class="input-group">
-          <input type="text" v-model="nombres" placeholder="Nombres" required />
-        </div>
-        <div class="input-group">
-          <input type="text" v-model="apellidos" placeholder="Apellidos" required />
-        </div>
-        <div class="input-group">
-          <input type="email" v-model="correo" placeholder="Correo" required />
-        </div>
-        <div class="input-group">
-          <input type="password" v-model="contrasena" placeholder="Contraseña" required />
-        </div>
-        <div class="input-group">
-          <input type="text" v-model="telefono" placeholder="Teléfono" required />
-        </div>
-        <input type="hidden" v-model="estado" value="activo" />
-        <button type="submit">Registrarse</button>
-      </form>
+          <div class="input-group">
+            <label for="nombres">Nombres:</label>
+            <input type="text" id="nombres" v-model="nombres" placeholder="Nombres" required />
+          </div>
+          <div class="input-group">
+            <label for="apellidos">Apellidos:</label>
+            <input type="text" id="apellidos" v-model="apellidos" placeholder="Apellidos" required />
+          </div>
+          <div class="input-group">
+            <label for="correo">Correo:</label>
+            <input type="email" id="correo" v-model="correo" placeholder="Correo" required />
+          </div>
+          <div class="input-group">
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" v-model="contrasena" placeholder="Contraseña" required />
+          </div>
+          <div class="input-group">
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" v-model="telefono" placeholder="Teléfono" required />
+          </div>
+          <input type="hidden" v-model="estado" value="activo" />
+          <button type="submit">Registrarse</button>
+        </form>
         <router-link to="/login">¿Ya tienes una cuenta? Inicia sesión</router-link>
       </div>
     </div>
@@ -99,6 +104,7 @@ export default {
   }
 }
 </script>
+
 <style scoped>
 .register-container {
   display: flex;
@@ -110,20 +116,18 @@ export default {
   background-repeat: no-repeat;
   background-position: center;
   position: relative;
+  background-color: #ffffff; /* Cambiado a gris claro */
 }
 
 .register-content {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.85); /* Cambiado a blanco con transparencia */
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   max-width: 800px;
   width: 100%;
-  margin: 0 auto;
 }
 
 .logo-img {
@@ -135,7 +139,8 @@ export default {
 }
 
 .register-box {
-  width: 100%;
+  flex-grow: 1;
+  text-align: center;
 }
 
 h1 {
@@ -144,26 +149,12 @@ h1 {
   color: #333;
 }
 
-.form-group {
+.input-group {
   margin-bottom: 1rem;
   text-align: left;
 }
 
-.name-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.name-group {
-  flex: 1;
-  margin-right: 10px; /* Añadir margen entre los campos si es necesario */
-}
-
-.name-group:last-child {
-  margin-right: 0;
-}
-
-.form-group label {
+.input-group label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: bold;
@@ -175,19 +166,19 @@ input[type="password"],
 select {
   width: 100%;
   padding: 0.75rem;
-  background-color: #f9f9f9;
+  background-color: #495057; /* Cambiado a gris oscuro */
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
-  color: #333;
+  color: #fff; /* Cambiado a blanco */
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 button {
   width: 100%;
   padding: 0.75rem;
-  background-color: #00bfa5;
-  color: #fff;
+  background-color: #00bfa5; /* Cambiado a verde azulado */
+  color: #fff; /* Cambiado a blanco */
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -195,7 +186,7 @@ button {
 }
 
 button:hover {
-  background-color: #009e8e;
+  background-color: #009e8e; /* Cambiado a verde azulado oscuro */
   transform: translateY(-2px);
 }
 

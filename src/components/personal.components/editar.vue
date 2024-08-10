@@ -18,26 +18,24 @@
           </div>
           <div class="form-group">
             <label for="telefono">Teléfono:</label>
-            <input type="text" class="form-control" required v-model="personal.telefono" id="telefono" placeholder="Teléfono">
+            <input type="number" class="form-control" required v-model="personal.telefono" id="telefono" placeholder="Teléfono">
             <small id="helpId" class="form-text text-muted">Escribe el teléfono del personal</small>
           </div>
           <div class="form-group">
             <label for="rol">Rol:</label>
-            <input type="text" class="form-control" required v-model="personal.rol" id="rol" placeholder="">
-            <small id="helpId" class="form-text text-muted">Escribe el rol del personal</small>
+            <select class="form-control" required v-model="personal.rol" id="rol">
+              <option value="" disabled>Selecciona un rol</option>
+              <option v-for="rol in roles" :key="rol.id" :value="rol.nombre">
+                {{ rol.nombre }}
+              </option>
+            </select>
+            <small id="helpId" class="form-text text-muted">Selecciona el rol del personal</small>
           </div>
           <div class="btn-group" role="group" aria-label="">
-            <button type="submit" class="btn btn-success">Guardar</button>
-            <router-link to="/personal" class="btn btn-warning">Cancelar</router-link>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button> <!-- Cambiado a azul -->
+            <router-link to="/personal" class="btn btn-danger">Cancelar</router-link> <!-- Cambiado a rojo -->
           </div>
         </form>
-        <div v-if="mensajeExito" class="mensaje-centro">
-          <div class="mensaje-contenido">
-            <img :src="imagenExito" alt="" class="mensaje-imagen">
-            <p>Editado correctamente!!</p>
-            <button @click="ocultarMensaje" class="btn btn-primary">Aceptar</button>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -57,9 +55,8 @@ export default {
         telefono: '',
         rol: ''
       },
-      csrfToken: '',
-      mensajeExito: false,
-      imagenExito: '' // Asegúrate de que esta imagen esté disponible
+      roles: [], // Añadir aquí para almacenar los roles obtenidos de la API
+      csrfToken: ''
     };
   },
   async mounted() {
@@ -70,47 +67,42 @@ export default {
       // Configura el token CSRF en Axios
       instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
 
-      // Obtén los datos del personal para editar
-      const id = this.$route.params.id;
-      const personalResponse = await instance.get(`/personal/${id}`);
+      // Obtener los roles desde la API
+      const rolesResponse = await instance.get('/roles'); // Asegúrate de que la ruta sea correcta
+      this.roles = rolesResponse.data;
+
+      // Obtener los datos del personal
+      const personalResponse = await instance.get(`/personal/${this.$route.params.id}`);
       this.personal = personalResponse.data;
     } catch (error) {
-      console.error('Error al obtener el token CSRF o los datos del personal:', error);
+      console.error('Error al obtener los datos:', error);
     }
   },
   methods: {
     async submitForm() {
       try {
-        const id = this.$route.params.id;
-        await instance.put(`/personal/${id}`, this.personal, {
+        await instance.put(`/personal/${this.$route.params.id}`, this.personal, {
           headers: {
             'X-CSRF-Token': this.csrfToken // Asegúrate de que este valor sea correcto
           }
         });
-        this.mensajeExito = true;
-        setTimeout(() => {
-          this.$router.push('/personal');
-        }, 2000); // Redirige después de mostrar el mensaje
+        this.$router.push('/personal');
       } catch (error) {
-        console.error('Error al guardar el personal:', error);
+        console.error('Error al guardar los cambios del personal:', error);
         const message = error.response && error.response.data && error.response.data.message
           ? error.response.data.message
-          : 'No se pudo guardar el personal.';
+          : 'No se pudo guardar los cambios del personal.';
 
         Swal.fire({
           icon: 'error',
-          title: 'Error al guardar el personal',
+          title: 'Error al guardar los cambios',
           text: message
         });
       }
-    },
-    ocultarMensaje() {
-      this.mensajeExito = false;
     }
   }
 };
 </script>
-
 
 <style scoped>
 .container {
@@ -141,30 +133,5 @@ export default {
 .btn {
   padding: 10px 20px;
   font-size: 1rem;
-}
-.mensaje-centro {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-}
-.mensaje-contenido {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-}
-.mensaje-imagen {
-  width: 50px;
-  height: 50px;
-}
-.alert {
-  text-align: center;
 }
 </style>

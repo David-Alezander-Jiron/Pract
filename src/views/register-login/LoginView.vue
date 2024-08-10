@@ -69,10 +69,16 @@ export default {
         this.$router.push(response.data.redirect || '/');
       } catch (error) {
         this.error = true;
-        this.errorMessage = error.response.data.message || 'Error en el inicio de sesión.';
+        this.errorMessage = 'Correo o contraseña incorrecto'; // Mensaje de error personalizado
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: this.errorMessage,
+          confirmButtonText: 'Aceptar'
+        });
       }
     }
-
   }
 }
 </script>

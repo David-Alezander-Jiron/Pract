@@ -16,7 +16,7 @@
           <a class="nav-link" href="#"><i class="fas fa-bell"></i></a>
         </li>
         <li class="nav-item">
-          <router-link to="/login" class="nav-link"><i class="fas fa-user-circle"></i> Administrador</router-link>
+          <a class="nav-link" href="#" @click.prevent="logout"><i class="fas fa-user-circle"></i> Cerrar sesión</a>
         </li>
       </ul>
     </div>
@@ -25,6 +25,15 @@
 
 <script>
 export default {
-  name: 'NavbarComponent'
+  name: 'NavbarComponent',
+  methods: {
+    logout() {
+      // Elimina el token de autenticación u otros datos del usuario
+      localStorage.removeItem('authToken');
+      
+      // Redirige al usuario a la página de login
+      this.$router.push('/login');
+    }
+  }
 };
 </script>

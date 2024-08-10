@@ -8,7 +8,6 @@ import RegisterNew from '@/views/register-login/Register.vue'; // Importa la vis
 import Error404 from '@/views/Pagina404.vue';
 import Roles from '@/views/roles.vue';
 
-
 // Rutas de usuarios
 import ListadoUsuarios from '@/views/ListadoUsuarios.vue'; // Lista de usuarios
 import CrearUsuario from '@/components/usuario.components/crear.vue'; // Crear usuario
@@ -44,57 +43,56 @@ import editarTicket from './components/ticket.components/editar.vue';
 import PaginaGestion from '@/components/paginas.components/PaginaGestion.vue';
 import PaginaEvento from '@/components/paginas.components/PaginaEvento.vue';
 
-
 const routes = [
   {
     path: '/',
     component: MainLayout, // Layout principal para las rutas principales
     children: [
-      { path: '', component: Dashboard },
-      { path: 'evento', component: Evento },
-      { path: 'projects', component: Projects },
-      { path: 'roles', component: Roles },
+      { path: '', component: Dashboard, meta: { requiresAuth: true } },
+      { path: 'evento', component: Evento, meta: { requiresAuth: true } },
+      { path: 'projects', component: Projects, meta: { requiresAuth: true } },
+      { path: 'roles', component: Roles, meta: { requiresAuth: true } },
 
       // Rutas de usuarios
-      { path: 'usuarios', component: ListadoUsuarios },
-      { path: 'usuarios/crear', component: CrearUsuario },
-      { path: 'usuarios/editar/:id', name: 'EditarUsuario', component: EditarUsuario },
+      { path: 'usuarios', component: ListadoUsuarios, meta: { requiresAuth: true } },
+      { path: 'usuarios/crear', component: CrearUsuario, meta: { requiresAuth: true } },
+      { path: 'usuarios/editar/:id', name: 'EditarUsuario', component: EditarUsuario, meta: { requiresAuth: true } },
 
       // Rutas de personal
-      { path: 'personal/crear', component: CrearPersonal },
-      { path: 'personal/editar/:id', name: 'EditarPersonal', component: EditarPersonal },
-      { path: 'personal', component: ListarPersonal },
+      { path: 'personal/crear', component: CrearPersonal, meta: { requiresAuth: true } },
+      { path: 'personal/editar/:id', name: 'EditarPersonal', component: EditarPersonal, meta: { requiresAuth: true } },
+      { path: 'personal', component: ListarPersonal, meta: { requiresAuth: true } },
 
       // Rutas de eventos
-      { path: 'eventos', component: ListarEventos },
-      { path: 'eventos/crear', component: NewEvento },
-      { path: 'eventos/editar/:id', name: 'EditarEvento', component: EditarEvento },
-      { path: 'eventos/opciones', component: OpcionesEventos }, // Cambiado aquí
+      { path: 'eventos', component: ListarEventos, meta: { requiresAuth: true } },
+      { path: 'eventos/crear', component: NewEvento, meta: { requiresAuth: true } },
+      { path: 'eventos/editar/:id', name: 'EditarEvento', component: EditarEvento, meta: { requiresAuth: true } },
+      { path: 'eventos/opciones', component: OpcionesEventos, meta: { requiresAuth: true } }, // Cambiado aquí
 
       // Rutas de participantes
-      { path: 'participantes', component: ListarParticipante },
-      { path: 'participantes/crear', component: CrearParticipante },
-      { path: 'participantes/editar/:id', name: 'EditarParticipante', component: EditarParticipante },
+      { path: 'participantes', component: ListarParticipante, meta: { requiresAuth: true } },
+      { path: 'participantes/crear', component: CrearParticipante, meta: { requiresAuth: true } },
+      { path: 'participantes/editar/:id', name: 'EditarParticipante', component: EditarParticipante, meta: { requiresAuth: true } },
 
       // Rutas de patrocinadores
-      { path: 'patrocinadores', component: ListarPatrocinador },
-      { path: 'patrocinadores/crear', component: CrearPatrocinador },
-      { path: 'patrocinadores/editar/:id', name: 'EditarPatrocinador', component: EditarPatrocinador },
+      { path: 'patrocinadores', component: ListarPatrocinador, meta: { requiresAuth: true } },
+      { path: 'patrocinadores/crear', component: CrearPatrocinador, meta: { requiresAuth: true } },
+      { path: 'patrocinadores/editar/:id', name: 'EditarPatrocinador', component: EditarPatrocinador, meta: { requiresAuth: true } },
 
       // Rutas de tickets
-      { path: 'tickets', component: Tickets },
-      { path: 'tickets/crear', component: crearTicket },
-      { path: 'tickets/editar/:id', name: 'EditarTicket', component: editarTicket },
+      { path: 'tickets', component: Tickets, meta: { requiresAuth: true } },
+      { path: 'tickets/crear', component: crearTicket, meta: { requiresAuth: true } },
+      { path: 'tickets/editar/:id', name: 'EditarTicket', component: editarTicket, meta: { requiresAuth: true } },
 
       // Gestión páginas
-      { path: '/pagina-gestion', component: PaginaGestion },
-      { path: '/pagina/:id', component: PaginaEvento }
+      { path: '/pagina-gestion', component: PaginaGestion, meta: { requiresAuth: true } },
+      { path: '/pagina/:id', component: PaginaEvento, meta: { requiresAuth: true } }
     ]
   },
   {
     path: '/login',
     component: Login, // Usa el componente de login para esta ruta
-    meta: { layout: 'login' } // Etiqueta para indicar el layout específico
+    meta: { layout: 'login' }
   },
   {
     path: '/register',
@@ -113,8 +111,21 @@ const router = createRouter({
   routes
 });
 
+// Guardar global para proteger las rutas
+router.beforeEach((to, from, next) => {
+  // Verificar si la ruta requiere autenticación
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // Verificar si el usuario está autenticado
+    const isAuthenticated = !!localStorage.getItem('authToken'); // Suponiendo que guardas el token en localStorage
+
+    if (isAuthenticated) {
+      next(); // Permitir el acceso si está autenticado
+    } else {
+      next('/login'); // Redirigir a la página de login si no está autenticado
+    }
+  } else {
+    next(); // Permitir el acceso si la ruta no requiere autenticación
+  }
+});
+
 export default router;
-
-
-
-

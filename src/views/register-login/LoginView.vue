@@ -51,9 +51,13 @@ export default {
           contrasena: this.password
         }, {
           headers: {
-            'X-CSRF-Token': csrfToken // Incluir el token CSRF en los encabezados
+            'X-CSRF-Token': csrfToken
           }
         });
+
+        // Guardar el token de autenticación en localStorage
+        localStorage.setItem('authToken', response.data.token);
+
         Swal.fire({
           icon: 'success',
           title: response.data.message,
@@ -68,13 +72,15 @@ export default {
         this.errorMessage = error.response.data.message || 'Error en el inicio de sesión.';
       }
     }
+
   }
 }
 </script>
 
 <style scoped>
 .body {
-  background-color: #767171; /* Este es un tono de gris claro */
+  background-color: #767171;
+  /* Este es un tono de gris claro */
 }
 
 .login-container {

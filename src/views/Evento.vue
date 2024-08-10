@@ -15,7 +15,7 @@
               <th>Ubicación</th>
               <th>Descripción</th>
               <th>Tipo de Evento</th>
-              <th>Organizador</th>
+              <th>Patrocinador</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -28,7 +28,8 @@
               <td>{{ evento.ubicacion }}</td>
               <td>{{ evento.descripcion }}</td>
               <td>{{ evento.tipo_evento }}</td>
-              <td>{{ evento.organizador_id }}</td>
+              <td>{{ evento.patrocinador.nombre }}</td>
+              <!-- Asegúrate de que estás obteniendo el nombre del patrocinador aquí -->
               <td>
                 <router-link :to="`/eventos/editar/${evento.id}`" class="btn btn-warning">Editar</router-link>
                 <button @click="eliminarEvento(evento.id)" class="btn btn-danger">Eliminar</button>
@@ -69,13 +70,22 @@ export default {
   },
   methods: {
     async fetchEventos() {
-      try {
-        const response = await instance.get('/eventos');
-        this.eventos = response.data;
-      } catch (error) {
-        console.error('Error al obtener los eventos:', error);
-      }
-    },
+  try {
+    const response = await instance.get('/eventos');
+    const eventosData = response.data;
+
+    // Obtener los datos del patrocinador para cada evento
+    for (let evento of eventosData) {
+      const patrocinadorResponse = await instance.get(`/patrocinadores/${evento.patrocinador_id}`);
+      evento.patrocinador = patrocinadorResponse.data;
+    }
+
+    this.eventos = eventosData;
+  } catch (error) {
+    console.error('Error al obtener los eventos:', error);
+  }
+},
+
     formatFecha(fecha) {
       return new Date(fecha).toLocaleDateString(); // Formatear la fecha a una representación legible
     },
@@ -92,7 +102,6 @@ export default {
         const message = error.response && error.response.data && error.response.data.message
           ? error.response.data.message
           : 'No se pudo eliminar el evento.';
-
         Swal.fire({
           icon: 'error',
           title: 'Error al eliminar el evento',

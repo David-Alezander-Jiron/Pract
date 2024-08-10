@@ -18,7 +18,7 @@
           </div>
           <div class="form-group">
             <label for="telefono">Teléfono:</label>
-            <input type="text" class="form-control" required v-model="personal.telefono" id="telefono" placeholder="Teléfono">
+            <input type="number" class="form-control" required v-model="personal.telefono" id="telefono" placeholder="Teléfono">
             <small id="helpId" class="form-text text-muted">Escribe el teléfono del personal</small>
           </div>
           <div class="form-group">

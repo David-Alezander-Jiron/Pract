@@ -1,145 +1,98 @@
 <template>
   <div class="container">
-    <h4>Editar Patrocinador</h4>
-    <form @submit.prevent="updateSponsor">
-      <div class="form-group">
-        <label for="nombre">Nombre:</label>
-        <input id="nombre" v-model="sponsor.nombre" type="text" required>
+    <div class="card">
+      <div class="card-header">
+        Editar Patrocinador
       </div>
-      <div class="form-group">
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" v-model="sponsor.descripcion" required></textarea>
+      <div class="card-body">
+        <form @submit.prevent="submitForm">
+          <div class="form-group">
+            <label for="nombre">Nombre del Patrocinador:</label>
+            <input type="text" class="form-control" required v-model="patrocinador.nombre" id="nombre">
+          </div>
+          <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <textarea class="form-control" required v-model="patrocinador.descripcion" id="descripcion" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="contacto">Contacto:</label>
+            <input type="text" class="form-control" required v-model="patrocinador.contacto" id="contacto">
+          </div>
+          <div class="btn-group" role="group" aria-label="">
+            <button type="submit" class="btn btn-success">Guardar Cambios</button>
+            <router-link to="/patrocinadores" class="btn btn-warning">Cancelar</router-link>
+          </div>
+        </form>
       </div>
-      <div class="form-group">
-        <label for="correo">Correo:</label>
-        <input id="correo" v-model="sponsor.correo" type="email" required>
-      </div>
-      <div class="btn-group-custom">
-        <button type="submit" class="btn btn-crear">Actualizar</button>
-        <button type="button" class="btn btn-cancelar" @click="cancelEdit">Cancelar</button>
-      </div>
-    </form>
+    </div>
   </div>
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
+
 export default {
   name: 'EditarPatrocinador',
   data() {
     return {
-      sponsor: {
+      patrocinador: {
         nombre: '',
         descripcion: '',
-        correo: ''
-      }
+        contacto: '',
+        estado: 'activo',
+      },
+      csrfToken: ''
     };
   },
-  created() {
-    const sponsorId = this.$route.params.id;
-    // Aquí deberías cargar los datos del patrocinador usando el sponsorId
-    this.loadSponsor(sponsorId);
+  async mounted() {
+    try {
+      // Obtén el token CSRF del backend
+      const response = await instance.get('/');
+      this.csrfToken = response.data.csrfToken;
+      // Configura el token CSRF en Axios
+      instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
+
+      // Cargar los datos del patrocinador
+      await this.fetchPatrocinador();
+    } catch (error) {
+      console.error('Error al obtener el token CSRF o los datos del patrocinador:', error);
+    }
   },
   methods: {
-    loadSponsor(sponsorId) {
-      // Simulación de carga de datos, reemplaza esto con la lógica real
-      const sponsors = [
-        { id: 1, nombre: 'Kevin', descripcion: 'Patrocinador principal', correo: 'kevinmar@gmail.com' },
-        { id: 2, nombre: 'Angel', descripcion: 'Patrocinador secundario', correo: 'angelher@gmail.com' },
-        { id: 3, nombre: 'Alejandro', descripcion: 'Patrocinador terciario', correo: 'alejandro@gmail.com' }
-      ];
-      const sponsor = sponsors.find(s => s.id === parseInt(sponsorId));
-      if (sponsor) {
-        this.sponsor = sponsor;
+    async fetchPatrocinador() {
+      try {
+        const response = await instance.get(`/patrocinadores/${this.$route.params.id}`);
+        this.patrocinador = response.data;
+      } catch (error) {
+        console.error('Error al obtener los datos del patrocinador:', error);
       }
     },
-    updateSponsor() {
-      // Lógica para actualizar un patrocinador
-      console.log('Patrocinador actualizado:', this.sponsor);
-      // Aquí podrías redirigir a la lista de patrocinadores
-      this.$router.push('/patrocinadores');
-    },
-    cancelEdit() {
-      // Lógica para cancelar la edición y volver a la lista de patrocinadores
-      this.$router.push('/patrocinadores');
+    async submitForm() {
+      try {
+        await instance.put(`/patrocinadores/${this.$route.params.id}`, this.patrocinador, {
+          headers: {
+            'X-CSRF-Token': this.csrfToken // Asegúrate de que este valor sea correcto
+          }
+        });
+        this.$router.push('/patrocinadores');
+      } catch (error) {
+        console.error('Error al guardar los cambios del patrocinador:', error);
+        const message = error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : 'No se pudo guardar los cambios del patrocinador.';
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al guardar los cambios',
+          text: message
+        });
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  margin-top: 30px;
-}
-
-h4 {
-  margin-bottom: 20px;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ced4da;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-textarea {
-  resize: vertical; /* Permite redimensionar verticalmente */
-}
-
-.btn-group-custom {
-  display: flex;
-  gap: 10px;
-  margin-top: 40px;
-  margin-left: 250px;
-}
-
-.btn-crear,
-.btn-cancelar {
-  background-color: #17A1FA;
-  border-color: #17A1FA;
-  color: white;
-  border-radius: 15px; /* Esquinas redondeadas */
-  padding: 10px 20px; /* Espaciado interno */
-  border: 1px solid transparent; /* Asegura que el borde sea visible */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Sombra en los botones */
-}
-
-.btn-cancelar {
-  background-color: #f44336;
-  border-color: #f44336;
-}
-
-.btn-crear:hover {
-  background-color: #0f8de3;
-  border-color: #0f8de3;
-}
-
-.btn-cancelar:hover {
-  background-color: #d32f2f;
-  border-color: #d32f2f;
-}
-
-.btn:hover {
-  opacity: 0.8;
-}
-h4{
-  text-align: center;
-}
+/* Estilos adicionales si es necesario */
 </style>

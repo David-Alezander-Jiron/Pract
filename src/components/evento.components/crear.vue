@@ -23,8 +23,12 @@
             <input type="text" class="form-control" required v-model="evento.ubicacion" id="ubicacion" placeholder="Ubicación del Evento">
           </div>
           <div class="form-group">
-            <label for="organizador">Organizador:</label>
-            <input type="text" class="form-control" required v-model="evento.organizador_id" id="organizador" placeholder="Organizador del Evento">
+            <label for="patrocinador">Patrocinador:</label>
+            <select class="form-control" required v-model="evento.patrocinador_id" id="patrocinador">
+              <option v-for="patrocinador in patrocinadores" :key="patrocinador.id" :value="patrocinador.id">
+                {{ patrocinador.nombre }}
+              </option>
+            </select>
           </div>
           <div class="form-group">
             <label for="descripcion">Descripción:</label>
@@ -60,12 +64,12 @@ export default {
         fecha: '',
         capacidad_personas: '',
         ubicacion: '',
-        organizador_id: '',
+        patrocinador_id: '',
         descripcion: '',
         tipo_evento: '',
         estado: 'activo',
-
       },
+      patrocinadores: [],
       csrfToken: ''
     };
   },
@@ -76,33 +80,92 @@ export default {
       this.csrfToken = response.data.csrfToken;
       // Configura el token CSRF en Axios
       instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
+
+      // Cargar la lista de patrocinadores
+      await this.fetchPatrocinadores();
     } catch (error) {
-      console.error('Error al obtener el token CSRF:', error);
+      console.error('Error al obtener el token CSRF o los patrocinadores:', error);
     }
   },
   methods: {
-    async submitForm() {
+    async fetchPatrocinadores() {
       try {
-        await instance.post('/eventos', this.evento, {
-          headers: {
-            'X-CSRF-Token': this.csrfToken // Asegúrate de que este valor sea correcto
-          }
-        });
-        this.$router.push('/eventos');
+        const response = await instance.get('/patrocinadores');
+        this.patrocinadores = response.data;
       } catch (error) {
-        console.error('Error al guardar el evento:', error);
-        const message = error.response && error.response.data && error.response.data.message
-          ? error.response.data.message
-          : 'No se pudo guardar el evento.';
-
-        Swal.fire({
-          icon: 'error',
-          title: 'Error al guardar el evento',
-          text: message
-        });
+        console.error('Error al obtener los patrocinadores:', error);
       }
+    },
+    async submitForm() {
+    // Verificar si la fecha del evento es anterior a la fecha actual
+    const fechaEvento = new Date(this.evento.fecha);
+    const fechaActual = new Date();
+
+    if (fechaEvento < fechaActual) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al guardar el evento',
+        text: 'La fecha del evento no puede ser anterior a la fecha actual.'
+      });
+      return;
+    }
+
+    try {
+      await instance.post('/eventos', this.evento, {
+        headers: {
+          'X-CSRF-Token': this.csrfToken // Asegúrate de que este valor sea correcto
+        }
+      });
+      this.$router.push('/eventos');
+    } catch (error) {
+      console.error('Error al guardar el evento:', error);
+      const message = error.response && error.response.data && error.response.data.message
+        ? error.response.data.message
+        : 'No se pudo guardar el evento.';
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al guardar el evento',
+        text: message
+      });
     }
   }
+},
+async submitForm() {
+    // Verificar si la fecha del evento es anterior a la fecha actual
+    const fechaEvento = new Date(this.evento.fecha);
+    const fechaActual = new Date();
+
+    if (fechaEvento < fechaActual) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al guardar el evento',
+        text: 'La fecha del evento no puede ser anterior a la fecha actual.'
+      });
+      return;
+    }
+
+    try {
+      await instance.post('/eventos', this.evento, {
+        headers: {
+          'X-CSRF-Token': this.csrfToken // Asegúrate de que este valor sea correcto
+        }
+      });
+      this.$router.push('/eventos');
+    } catch (error) {
+      console.error('Error al guardar el evento:', error);
+      const message = error.response && error.response.data && error.response.data.message
+        ? error.response.data.message
+        : 'No se pudo guardar el evento.';
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al guardar el evento',
+        text: message
+      });
+    }
+  }
+
 };
 </script>
 

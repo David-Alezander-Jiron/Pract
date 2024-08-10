@@ -43,6 +43,34 @@ import editarTicket from './components/ticket.components/editar.vue';
 import PaginaGestion from '@/components/paginas.components/PaginaGestion.vue';
 import PaginaEvento from '@/components/paginas.components/PaginaEvento.vue';
 
+export const allowedRoutes = [
+  '/', 
+  '/evento', 
+  '/projects', 
+  '/roles', 
+  '/usuarios', 
+  '/usuarios/crear', 
+  '/usuarios/editar/:id', 
+  '/personal/crear', 
+  '/personal/editar/:id', 
+  '/personal', 
+  '/eventos', 
+  '/eventos/crear', 
+  '/eventos/editar/:id', 
+  '/eventos/opciones', 
+  '/participantes', 
+  '/participantes/crear', 
+  '/participantes/editar/:id', 
+  '/patrocinadores', 
+  '/patrocinadores/crear', 
+  '/patrocinadores/editar/:id', 
+  '/tickets', 
+  '/tickets/crear', 
+  '/tickets/editar/:id', 
+  '/pagina-gestion', 
+  '/pagina/:id'
+];
+
 const routes = [
   {
     path: '/',
@@ -111,7 +139,6 @@ const router = createRouter({
   routes
 });
 
-// Guardar global para proteger las rutas
 router.beforeEach((to, from, next) => {
   // Verificar si la ruta requiere autenticación
   if (to.matched.some(record => record.meta.requiresAuth)) {

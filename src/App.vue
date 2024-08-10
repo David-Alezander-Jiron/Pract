@@ -27,6 +27,10 @@
 import NavbarComponent from './components/NavbarComponent.vue';
 import SidebarComponent from './components/SidebarComponent.vue';
 
+// Importa allowedRoutes desde el archivo donde lo definiste
+import { allowedRoutes } from './router';
+
+
 export default {
   name: 'App',
   components: {
@@ -35,25 +39,25 @@ export default {
   },
   computed: {
     shouldShowNavbar() {
-      const routeExists = this.$router.options.routes.some(route => route.path === this.$route.path);
-      return routeExists && this.$route.path !== '/login' && this.$route.path !== '/register';
+      // Verifica si la ruta actual está en la lista de rutas permitidas
+      const isAllowedRoute = allowedRoutes.includes(this.$route.path);
+      return isAllowedRoute;
     },
     isAuthRoute() {
       const routePath = this.$route.path;
       return routePath === '/login' || routePath === '/register';
     },
     isExistingRoute() {
-      // Lista de rutas donde se debe mostrar la barra de navegación
-      const allowedRoutes = ['/', '/evento', '/projects', '/roles', '/usuarios', '/usuarios/crear', '/usuarios/editar/:id', '/personal/crear', '/personal/editar/:id', '/personal', '/eventos', '/eventos/crear', '/eventos/editar/:id', '/eventos/opciones', '/participantes', '/participantes/crear', '/participantes/editar/:id', '/patrocinadores', '/patrocinadores/crear', '/patrocinadores/editar/:id', '/tickets', '/tickets/crear', '/tickets/editar/:id', '/pagina-gestion', '/pagina/:id'];
-
       // Verifica si la ruta actual está en la lista de rutas permitidas
       const isAllowedRoute = allowedRoutes.includes(this.$route.path);
-
       return isAllowedRoute;
     }
   }
 };
 </script>
+
+
+
 
 <style>
 .router-pag {

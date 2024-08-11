@@ -1,14 +1,14 @@
 <template>
-  <div class="container">
+  <div class="container animated fadeIn">
     <div class="card">
       <div class="card-header">
         Lista de Patrocinadores
         <div class="text-center">
-          <router-link to="/patrocinadores/crear" class="btn btn-crear">Crear Nuevo Patrocinador</router-link>
+          <router-link to="/patrocinadores/crear" class="btn btn-crear animated pulse">Crear Nuevo Patrocinador</router-link>
         </div>
       </div>
       <div class="card-body">
-        <table class="table">
+        <table class="table table-hover">
           <thead>
             <tr>
               <th>ID</th>
@@ -19,14 +19,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="patrocinador in patrocinadores" :key="patrocinador.id">
+            <tr v-for="patrocinador in patrocinadores" :key="patrocinador.id" class="animated fadeIn">
               <td>{{ patrocinador.id }}</td>
               <td>{{ patrocinador.nombre }}</td>
               <td>{{ patrocinador.descripcion }}</td>
               <td>{{ patrocinador.contacto }}</td>
               <td>
-                <router-link :to="`/patrocinadores/editar/${patrocinador.id}`" class="btn btn-warning">Editar</router-link>
-                <button @click="eliminarPatrocinador(patrocinador.id)" class="btn btn-danger">Eliminar</button>
+                <router-link :to="`/patrocinadores/editar/${patrocinador.id}`" class="btn btn-warning animated pulse">Editar</router-link>
+                <button @click="eliminarPatrocinador(patrocinador.id)" class="btn btn-danger animated shake">Eliminar</button>
               </td>
             </tr>
           </tbody>
@@ -35,6 +35,70 @@
     </div>
   </div>
 </template>
+
+
+
+<style scoped>
+/* Estilos adicionales si es necesario */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px; /* Bordes más redondeados */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Sombra más profunda */
+  margin-top: 30px;
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.btn-crear {
+  background-color: #17A1FA;
+  border-color: #17A1FA;
+  color: white;
+  border-radius: 15px; /* Esquinas redondeadas */
+  padding: 10px 20px; /* Espaciado interno */
+  border: 1px solid transparent; /* Asegura que el borde sea visible */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Sombra en los botones */
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #212529;
+}
+
+.btn-warning:hover {
+  background-color: #d39e00;
+  border-color: #c69500;
+  color: #212529;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  color: #fff;
+}
+</style>
+
+
+
 
 <script>
 import Swal from 'sweetalert2';
@@ -96,83 +160,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px; /* Bordes más redondeados */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Sombra más profunda */
-  margin-top: 30px;
-}
-
-h4 {
-  margin-bottom: 20px;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ced4da;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-.btn-group-custom {
-  display: flex;
-  gap: 10px; /* Espacio entre los botones */
-  margin-top: 20px; /* Espacio superior para los botones */
-}
-
-.btn-crear,
-.btn-cancelar {
-  background-color: #17A1FA;
-  border-color: #17A1FA;
-  color: white;
-  border-radius: 15px; /* Esquinas redondeadas */
-  padding: 10px 20px; /* Espaciado interno */
-  border: 1px solid transparent; /* Asegura que el borde sea visible */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Sombra en los botones */
-}
-
-.btn-cancelar {
-  background-color: #f44336;
-  border-color: #f44336;
-}
-
-.btn-crear:hover {
-  background-color: #0f8de3;
-  border-color: #0f8de3;
-  color: white;
-}
-
-.btn-cancelar:hover {
-  background-color: #d32f2f;
-  border-color: #d32f2f;
-  color: white;
-}
-
-.btn:hover {
-  opacity: 0.8;
-}
-
-h4{
-  text-align: center;
-}
-
-.text-center {
-  text-align: center;
-  margin: 20px 0;
-}
-</style>

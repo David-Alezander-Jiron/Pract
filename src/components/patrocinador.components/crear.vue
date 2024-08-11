@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container animated fadeIn">
     <div class="card">
       <div class="card-header">
         Agregar Nuevo Patrocinador
@@ -19,14 +19,65 @@
             <input type="text" class="form-control" required v-model="patrocinador.contacto" id="contacto" placeholder="Contacto del Patrocinador">
           </div>
           <div class="btn-group" role="group" aria-label="">
-            <button type="submit" class="btn btn-success">Agregar Patrocinador</button>
-            <router-link to="/patrocinadores" class="btn btn-warning">Cancelar</router-link>
+            <button type="submit" class="btn btn-success animated pulse">Agregar Patrocinador</button>
+            <router-link to="/patrocinadores" class="btn btn-warning animated pulse">Cancelar</router-link>
           </div>
         </form>
       </div>
     </div>
   </div>
 </template>
+
+
+<style scoped>
+/* Estilos adicionales si es necesario */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px; /* Bordes más redondeados */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Sombra más profunda */
+  margin-top: 30px;
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: #fff;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+  color: #fff;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #212529;
+}
+
+.btn-warning:hover {
+  background-color: #d39e00;
+  border-color: #c69500;
+  color: #212529;
+}
+</style>
+
 
 <script>
 import Swal from 'sweetalert2';
@@ -82,6 +133,3 @@ export default {
 };
 </script>
 
-<style scoped>
-/* Estilos adicionales si es necesario */
-</style>

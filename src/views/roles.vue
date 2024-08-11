@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="card">
+    <div class="card animated fadeIn">
       <div class="card-header">
         Crear Rol
       </div>
@@ -8,19 +8,19 @@
         <form @submit.prevent="crearRol">
           <div class="form-group">
             <label for="nombre">Nombre:</label>
-            <input type="text" v-model="nuevoRol.nombre" class="form-control" id="nombre" required>
+            <input type="text" v-model.trim="nuevoRol.nombre" class="form-control" id="nombre" required>
           </div>
           
           <div class="form-group">
             <label for="descripcion">Descripción:</label>
-            <textarea v-model="nuevoRol.descripcion" class="form-control" id="descripcion"></textarea>
+            <textarea v-model.trim="nuevoRol.descripcion" class="form-control" id="descripcion"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary">Crear Rol</button>
+          <button type="submit" class="btn btn-primary animated pulse">Crear Rol</button>
         </form>
       </div>
     </div>
     
-    <div class="card mt-4">
+    <div class="card mt-4 animated fadeIn">
       <div class="card-header">
         Lista de Roles
       </div>
@@ -36,13 +36,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="rol in roles" :key="rol.id">
+            <tr v-for="rol in roles" :key="rol.id" class="animated fadeIn">
               <td>{{ rol.id }}</td>
               <td>{{ rol.nombre }}</td>
               <td>{{ rol.estado }}</td>
               <td>{{ rol.descripcion }}</td>
               <td>
-                <button @click="eliminarRol(rol.id)" class="btn btn-danger">Eliminar</button>
+                <button @click="eliminarRol(rol.id)" class="btn btn-danger animated shake">Eliminar</button>
               </td>
             </tr>
           </tbody>
@@ -145,4 +145,43 @@ export default {
 
 <style scoped>
 /* Estilos adicionales si es necesario */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2em;
+}
+
+.btn-primary {
+  background-color: #007BFF;
+  border-color: #007BFF;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+  color: #fff;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  color: #fff;
+}
 </style>

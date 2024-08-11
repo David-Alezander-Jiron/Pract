@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <div class="card">
+    <div class="card animated fadeIn">
       <div class="card-header">
         Lista de Usuarios
       </div>
       <div class="card-body">
-        <table class="table">
+        <table class="table table-hover">
           <thead>
             <tr>
               <th>ID</th>
@@ -18,7 +18,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="usuario in usuarios" :key="usuario.id">
+            <tr v-for="usuario in usuarios" :key="usuario.id" class="animated fadeIn">
               <td>{{ usuario.id }}</td>
               <td>{{ usuario.nombres }}</td>
               <td>{{ usuario.apellidos }}</td>
@@ -26,8 +26,8 @@
               <td>{{ usuario.telefono }}</td>
               <td>{{ usuario.estado }}</td>
               <td>
-                <router-link :to="`/usuarios/editar/${usuario.id}`" class="btn btn-warning">Editar</router-link>
-                <button @click="eliminarUsuario(usuario.id)" class="btn btn-danger">Eliminar</button>
+                <router-link :to="`/usuarios/editar/${usuario.id}`" class="btn btn-warning animated pulse">Editar</router-link>
+                <button @click="eliminarUsuario(usuario.id)" class="btn btn-danger animated shake">Eliminar</button>
               </td>
             </tr>
           </tbody>
@@ -36,6 +36,49 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+/* Estilos adicionales si es necesario */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2em;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #212529;
+}
+
+.btn-warning:hover {
+  background-color: #d39e00;
+  border-color: #c69500;
+  color: #212529;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  color: #fff;
+}
+</style>
 
 <script>
 import Swal from 'sweetalert2';
@@ -97,6 +140,3 @@ export default {
 };
 </script>
 
-<style scoped>
-/* Estilos adicionales si es necesario */
-</style>

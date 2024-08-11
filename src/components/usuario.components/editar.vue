@@ -1,28 +1,105 @@
+
 <template>
-  <div class="background">
-    <h2>Editar Usuario</h2>
+  <div class="background animated fadeIn">
+    <h2 class="title">Editar Usuario</h2>
     <form @submit.prevent="updateUser">
-      <label>Nombre:</label>
-      <input v-model="usuario.nombres" type="text" required>
-      <label>Apellidos:</label>
-      <input v-model="usuario.apellidos" type="text" required>
-      <label>Correo Electrónico:</label>
-      <input v-model="usuario.correo" type="email" required>
-      <label>Teléfono:</label>
-      <input v-model="usuario.telefono" type="text" required>
-      <label>Estado:</label>
-      <select v-model="usuario.estado" required>
-        <option value="activo">Activo</option>
-        <option value="inactivo">Inactivo</option>
-        <option value="eliminado">Eliminado</option>
-      </select>
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input v-model="usuario.nombres" type="text" id="nombre" required class="form-control">
+        <small id="helpId" class="form-text text-muted">Escribe el nombre del usuario</small>
+      </div>
+      <div class="form-group">
+        <label for="apellido">Apellido:</label>
+        <input v-model="usuario.apellidos" type="text" id="apellido" required class="form-control">
+        <small id="helpId" class="form-text text-muted">Escribe el apellido del usuario</small>
+      </div>
+      <div class="form-group">
+        <label for="correo">Correo Electrónico:</label>
+        <input v-model="usuario.correo" type="email" id="correo" required class="form-control">
+        <small id="helpId" class="form-text text-muted">Escribe el correo electrónico del usuario</small>
+      </div>
+      <div class="form-group">
+        <label for="telefono">Teléfono:</label>
+        <input v-model="usuario.telefono" type="text" id="telefono" required class="form-control">
+        <small id="helpId" class="form-text text-muted">Escribe el teléfono del usuario</small>
+      </div>
+      <div class="form-group">
+        <label for="estado">Estado:</label>
+        <select v-model="usuario.estado" id="estado" required class="form-control">
+          <option value="activo">Activo</option>
+          <option value="inactivo">Inactivo</option>
+          <option value="eliminado">Eliminado</option>
+        </select>
+        <small id="helpId" class="form-text text-muted">Selecciona el estado del usuario</small>
+      </div>
       <div class="button-group">
-        <button type="submit" class="action-btn">Actualizar</button>
-        <button type="button" class="cancel-btn" @click="cancelEdit">Cancelar</button>
+        <button type="submit" class="action-btn animated pulse">Actualizar</button>
+        <button type="button" class="cancel-btn animated pulse" @click="cancelEdit">Cancelar</button>
       </div>
     </form>
   </div>
 </template>
+
+
+
+<style scoped>
+/* Estilos adicionales si es necesario */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
+
+.background {
+  border: 1px solid #ddd;
+  padding: 20px;
+  max-width: 800px; /* Ajusta el ancho máximo según tu preferencia */
+  margin: 80px auto; /* Centra horizontalmente */
+  border-radius: 5px; /* Esquinas redondeadas */
+  background-color: #fff; /* Fondo blanco */
+}
+
+.title {
+  text-align: center; /* Centra el título */
+  margin-bottom: 20px; /* Espacio debajo del título */
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-control {
+  padding: 10px;
+  border-radius: 5px; /* Esquinas redondeadas */
+  border: 1px solid #ddd; /* Borde gris */
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between; /* Espacio entre los botones */
+  margin-top: 20px;
+}
+
+.action-btn, .cancel-btn {
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none; /* Remueve el subrayado */
+}
+
+.cancel-btn {
+  background-color: #f44336;
+}
+
+.cancel-btn:hover {
+  background-color: #d32f2f;
+}
+
+.action-btn:hover {
+  background-color: #0b7dda;
+}
+</style>
+
+
 
 <script>
 import Swal from 'sweetalert2';
@@ -99,53 +176,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.background {
-  border: 1px solid black;
-  padding: 20px;
-  max-width: 800px; /* Ajusta el ancho máximo según tu preferencia */
-  margin: 80px auto; /* Centra horizontalmente */
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-label {
-  margin-top: 10px;
-}
-
-input, select {
-  padding: 5px;
-  margin-top: 5px;
-}
-
-.button-group {
-  display: flex;
-  justify-content: center; /* Centra los botones en el contenedor */
-  gap: 10px; /* Ajusta el espacio entre los botones */
-  margin-top: 20px;
-}
-
-.action-btn, .cancel-btn {
-  background-color: #2196F3;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.cancel-btn {
-  background-color: #f44336;
-}
-
-.cancel-btn:hover {
-  background-color: #d32f2f;
-}
-
-.action-btn:hover {
-  background-color: #0b7dda;
-}
-</style>

@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <div class="card">
+    <div class="card animated fadeIn">
       <div class="card-header">
         Lista de Personal
       </div>
       <div class="card-body">
-        <table class="table">
+        <table class="table table-hover">
           <thead>
             <tr>
               <th>ID</th>
@@ -17,15 +17,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="personal in personalList" :key="personal.id">
+            <tr v-for="personal in personalList" :key="personal.id" class="animated fadeIn">
               <td>{{ personal.id }}</td>
               <td>{{ personal.nombre }}</td>
               <td>{{ personal.apellido }}</td>
               <td>{{ personal.telefono }}</td>
               <td>{{ personal.rol }}</td>
               <td>
-                <router-link :to="`/personal/editar/${personal.id}`" class="btn btn-warning">Editar</router-link>
-                <button @click="eliminarPersonal(personal.id)" class="btn btn-danger">Eliminar</button>
+                <router-link :to="`/personal/editar/${personal.id}`" class="btn btn-warning animated pulse">Editar</router-link>
+                <button @click="eliminarPersonal(personal.id)" class="btn btn-danger animated shake">Eliminar</button>
               </td>
             </tr>
           </tbody>
@@ -33,11 +33,66 @@
         
       </div>
       <div class="text-center">
-          <router-link to="/personal/crear" class="btn btn-crear">Crear Nuevo Personal</router-link>
+          <router-link to="/personal/crear" class="btn btn-crear animated pulse">Crear Nuevo Personal</router-link>
         </div>
     </div>
   </div>
 </template>
+
+
+<style scoped>
+/* Estilos adicionales si es necesario */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2em;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #212529;
+}
+
+.btn-warning:hover {
+  background-color: #d39e00;
+  border-color: #c69500;
+  color: #212529;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  color: #fff;
+}
+
+.btn-crear {
+  background-color: #17A1FA;
+  border-color: #17A1FA;
+  color: white;
+  border-radius: 15px; /* Esquinas redondeadas */
+  padding: 10px 20px; /* Espaciado interno */
+  border: 1px solid transparent; /* Asegura que el borde sea visible */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Sombra en los botones */
+}
+</style>
+
 
 <script>
 import Swal from 'sweetalert2';
@@ -98,22 +153,3 @@ export default {
 };
 </script>
 
-<style scoped>
-
-.text-center {
-  text-align: center;
-  margin: 20px 0;
-}
-.btn-crear,
-.btn-cancelar {
-  background-color: #17A1FA;
-  border-color: #17A1FA;
-  color: white;
-  border-radius: 15px; /* Esquinas redondeadas */
-  padding: 10px 20px; /* Espaciado interno */
-  border: 1px solid transparent; /* Asegura que el borde sea visible */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Sombra en los botones */
-}
-
-
-</style>

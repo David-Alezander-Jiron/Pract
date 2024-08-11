@@ -7,12 +7,6 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <input type="text" class="form-control" placeholder="Buscar...">
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fas fa-search"></i></a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="#"><i class="fas fa-bell"></i></a>
         </li>
         <li class="nav-item">

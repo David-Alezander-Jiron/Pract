@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <div class="card">
+    <div class="card animated fadeIn">
       <div class="card-header">
         Lista de Eventos
       </div>
       <div class="card-body">
-        <table class="table">
+        <table class="table table-hover">
           <thead>
             <tr>
               <th>ID</th>
@@ -20,19 +20,18 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="evento in eventos" :key="evento.id">
+            <tr v-for="evento in eventos" :key="evento.id" class="animated fadeIn">
               <td>{{ evento.id }}</td>
               <td>{{ evento.nombre }}</td>
-              <td>{{ formatFecha(evento.fecha) }}</td> <!-- Formateo de la fecha -->
+              <td>{{ formatFecha(evento.fecha) }}</td>
               <td>{{ evento.capacidad_personas }}</td>
               <td>{{ evento.ubicacion }}</td>
               <td>{{ evento.descripcion }}</td>
               <td>{{ evento.tipo_evento }}</td>
               <td>{{ evento.patrocinador.nombre }}</td>
-              <!-- Asegúrate de que estás obteniendo el nombre del patrocinador aquí -->
               <td>
-                <router-link :to="`/eventos/editar/${evento.id}`" class="btn btn-warning">Editar</router-link>
-                <button @click="eliminarEvento(evento.id)" class="btn btn-danger">Eliminar</button>
+                <router-link :to="`/eventos/editar/${evento.id}`" class="btn btn-warning animated pulse">Editar</router-link>
+                <button @click="eliminarEvento(evento.id)" class="btn btn-danger animated shake">Eliminar</button>
               </td>
             </tr>
           </tbody>
@@ -113,6 +112,46 @@ export default {
 };
 </script>
 
+
 <style scoped>
 /* Estilos adicionales si es necesario */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2em;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #212529;
+}
+
+.btn-warning:hover {
+  background-color: #d39e00;
+  border-color: #c69500;
+  color: #212529;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  color: #fff;
+}
 </style>

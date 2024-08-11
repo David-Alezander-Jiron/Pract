@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="card">
+    <div class="card animated fadeIn">
       <div class="card-header">
         Editar Evento
       </div>
@@ -42,8 +42,8 @@
             </select>
           </div>
           <div class="btn-group" role="group" aria-label="">
-            <button type="submit" class="btn btn-success">Guardar Cambios</button>
-            <router-link to="/eventos" class="btn btn-warning">Cancelar</router-link>
+            <button type="submit" class="btn btn-success animated pulse">Guardar Cambios</button>
+            <router-link to="/eventos" class="btn btn-warning animated pulse">Cancelar</router-link>
           </div>
         </form>
       </div>
@@ -145,6 +145,46 @@ export default {
 };
 </script>
 
+
 <style scoped>
 /* Estilos adicionales si es necesario */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2em;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: #fff;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+  color: #fff;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #212529;
+}
+
+.btn-warning:hover {
+  background-color: #d39e00;
+  border-color: #c69500;
+  color: #212529;
+}
 </style>

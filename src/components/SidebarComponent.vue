@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column flex-shrink-0 p-3 bg-dark text-white vh-100" style="width: 280px;">
+  <div class="d-flex flex-column flex-shrink-0 p-3 bg-dark text-white vh-100 animated fadeIn" style="width: 280px;">
     <router-link to="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
       <span class="fs-4">EventTix</span>
     </router-link>
@@ -71,27 +71,12 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'SidebarMenu',
-  data() {
-    return {
-      dropdowns: {
-        eventosDropdown: false,
-        adminDropdown: false,
-        personalDropdown: false,
-      },
-    };
-  },
-  methods: {
-    toggleDropdown(dropdown) {
-      this.dropdowns[dropdown] = !this.dropdowns[dropdown];
-    },
-  },
-};
-</script>
+
 
 <style scoped>
+/* Estilos adicionales si es necesario */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
+
 .nav-link {
   color: #ffffff;
 }
@@ -114,8 +99,32 @@ export default {
 
 .sidebar-logo {
   display: block;
-  max-width: 100%;
+  max-width: 70%; /* Reducir el tamaño del logo */
   height: auto;
-  margin-bottom: 20px;
+  margin: 0 auto 20px; /* Centrar el logo */
 }
 </style>
+
+
+
+
+<script>
+export default {
+  name: 'SidebarMenu',
+  data() {
+    return {
+      dropdowns: {
+        eventosDropdown: false,
+        adminDropdown: false,
+        personalDropdown: false,
+      },
+    };
+  },
+  methods: {
+    toggleDropdown(dropdown) {
+      this.dropdowns[dropdown] = !this.dropdowns[dropdown];
+    },
+  },
+};
+</script>
+

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="card">
+    <div class="card animated fadeIn">
       <div class="card-header">
         Editar Personal
       </div>
@@ -32,14 +32,62 @@
             <small id="helpId" class="form-text text-muted">Selecciona el rol del personal</small>
           </div>
           <div class="btn-group" role="group" aria-label="">
-            <button type="submit" class="btn btn-primary">Guardar Cambios</button> <!-- Cambiado a azul -->
-            <router-link to="/personal" class="btn btn-danger">Cancelar</router-link> <!-- Cambiado a rojo -->
+            <button type="submit" class="btn btn-primary animated pulse">Guardar Cambios</button> <!-- Cambiado a azul -->
+            <router-link to="/personal" class="btn btn-danger animated pulse">Cancelar</router-link> <!-- Cambiado a rojo -->
           </div>
         </form>
       </div>
     </div>
   </div>
 </template>
+
+
+
+<style scoped>
+/* Estilos adicionales si es necesario */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2em;
+}
+
+.btn-primary {
+  background-color: #007BFF;
+  border-color: #007BFF;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+  color: #fff;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  color: #fff;
+}
+</style>
+
+
+
 
 <script>
 import Swal from 'sweetalert2';
@@ -104,34 +152,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.container {
-  max-width: 600px;
-  margin: 20px auto;
-}
-.card {
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-}
-.card-header {
-  background-color: #f8f9fa;
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-.card-body {
-  padding: 20px;
-}
-.form-group {
-  margin-bottom: 15px;
-}
-.form-text {
-  color: #6c757d;
-}
-.btn-group {
-  display: flex;
-  justify-content: space-between;
-}
-.btn {
-  padding: 10px 20px;
-  font-size: 1rem;
-}
-</style>

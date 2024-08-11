@@ -33,26 +33,56 @@
 </template>
 
 <script>
+import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
+
 export default {
   name: 'TicketsNew',
   data() {
     return {
-      tickets: [
-      
-      ],
+      tickets: [],
+      csrfToken: ''
     };
   },
+  async mounted() {
+    try {
+      // Obtén el token CSRF del backend
+      const response = await instance.get('/');
+      this.csrfToken = response.data.csrfToken;
+      // Configura el token CSRF en Axios
+      instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
+
+      // Cargar la lista de tickets
+      await this.fetchTickets();
+    } catch (error) {
+      console.error('Error al obtener el token CSRF o los tickets:', error);
+    }
+  },
   methods: {
-    editarTicket(ticket) {
-      console.log("Editar ticket:", ticket);
+    async fetchTickets() {
+      try {
+        const response = await instance.get('/tickets');
+        this.tickets = response.data;
+      } catch (error) {
+        console.error('Error al obtener los tickets:', error);
+      }
     },
-    eliminarTicket(ticket) {
-      console.log("Eliminar ticket:", ticket);
+    async eliminarTicket(id) {
+      try {
+        await instance.delete(`/tickets/${id}`, {
+          headers: {
+            'X-CSRF-Token': this.csrfToken // Asegúrate de enviar el token CSRF
+          }
+        });
+        await this.fetchTickets(); // Recargar la lista de tickets después de eliminar
+      } catch (error) {
+        console.error('Error al eliminar el ticket:', error);
+      }
     },
     agregarTicket() {
       console.log("Agregar ticket");
-    },
-  },
+      // Aquí puedes implementar la lógica para agregar un ticket usando Axios
+    }
+  }
 };
 </script>
 

@@ -1,8 +1,8 @@
 <template>
   <div class="d-flex flex-column flex-shrink-0 p-3 bg-dark text-white vh-100" style="width: 280px;">
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+    <router-link to="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
       <span class="fs-4">EventTix</span>
-    </a>
+    </router-link>
     <img src="@/assets/logopra.png" alt="EventTix Logo" class="sidebar-logo mb-3">
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
@@ -16,20 +16,12 @@
           <i class="fas fa-map-marker-alt me-2"></i> Roles
         </router-link>
       </li>
-      <li>
-        <router-link to="/registros" class="nav-link text-white d-flex align-items-center" active-class="active">
-          <i class="fas fa-clipboard-list me-2"></i> Registros
-        </router-link>
-      </li>
       <li class="nav-item">
         <a href="#" class="nav-link text-white d-flex align-items-center" @click="toggleDropdown('eventosDropdown')">
           <i class="fas fa-calendar-alt me-2"></i> Eventos
           <i :class="dropdowns.eventosDropdown ? 'fas fa-chevron-up ms-auto' : 'fas fa-chevron-down ms-auto'"></i>
         </a>
         <ul v-show="dropdowns.eventosDropdown" class="nav flex-column ms-3">
-          <li class="nav-item">
-            <router-link to="/eventos/opciones" class="nav-link text-white">Opciones de Eventos</router-link>
-          </li>
           <li class="nav-item">
             <router-link to="/eventos" class="nav-link text-white">Listado de Eventos</router-link>
           </li>
@@ -72,9 +64,6 @@
           </li>
           <li class="nav-item">
             <router-link to="/tickets" class="nav-link text-white">Gestión de Tickets</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/pagina-gestion" class="nav-link text-white">Gestión de Páginas</router-link>
           </li>
         </ul>
       </li>

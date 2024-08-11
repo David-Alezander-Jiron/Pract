@@ -1,373 +1,200 @@
 <template>
-  <div class="main-content">
-    <div class="stat-cards">
-      <div class="stat-card">
-        <div class="stat-icon">
-          <img src="@/assets/stacts1.png" alt="Icon 1" />
-        </div>
+  <div class="dashboard">
+    <section class="stat-cards">
+      <div class="stat-card" v-for="(card, index) in statCards" :key="index">
+        
         <div class="stat-info">
-          <h3>Usuarios Registrados</h3>
-          <p>7,842,900</p>
-          <router-link to="/" class="custom-link">Todos los detalles aquí</router-link>
+          <h3>{{ card.title }}</h3>
+          <p>{{ card.value }}</p>
+          <router-link :to="card.link" class="custom-link">Todos los detalles aquí</router-link>
         </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-icon">
-          <img src="@/assets/stacts2.png" alt="Icon 2" />
-        </div>
-        <div class="stat-info">
-          <h3>Ventas de Tickets</h3>
-          <p>180,200</p>
-          <router-link to="/tickets" class="custom-link">Todos los detalles aquí</router-link>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">
-          <img src="@/assets/stacts3.png" alt="Icon 3" />
-        </div>
-        <div class="stat-info">
-          <h3>Eventos Próximos</h3>
-          <p>38,900</p>
-          <router-link to="/" class="custom-link">Todos los detalles aquí</router-link>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">
-          <img src="@/assets/stacts4.png" alt="Icon 4" />
-        </div>
-        <div class="stat-info">
-          <h3>Nuevos Comentarios</h3>
-          <p>3,988</p>
-          <router-link to="/comentarios" class="custom-link">Todos los detalles aquí</router-link>
+    </section>
+
+    <section class="cards-container">
+      <div class="notification-cards" style="padding-left: 125px;">
+        <div class="card">
+          <div class="container">
+            <div class="left">
+              <div class="status-ind"></div>
+            </div>
+            <div class="right">
+              <div class="text-wrap">
+                <p class="text-content">
+                  <a class="text-link" href="#">Notificaciones</a> Nuevas notificaciones acerca de eventos próximos
+                  <a class="text-link" href="#">ver detalles</a>.
+                </p>
+                <p class="time">Hace 2 horas</p>
+              </div>
+              <div class="button-wrap">
+                <button class="primary-cta">Ver detalles</button>
+                <button class="secondary-cta">Marcar como leído</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+
     
-    <div class="main-content">
-  <div class="cards-container">
-    <div class="notification-cards">
-      <div class="card">
-        <div class="container">
-          <div class="left">
-            <div class="status-ind"></div>
-          </div>
-          <div class="right">
-            <div class="text-wrap">
-              <p class="text-content">
-                <a class="text-link" href="#">Notificaciones</a> Nuevas notificaciones acerca de nuevos eventos proximos
-                <a class="text-link" href="#">ver detalles</a> acerca de nuevos eventos.
-              </p>
-              <p class="time">Hace 2 horas </p>
-            </div>
-            <div class="button-wrap">
-              <button class="primary-cta">ver detalles</button>
-              <button class="secondary-cta">Mark as read</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
 
-    <div class="event-card">
-      <div class="ticket">
-        <div class="ticket-header">
-          <h2>Isabel & Pedro</h2>
-          <p>LOS INVITAN A EMBARCAR A LA FIESTA DE SU CASAMIENTO</p>
-        </div>
-        <div class="ticket-body">
-          <div class="ticket-details">
-            <div class="ticket-detail">
-              <p>FECHA:</p>
-              <p>24 DE OCTUBRE, 2024</p>
-            </div>
-            <div class="ticket-detail">
-              <p>DESTINO:</p>
-              <p>BORCELLE CLUB</p>
-            </div>
-            <div class="ticket-detail">
-              <p>HORA:</p>
-              <p>21 HORAS</p>
-            </div>
-            <div class="ticket-detail">
-              <p>TERMINAL:</p>
-              <p>CALLE CUALQUIERA 123, CUALQUIER LUGAR</p>
-            </div>
-          </div>
-          <div class="ticket-date">
-            <p>OCT</p>
-            <h3>24</h3>
-            <p>2024</p>
-            <p>VUELO: 123456</p>
-            <p>RSVP: (55) 1234-5678</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-    <div class="extra-cards">
+    <section class="extra-cards">
       <div class="card highlight-events-card">
         <h3>Próximos eventos a destacar</h3>
-        <div class="highlight-event">
-          <h4>Concierto de rock</h4>
-          <p>Fecha: 20 de Julio, 2024</p>
-          <p>Ubicación: Estadio Nacional</p>
-          <p>Descripción: Un increíble concierto con las mejores bandas de rock del momento.</p>
-        </div>
-        <div class="highlight-event">
-          <h4>Feria de Tecnología</h4>
-          <p>Fecha: 15 de Agosto, 2024</p>
-          <p>Ubicación: Centro de Convenciones</p>
-          <p>Descripción: La feria más grande de tecnología con expositores de todo el mundo.</p>
-        </div>
-        <div class="highlight-event">
-          <h4>Festival de Cine</h4>
-          <p>Fecha: 5 de Septiembre, 2024</p>
-          <p>Ubicación: Teatro Principal</p>
-          <p>Descripción: Disfruta de las mejores películas y cortometrajes del año.</p>
-        </div>
-        <div class="highlight-event">
-          <h4>Evento de Jazz en el Parque</h4>
-          <p>Fecha: 10 de Octubre, 2024</p>
-          <p>Ubicación: Parque Central</p>
-          <p>Descripción: Únete a nosotros para una velada inolvidable de jazz bajo las estrellas.</p>
+        <div class="highlight-event" v-for="(event, index) in highlightEvents" :key="index">
+          <h4>{{ event.title }}</h4>
+          <p>Fecha: {{ event.date }}</p>
+          <p>Ubicación: {{ event.location }}</p>
+          <p>Descripción: {{ event.description }}</p>
         </div>
       </div>
-      <div class="card map-card">
-  <h3>Vista del mapa de más ventas de tickets de eventos</h3>
-  <div class="map-details">
-    <p><img src="@/assets/locacion.png" alt="Mapa Icono" class="icon"> <strong>Mapa tiempo real</strong></p>
-    <p><img src="@/assets/calendario.png" alt="Calendario Icono" class="icon"> 08 de julio de 2024</p>
-    <img src="@/assets/mapa.png" alt="Mapa" />
-  </div>
-</div>
 
-    </div>
+      <div class="card map-card">
+        <h3>Vista del mapa de más ventas de tickets de eventos</h3>
+        <div class="map-details">
+          <p><img src="@/assets/locacion.png" alt="Mapa Icono" class="icon"> <strong>Mapa en tiempo real</strong></p>
+          <p><img src="@/assets/calendario.png" alt="Calendario Icono" class="icon"> 08 de julio de 2024</p>
+          <img src="@/assets/mapa.png" alt="Mapa" />
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'DashboardView'
+  name: 'DashboardView',
+  data() {
+    return {
+      statCards: [
+        { icon: '', title: 'Usuarios Registrados', value: '7,842,900', link: '/' },
+        { icon: '@/assets/stacts2.png', title: 'Ventas de Tickets', value: '180,200', link: '/tickets' },
+        { icon: '@/assets/stacts3.png', title: 'Eventos Próximos', value: '38,900', link: '/' },
+        { icon: '@/assets/stacts4.png', title: 'Nuevos Comentarios', value: '3,988', link: '/comentarios' },
+      ],
+      highlightEvents: [
+        { title: 'Concierto de rock', date: '20 de Julio, 2024', location: 'Estadio Nacional', description: 'Un increíble concierto con las mejores bandas de rock del momento.' },
+        { title: 'Feria de Tecnología', date: '15 de Agosto, 2024', location: 'Centro de Convenciones', description: 'La feria más grande de tecnología con expositores de todo el mundo.' },
+        { title: 'Festival de Cine', date: '5 de Septiembre, 2024', location: 'Teatro Principal', description: 'Disfruta de las mejores películas y cortometrajes del año.' },
+        { title: 'Evento de Jazz en el Parque', date: '10 de Octubre, 2024', location: 'Parque Central', description: 'Únete a nosotros para una velada inolvidable de jazz bajo las estrellas.' },
+      ],
+    };
+  },
 };
 </script>
 
 <style scoped>
-.main-content {
+.dashboard {
+  font-family: 'Roboto', sans-serif;
   padding: 20px;
+  background-color: #f4f7fc;
+  color: #333;
 }
 
 .stat-cards {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  margin-bottom: 40px;
 }
 
 .stat-card {
   background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  width: calc(25% - 20px); /* Ajusta el tamaño de cada tarjeta de estadísticas */
-  position: relative;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-  margin-left: auto;
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.stat-icon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 100%; /* Ajusta el ancho al 100% del contenedor */
-  height: auto;
-  pointer-events: none; /* Evita que la imagen interfiera con eventos del ratón */
-  z-index: 0; /* Asegura que esté detrás del contenido de .stat-info */
-  opacity: 0.6; /* Ajusta la opacidad de la imagen */
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .stat-icon img {
-  width: 100%; /* Ajusta el tamaño del ícono para llenar completamente .stat-icon */
-  height: auto;
-  display: block; /* Asegura que la imagen se comporte correctamente como fondo */
+  width: 60px;
+  height: 60px;
 }
 
 .stat-info {
-  position: relative; /* Cambia a posición relativa */
-  z-index: 1; /* Asegura que esté delante de .stat-icon */
+  margin-top: 20px;
 }
 
 .stat-info h3 {
   margin: 0;
   font-size: 18px;
-  color: #000;
+  color: #555;
 }
 
 .stat-info p {
   margin: 5px 0;
   font-size: 24px;
   font-weight: bold;
-  color: #000;
-}
-
-.stat-info a {
-  color: #ffffff;
-  text-decoration: none;
-}
-
-.stat-info a:hover {
-  text-decoration: underline;
+  color: #333;
 }
 
 .custom-link {
-  text-decoration: none; /* Elimina el subrayado predeterminado */
-  font-weight: bold; /* Opcional: Añade negrita u otro estilo de fuente */
+  font-size: 14px;
+  font-weight: bold;
+  color: #1677ff;
+  text-decoration: none;
+  transition: color 0.3s;
 }
 
 .custom-link:hover {
-  text-decoration: underline; /* Cambia el estilo al pasar el ratón sobre el enlace */
+  color: #0056b3;
+}
+
+.cards-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
 }
 
 .card {
   background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  width: calc(50% - 20px); /* Asegura que ambas cartas ocupen el 50% del ancho */
-  margin-left: 85px; /* Ajusta este valor para mover la carta a la derecha */
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-
-
 
 .card:hover {
-  background-color: #d3ddf1;
-  border: 1.5px solid #1677ff;
-}
-
-
-.cards-container {
-  display: flex;
-  gap: 20px; /* Espacio entre las cartas */
-}
-
-.notification-cards .card,
-.event-card {
-  width: 50%; /* Ajusta el ancho para que ocupen la mitad del contenedor */
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .notification-cards .card {
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  padding: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;
 }
-
-
-.status-ind {
-  width: 0.625em;
-  height: 0.625em;
-  background-color: #ff0000;
-  margin: 0.375em 0;
-  border-radius: 0.5em;
-}
-
-.text-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25em;
-  color: #333;
-}
-
-.time {
-  font-size: 0.875em;
-  color: #777;
-}
-
-.text-link {
-  font-weight: 500;
-  text-decoration: none;
-  color: black;
-}
-
-.button-wrap {
-  display: flex;
-  flex-direction: row;
-  gap: 1em;
-  align-items: center;
-}
-
-.secondary-cta {
-  background-color: transparent;
-  border: none;
-  font-size: 15px;
-  font-weight: 400;
-  color: #666;
-  cursor: pointer;
-}
-
-.primary-cta {
-  font-size: 15px;
-  background-color: transparent;
-  font-weight: 600;
-  color: #1677ff;
-  border: none;
-  border-radius: 1.5em;
-  cursor: pointer;
-}
-
-button:hover {
-  text-decoration: underline;
-}
-
-.right {
-  display: flex;
-  flex-direction: column;
-  gap: 0.875em;
-}
-
 
 .event-card {
+  flex: 1;
   background-image: url('@/assets/messages.png');
   background-size: cover;
   background-position: center;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
   color: white;
-  font-family: 'Arial', sans-serif;
   position: relative;
-  margin-left: 30px
-}
-
-.ticket {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.ticket-header {
-  text-align: center;
-  margin-bottom: 20px;
 }
 
 .ticket-header h2 {
   margin: 0;
-  font-size: 24px;
-  color: #007bff;
+  font-size: 28px;
+  color: #ffcc00;
 }
 
 .ticket-header p {
-  margin: 5px 0 0;
+  margin: 10px 0 20px;
   font-size: 16px;
-  color: #333;
+  color: #fff;
 }
 
 .ticket-body {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .ticket-details {
@@ -375,123 +202,83 @@ button:hover {
   margin-right: 20px;
 }
 
-.ticket-detail {
-  margin-bottom: 10px;
-}
-
-.ticket-detail p {
-  margin: 0;
-  font-size: 14px;
-  color: #555;
-}
-
 .ticket-detail p:first-child {
   font-weight: bold;
-  color: #007bff;
+  color: #ffcc00;
 }
 
 .ticket-date {
   text-align: center;
-  background-color: #f0f0f0;
+  background-color: rgba(0, 0, 0, 0.5);
   padding: 10px;
   border-radius: 8px;
-  width: 150px;
+  min-width: 150px;
 }
 
-.ticket-date p {
-  margin: 0;
-  font-size: 14px;
-  color: #333;
-}
-
+.ticket-date p,
 .ticket-date h3 {
   margin: 5px 0;
-  font-size: 32px;
-  color: #007bff;
-}
-
-.ticket-date p:last-child {
-  margin-top: 10px;
-  font-size: 12px;
-  color: #555;
 }
 
 .extra-cards {
   display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-  margin-top: 20px;
+  gap: 20px;
 }
 
-.card.highlight-events-card {
-  background-color: #f9f9f9; /* Fondo claro */
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
-  padding: 20px;
-  width: calc(50% - 20px); /* Ajusta el tamaño de la tarjeta de eventos destacados */
-  max-width: 800px; /* Limita el ancho máximo */
-  margin: 20px auto; /* Centra la tarjeta */
-  font-family: 'Arial', sans-serif;
-  margin-top: -1px;
-}
-
-.highlight-events-card h3 {
-  margin-bottom: 20px;
-  font-size: 26px;
-  text-align: center;
-  color: #333;
-}
-
-.highlight-event {
-  background-color: #FFFFFF; /* Fondo blanco para cada evento */
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 20px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Sombra suave para cada evento */
-  transition: transform 0.3s ease; /* Efecto de transición suave */
-}
-
-.highlight-event:hover {
-  transform: translateY(-5px); /* Efecto de levantamiento en hover */
+.highlight-events-card {
+  flex: 2;
 }
 
 .highlight-event h4 {
-  margin: 0 0 8px;
-  font-size: 20px;
-  color: #2c3e50;
+  margin-bottom: 5px;
+  font-size: 18px;
 }
 
-.highlight-event p {
-  margin: 0 0 8px;
-  color: #7f8c8d;
-  font-size: 16px;
+.map-card {
+  flex: 1;
 }
 
-.card.map-card {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: calc(50% - 20px); /* Ajusta el tamaño de la tarjeta de mapa */
-}
-
-.map-details p {
-  margin: 0 0 10px;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
+.map-details {
+  text-align: center;
+  margin-top: 10px;
 }
 
 .map-details img.icon {
-  width: 70px; /* Ajusta el tamaño del icono */
-  height: 35px;
-  margin-right: 8px; /* Espacio entre la imagen y el texto */
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  vertical-align: middle;
 }
 
 .map-details img {
   width: 100%;
   border-radius: 8px;
+  margin-top: 10px;
 }
 
+.primary-cta {
+  background-color: #1677ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 10px;
+}
 
+.secondary-cta {
+  background-color: #f4f4f4;
+  color: #555;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.primary-cta:hover,
+.secondary-cta:hover {
+  opacity: 0.8;
+}
 </style>

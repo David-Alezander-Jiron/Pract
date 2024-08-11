@@ -1,93 +1,32 @@
 <template>
-  <div class="login-container">
+  <div class="login-container animated fadeIn">
     <div class="login-content">
       <img src="@/assets/logopra.png" alt="EventTix Logo" class="logo-img">
       <div class="login-box">
-        <h1>EventTix</h1>
+        <h1 class="animated fadeInDown">EventTix</h1>
         <form @submit.prevent="login">
-          <div class="input-group">
+          <div class="input-group animated fadeInLeft">
             <input type="text" v-model="username" placeholder="Correo" required />
           </div>
-          <div class="input-group">
+          <div class="input-group animated fadeInRight">
             <input type="password" v-model="password" placeholder="Contraseña" required />
           </div>
-          <div class="input-group remember-me">
+          <div class="input-group remember-me animated fadeInLeft">
             <input type="checkbox" id="rememberMe" v-model="rememberMe" />
             <label for="rememberMe">Recordar usuario</label>
           </div>
-          <button type="submit">Iniciar sesión</button>
+          <button type="submit" class="animated pulse">Iniciar sesión</button>
         </form>
-        <router-link to="/register">¿No tienes cuenta? Regístrate</router-link>
+        <router-link to="/register" class="animated fadeInUp">¿No tienes cuenta? Regístrate</router-link>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import Swal from 'sweetalert2';
-import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
-
-export default {
-  name: 'newLogin',
-  data() {
-    return {
-      username: '',
-      password: '',
-      rememberMe: false,
-      error: false,
-      errorMessage: ''
-    };
-  },
-  methods: {
-    async login() {
-      try {
-        // Obtener el token CSRF
-        const csrfResponse = await instance.get('/');
-        const csrfToken = csrfResponse.data.csrfToken;
-
-        // Enviar la solicitud de login
-        const response = await instance.post('/login', {
-          correo: this.username,
-          contrasena: this.password
-        }, {
-          headers: {
-            'X-CSRF-Token': csrfToken
-          }
-        });
-
-        // Guardar el token de autenticación en localStorage
-        localStorage.setItem('authToken', response.data.token);
-
-        Swal.fire({
-          icon: 'success',
-          title: response.data.message,
-          showConfirmButton: false,
-          timer: 1500
-        });
-
-        // Redirigir si la autenticación es exitosa
-        this.$router.push(response.data.redirect || '/');
-      } catch (error) {
-        this.error = true;
-        this.errorMessage = 'Correo o contraseña incorrecto'; // Mensaje de error personalizado
-
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: this.errorMessage,
-          confirmButtonText: 'Aceptar'
-        });
-      }
-    }
-  }
-}
-</script>
 
 <style scoped>
-.body {
-  background-color: #767171;
-  /* Este es un tono de gris claro */
-}
+/* Estilos adicionales si es necesario */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
 
 .login-container {
   display: flex;
@@ -113,7 +52,7 @@ export default {
 }
 
 .logo-img {
-  max-width: 300px;
+  max-width: 200px; /* Hacer el logo un poco más pequeño */
   height: auto;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -180,3 +119,64 @@ button:focus {
   text-decoration: underline;
 }
 </style>
+
+
+<script>
+import Swal from 'sweetalert2';
+import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
+
+export default {
+  name: 'newLogin',
+  data() {
+    return {
+      username: '',
+      password: '',
+      rememberMe: false,
+      error: false,
+      errorMessage: ''
+    };
+  },
+  methods: {
+    async login() {
+      try {
+        // Obtener el token CSRF
+        const csrfResponse = await instance.get('/');
+        const csrfToken = csrfResponse.data.csrfToken;
+
+        // Enviar la solicitud de login
+        const response = await instance.post('/login', {
+          correo: this.username,
+          contrasena: this.password
+        }, {
+          headers: {
+            'X-CSRF-Token': csrfToken
+          }
+        });
+
+        // Guardar el token de autenticación en localStorage
+        localStorage.setItem('authToken', response.data.token);
+
+        Swal.fire({
+          icon: 'success',
+          title: response.data.message,
+          showConfirmButton: false,
+          timer: 1500
+        });
+
+        // Redirigir si la autenticación es exitosa
+        this.$router.push(response.data.redirect || '/');
+      } catch (error) {
+        this.error = true;
+        this.errorMessage = 'Correo o contraseña incorrecto'; // Mensaje de error personalizado
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: this.errorMessage,
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    }
+  }
+}
+</script>

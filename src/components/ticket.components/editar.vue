@@ -1,141 +1,182 @@
 <template>
-  <div class="container">
-    <h2>Crear Ticket</h2>
-    <form @submit.prevent="guardarTicket">
-      <div class="form-group">
-        <label for="codigo">Código:</label>
-        <input v-model="nuevoTicket.codigo" type="text" id="codigo" required />
+  <div class="container animated fadeIn">
+    <div class="card">
+      <div class="card-header">
+        Editar Ticket
       </div>
-      <div class="form-group">
-        <label for="precio">Precio:</label>
-        <input v-model="nuevoTicket.precio" type="text" id="precio" required />
+      <div class="card-body">
+        <form @submit.prevent="submitForm">
+          <div class="form-group animated fadeInLeft">
+            <label for="evento">Evento:</label>
+            <select class="form-control" required v-model="ticket.evento_id" id="evento">
+              <option value="" disabled>Selecciona un evento</option>
+              <option v-for="evento in eventos" :key="evento.id" :value="evento.id">
+                {{ evento.nombre }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group animated fadeInRight">
+            <label for="codigoQr">Código QR:</label>
+            <input type="text" class="form-control" required v-model="ticket.codigoQr" id="codigoQr" placeholder="Código QR del ticket">
+          </div>
+          <div class="form-group animated fadeInLeft">
+            <label for="precio">Precio:</label>
+            <input type="number" class="form-control" required v-model="ticket.precio" id="precio" placeholder="Precio del ticket">
+          </div>
+          <div class="form-group animated fadeInRight">
+            <label for="estado">Estado:</label>
+            <select class="form-control" required v-model="ticket.estado" id="estado">
+              <option value="" disabled>Selecciona un estado</option>
+              <option value="activo">Activo</option>
+              <option value="inactivo">Inactivo</option>
+            </select>
+          </div>
+          <div class="form-group animated fadeInLeft">
+            <label for="participante">Participante:</label>
+            <select class="form-control" required v-model="ticket.participantes_id" id="participante">
+              <option value="" disabled>Selecciona un participante</option>
+              <option v-for="participante in participantes" :key="participante.id" :value="participante.id">
+                {{ participante.nombre }}
+              </option>
+            </select>
+          </div>
+          <div class="btn-group" role="group" aria-label="">
+            <button type="submit" class="btn btn-success animated pulse">Guardar Cambios</button>
+            <router-link to="/tickets" class="btn btn-warning animated pulse">Cancelar</router-link>
+          </div>
+        </form>
       </div>
-      <div class="form-group">
-        <label for="estado">Estado:</label>
-        <select id="estado" v-model="nuevoTicket.estado" required>
-          <option value="">Seleccionar</option>
-          <option value="Activo">Activo</option>
-          <option value="Cancelado">Cancelado</option>
-          <option value="Vendido">Vendido</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="participantes">Participantes:</label>
-        <input v-model="nuevoTicket.participantes" type="text" id="participantes" required />
-      </div>
-      <div class="btn-group-custom">
-        <router-link to="/tickets" class="btn btn-editar">Editar</router-link>
-        <router-link to="/tickets" class="btn btn-cancelar">Cancelar</router-link>
-      </div>
-    </form>
+    </div>
   </div>
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
+
 export default {
-  name: 'CrearTicket',
+  name: 'EditarTicket',
   data() {
     return {
-      nuevoTicket: {
-        codigo: '',
+      ticket: {
+        evento_id: '', // Campo para el id del evento
+        codigoQr: '', // Campo para el código QR
         precio: '',
-        estado: '',
-        participantes: ''
-      }
+        estado: 'activo',
+        participantes_id: '' // Campo para el id del participante
+      },
+      eventos: [],
+      participantes: [],
+      csrfToken: ''
     };
   },
+  async mounted() {
+    try {
+      // Obtén el token CSRF del backend
+      const response = await instance.get('/');
+      this.csrfToken = response.data.csrfToken;
+      // Configura el token CSRF en Axios
+      instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
+
+      // Cargar la lista de eventos y participantes
+      await this.fetchEventos();
+      await this.fetchParticipantes();
+
+      // Cargar los datos del ticket
+      await this.fetchTicket();
+    } catch (error) {
+      console.error('Error al obtener el token CSRF, los eventos, los participantes o los datos del ticket:', error);
+    }
+  },
   methods: {
-    guardarTicket() {
-      // Lógica para guardar el nuevo ticket (por ejemplo, enviarlo a una API)
-      console.log('Nuevo ticket:', this.nuevoTicket);
-      // Limpia el formulario después de guardar
-      this.nuevoTicket = {
-        codigo: '',
-        precio: '',
-        estado: '',
-        participantes: ''
-      };
+    async fetchEventos() {
+      try {
+        const response = await instance.get('/eventos');
+        this.eventos = response.data;
+      } catch (error) {
+        console.error('Error al obtener los eventos:', error);
+      }
+    },
+    async fetchParticipantes() {
+      try {
+        const response = await instance.get('/participantes');
+        this.participantes = response.data;
+      } catch (error) {
+        console.error('Error al obtener los participantes:', error);
+      }
+    },
+    async fetchTicket() {
+      try {
+        const response = await instance.get(`/tickets/${this.$route.params.id}`);
+        this.ticket = response.data;
+      } catch (error) {
+        console.error('Error al obtener los datos del ticket:', error);
+      }
+    },
+    async submitForm() {
+      try {
+        await instance.put(`/tickets/${this.$route.params.id}`, this.ticket, {
+          headers: {
+            'X-CSRF-Token': this.csrfToken // Asegúrate de que este valor sea correcto
+          }
+        });
+        this.$router.push('/tickets');
+      } catch (error) {
+        console.error('Error al actualizar el ticket:', error);
+        const message = error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : 'No se pudo actualizar el ticket.';
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al actualizar el ticket',
+          text: message
+        });
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  margin-top: 30px;
-}
+/* Estilos adicionales si es necesario */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
 
-h2 {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-input, select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ced4da;
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
   border-radius: 5px;
-  font-size: 16px;
 }
 
-input:focus, select:focus {
-  outline: none;
-  box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
-.btn-group-custom {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-  margin-left: 270px;
+.container {
+  padding: 2em;
 }
 
-.btn {
-  background-color: #17A1FA;
-  border-color: #17A1FA;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  text-align: center;
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: #fff;
 }
 
-.btn-editar {
-  background-color: #007bff;
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+  color: #fff;
 }
 
-.btn-cancelar {
-  background-color: #ff3b30;
+.btn-warning {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #212529;
 }
 
-.btn-editar:hover {
-  background-color: #0f8de3;
-}
-
-.btn-cancelar:hover {
-  background-color: #d32f2f;
-}
-
-.btn:hover {
-  opacity: 0.8;
+.btn-warning:hover {
+  background-color: #d39e00;
+  border-color: #c69500;
+  color: #212529;
 }
 </style>

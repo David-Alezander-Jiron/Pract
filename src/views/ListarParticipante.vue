@@ -1,120 +1,162 @@
 <template>
-  <div class="background">
-    <h2>Listado de participantes</h2>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Correo</th>
-          <th>Teléfono</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(participant, index) in participants" :key="index">
-          <td>{{ participant.nombre }}</td>
-          <td>{{ participant.apellido }}</td>
-          <td>{{ participant.correo }}</td>
-          <td>{{ participant.telefono }}</td>
-          <td>
-          <router-link :to="`/participantes/editar/${participanteId}`">
-          <button class="action-btn">Editar</button>
-          </router-link><button class="action-btn delete-btn">Eliminar</button>
-    
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <router-link to="/participantes/crear" class="add-btn">Añadir Participante</router-link>
+  <div class="container">
+    <div class="card animated fadeIn">
+      <div class="card-header">
+        Lista de Participantes
+      </div>
+      <div class="card-body">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Teléfono</th>
+              <th>Nombre del Evento</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="participante in participantes" :key="participante.id" class="animated fadeIn">
+              <td>{{ participante.id }}</td>
+              <td>{{ participante.nombre }}</td>
+              <td>{{ participante.correo }}</td>
+              <td>{{ participante.telefono }}</td>
+              <td>{{ participante.evento ? participante.evento.nombre : 'Evento no disponible' }}</td>
+              <td>{{ participante.estado }}</td>
+              <td>
+                <router-link :to="`/participantes/editar/${participante.id}`" class="btn btn-warning animated pulse">Editar</router-link>
+                <button @click="eliminarParticipante(participante.id)" class="btn btn-danger animated shake">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <router-link to="/participantes/crear" class="btn btn-primary animated pulse">Agregar Participante</router-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
+
 export default {
-  name: 'ListarParticipante',
+  name: 'ListarParticipantes',
   data() {
     return {
-      participants: [
-    
-      ]
+      participantes: [],
+      csrfToken: ''
     };
   },
+  async mounted() {
+    try {
+      // Obtén el token CSRF del backend
+      const response = await instance.get('/');
+      this.csrfToken = response.data.csrfToken;
+      // Configura el token CSRF en Axios
+      instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
+
+      // Cargar la lista de participantes
+      await this.fetchParticipantes();
+    } catch (error) {
+      console.error('Error al obtener el token CSRF o los participantes:', error);
+    }
+  },
   methods: {
-    addParticipant() {
-      // Lógica para añadir un participante
-      console.log('Botón de añadir participante clickeado');
+    async fetchParticipantes() {
+      try {
+        const response = await instance.get('/participantes');
+        this.participantes = response.data;
+        for (let participante of this.participantes) {
+          try {
+            const eventoResponse = await instance.get(`/eventos/${participante.evento_id}`);
+            participante.evento = eventoResponse.data;
+          } catch (error) {
+            console.error(`Error al obtener el evento para participante con ID ${participante.id}:`, error);
+            participante.evento = { nombre: 'Evento no disponible' };
+          }
+        }
+      } catch (error) {
+        console.error('Error al obtener los participantes:', error);
+      }
+    },
+    async eliminarParticipante(id) {
+      try {
+        await instance.delete(`/participantes/${id}`, {
+          headers: {
+            'X-CSRF-Token': this.csrfToken // Asegúrate de enviar el token CSRF
+          }
+        });
+        await this.fetchParticipantes(); // Recargar la lista de participantes después de eliminar
+      } catch (error) {
+        console.error('Error al eliminar el participante:', error);
+        const message = error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : 'No se pudo eliminar el participante.';
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al eliminar el participante',
+          text: message
+        });
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-.background {
-  border: 1px solid #D9D9D9;
-  padding: 20px;
-  max-width: 1600px; /* Ajusta el ancho máximo según tu preferencia */
-  margin: 0 auto; /* Centra horizontalmente */
-}
+/* Estilos adicionales si es necesario */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
 
-.table {
-  width: 100%; /* Ajusta el ancho de la tabla al contenedor */
-  border-collapse: collapse;
-  margin-left: 10px;
-}
-.table th, .table td {
-  border: 1px solid black;
-  padding: 8px;
-  text-align: center; /* Centra el texto en las celdas */
-}
-.table th {
-  background-color: #D9D9D9;
-}
-.action-btn, .add-btn, .cancel-btn {
-  background-color: #2196F3;
-  color: white;
-  border: none;
-  padding: 5px 10px;
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
   border-radius: 5px;
-  cursor: pointer;
-  margin: 5px; /* Añade espacio alrededor de los botones */
-}
-.action-btn:hover, .add-btn:hover, .cancel-btn:hover {
-  background-color: #17A1FA;
-  
-}
-.add-btn {
-  background-color: #17A1FA;
-  padding: 10px 20px;
-  margin-top: 10px;
-  margin-left: 15px;
-}
-.cancel-btn {
-  background-color: #f44336;
-  
-}
-.cancel-btn:hover {
-  background-color: #d32f2f;
 }
 
-.action-btn{
-  border-radius: 15px;
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
+.container {
+  padding: 2em;
+}
 
-.delete-btn {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-  }
+.btn-warning {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #212529;
+}
 
-  .delete-btn:hover {
-    background-color: red;
-  }
+.btn-warning:hover {
+  background-color: #d39e00;
+  border-color: #c69500;
+  color: #212529;
+}
 
-h2{
-  text-align: center;
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  color: #fff;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+  border-color: #0062cc;
+  color: #fff;
 }
 </style>

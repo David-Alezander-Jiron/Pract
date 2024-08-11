@@ -1,45 +1,58 @@
 <template>
-  <div class="background">
-    <div class="container">
-      <h2>Listado de Tickets</h2>
-
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Código</th>
-            <th>Precio</th>
-            <th>Estado</th>
-            <th>Participantes</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="ticket in tickets" :key="ticket.codigo">
-            <td>{{ ticket.codigo }}</td>
-            <td>{{ ticket.precio }}</td>
-            <td>{{ ticket.estado }}</td>
-            <td>{{ ticket.participantes }}</td>
-            <td>
-              <a href="/tickets/editar/1" class="btn editar-btn">Editar</a>
-              <a href="" class="btn eliminar-btn">Eliminar</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <a href="/tickets/crear" class="btn">Agregar Ticket</a>
+  <div class="container">
+    <div class="card animated fadeIn">
+      <div class="card-header">
+        Lista de Tickets
+      </div>
+      <div class="card-body">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Código QR</th>
+              <th>Evento</th>
+              <th>Precio</th>
+              <th>Estado</th>
+              <th>Participante</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="ticket in tickets" :key="ticket.id" class="animated fadeIn">
+              <td>{{ ticket.id }}</td>
+              <td><qrcode-vue :value="ticket.codigoQr" :size="100"></qrcode-vue></td>
+              <td>{{ ticket.eventoNombre }}</td>
+              <td>{{ ticket.precio }}</td>
+              <td>{{ ticket.estado }}</td>
+              <td>{{ ticket.participanteNombre }}</td>
+              <td>
+                <router-link :to="`/tickets/editar/${ticket.id}`" class="btn btn-warning animated pulse">Editar</router-link>
+                <button @click="eliminarTicket(ticket.id)" class="btn btn-danger animated shake">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <router-link to="/tickets/crear" class="btn btn-primary animated pulse">Agregar Ticket</router-link>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
+import QrcodeVue from 'qrcode.vue';
 
 export default {
-  name: 'TicketsNew',
+  name: 'ListarTickets',
+  components: {
+    QrcodeVue
+  },
   data() {
     return {
       tickets: [],
+      eventos: [],
+      participantes: [],
       csrfToken: ''
     };
   },
@@ -51,19 +64,35 @@ export default {
       // Configura el token CSRF en Axios
       instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
 
-      // Cargar la lista de tickets
-      await this.fetchTickets();
+      // Cargar la lista de eventos, participantes y tickets
+      await this.fetchData();
     } catch (error) {
-      console.error('Error al obtener el token CSRF o los tickets:', error);
+      console.error('Error al obtener el token CSRF o los datos:', error);
     }
   },
   methods: {
-    async fetchTickets() {
+    async fetchData() {
       try {
-        const response = await instance.get('/tickets');
-        this.tickets = response.data;
+        const [ticketsResponse, eventosResponse, participantesResponse] = await Promise.all([
+          instance.get('/tickets'),
+          instance.get('/eventos'),
+          instance.get('/participantes')
+        ]);
+
+        this.eventos = eventosResponse.data;
+        this.participantes = participantesResponse.data;
+
+        this.tickets = ticketsResponse.data.map(ticket => {
+          const evento = this.eventos.find(e => e.id === ticket.evento_id);
+          const participante = this.participantes.find(p => p.id === ticket.participantes_id);
+          return {
+            ...ticket,
+            eventoNombre: evento ? evento.nombre : 'Evento desconocido',
+            participanteNombre: participante ? participante.nombre : 'Participante desconocido'
+          };
+        });
       } catch (error) {
-        console.error('Error al obtener los tickets:', error);
+        console.error('Error al obtener los datos:', error);
       }
     },
     async eliminarTicket(id) {
@@ -73,86 +102,74 @@ export default {
             'X-CSRF-Token': this.csrfToken // Asegúrate de enviar el token CSRF
           }
         });
-        await this.fetchTickets(); // Recargar la lista de tickets después de eliminar
+        await this.fetchData(); // Recargar la lista de tickets después de eliminar
       } catch (error) {
         console.error('Error al eliminar el ticket:', error);
+        const message = error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : 'No se pudo eliminar el ticket.';
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al eliminar el ticket',
+          text: message
+        });
       }
-    },
-    agregarTicket() {
-      console.log("Agregar ticket");
-      // Aquí puedes implementar la lógica para agregar un ticket usando Axios
     }
   }
 };
 </script>
 
 <style scoped>
-.background {
-  background-color: #f9f9f9;
-  border: 1px solid #D9D9D9;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 1200px;
-  margin: 0 auto;
+/* Estilos adicionales si es necesario */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
 .container {
-  width: 100%;
-  margin: 0 auto;
+  padding: 2em;
 }
 
-.table {
-  width: 100%;
-  border-collapse: collapse;
+.btn-warning {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #212529;
 }
 
-.table th {
-  background-color: #D9D9D9;
+.btn-warning:hover {
+  background-color: #d39e00;
+  border-color: #c69500;
+  color: #212529;
 }
 
-.table th, .table td {
-  border: 1px solid black;
-  padding: 8px;
-  text-align: center;
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
 }
 
-th, td {
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  text-align: center;
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  color: #fff;
 }
 
-th {
-  background-color: #f0f0f0;
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
 }
 
-.btn {
-  padding: 8px 12px;
-  border: none;
-  cursor: pointer;
-  background-color: #17A1FA;
-  color: white;
-  margin-right: 8px; /* Agrega margen derecho para separar botones */
-}
-
-.editar-btn {
-  border-radius: 15px; /* Border radius de 15px para el botón de Editar */
-}
-
-.eliminar-btn {
-  background-color: #f44336; /* Color rojo para eliminar */
-  border-radius: 15px;
-}
-
-.eliminar-btn:hover {
-  background-color: #d32f2f; /* Oscurecer color en hover */
-}
-
-.btn:hover {
-  background-color: #17A1FA;
-}
-
-h2{
-  text-align: center
+.btn-primary:hover {
+  background-color: #0069d9;
+  border-color: #0062cc;
+  color: #fff;
 }
 </style>

@@ -13,7 +13,7 @@
       </li>
       <li>
         <router-link to="/roles" class="nav-link text-white d-flex align-items-center" active-class="active">
-          <i class="fas fa-map-marker-alt me-2"></i> Roles
+          <i class="fas fa-cog me-2"></i> Roles
         </router-link>
       </li>
       <li class="nav-item">

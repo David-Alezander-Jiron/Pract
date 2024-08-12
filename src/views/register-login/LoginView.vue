@@ -3,7 +3,7 @@
     <div class="login-content">
       <img src="@/assets/logopra.png" alt="EventTix Logo" class="logo-img">
       <div class="login-box">
-        <h1 class="animated fadeInDown">EventTix</h1>
+        <h1 class="animated fadeInDown">EvenTix</h1>
         <form @submit.prevent="login">
           <div class="input-group animated fadeInLeft">
             <input type="text" v-model="username" placeholder="Correo" required />

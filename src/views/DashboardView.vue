@@ -1,15 +1,18 @@
 <template>
   <div class="dashboard">
     <section class="stat-cards">
-      <div class="stat-card" v-for="(card, index) in statCards" :key="index">
-        
-        <div class="stat-info">
-          <h3>{{ card.title }}</h3>
-          <p>{{ card.value }}</p>
-          <router-link :to="card.link" class="custom-link">Todos los detalles aquí</router-link>
-        </div>
-      </div>
-    </section>
+  <div class="stat-card" v-for="(card, index) in statCards" :key="index">
+    <!-- Aquí agregas la imagen -->
+    <img :src="card.image" alt="Icono" class="stat-image"/>
+
+    <div class="stat-info">
+      <h3>{{ card.title }}</h3>
+      <p>{{ card.value }}</p>
+      <router-link :to="card.link" class="custom-link">Todos los detalles aquí</router-link>
+    </div>
+  </div>
+</section>
+
 
     <section class="cards-container">
       <div class="notification-cards" style="padding-left: 125px;">
@@ -67,11 +70,12 @@ export default {
   data() {
     return {
       statCards: [
-        { icon: '', title: 'Usuarios Registrados', value: '7,842,900', link: '/' },
-        { icon: '@/assets/stacts2.png', title: 'Ventas de Tickets', value: '180,200', link: '/tickets' },
-        { icon: '@/assets/stacts3.png', title: 'Eventos Próximos', value: '38,900', link: '/' },
-        { icon: '@/assets/stacts4.png', title: 'Nuevos Comentarios', value: '3,988', link: '/comentarios' },
-      ],
+  { image: require('@/assets/stacts1.png'), title: 'Usuarios Registrados', value: '7,842,900', link: '/' },
+  { image: require('@/assets/stacts2.png'), title: 'Ventas de Tickets', value: '180,200', link: '/tickets' },
+  { image: require('@/assets/stacts3.png'), title: 'Eventos Próximos', value: '38,900', link: '/' },
+  { image: require('@/assets/stacts4.png'), title: 'Nuevos Comentarios', value: '3,988', link: '/comentarios' },
+],
+
       highlightEvents: [
         { title: 'Concierto de rock', date: '20 de Julio, 2024', location: 'Estadio Nacional', description: 'Un increíble concierto con las mejores bandas de rock del momento.' },
         { title: 'Feria de Tecnología', date: '15 de Agosto, 2024', location: 'Centro de Convenciones', description: 'La feria más grande de tecnología con expositores de todo el mundo.' },
@@ -91,6 +95,10 @@ export default {
   color: #333;
 }
 
+h3 {
+  text-align: center;
+}
+
 .stat-cards {
   display: flex;
   flex-wrap: wrap;
@@ -99,41 +107,51 @@ export default {
 }
 
 .stat-card {
+  position: relative; /* Necesario para que el contenido interno con position: absolute funcione */
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  overflow: hidden; /* Asegura que el contenido no se desborde de la tarjeta */
   flex: 1;
   min-width: 200px;
   max-width: 300px;
   transition: transform 0.3s, box-shadow 0.3s;
+  margin-left: 80px;
 }
 
-.stat-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.stat-icon img {
-  width: 60px;
-  height: 60px;
+.stat-image {
+  width: 100%;  
+  height: auto;  
+  display: block;
 }
 
 .stat-info {
-  margin-top: 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.6); /* Fondo semitransparente para mejor legibilidad */
+  color: white;
+  text-align: center;
 }
 
 .stat-info h3 {
   margin: 0;
   font-size: 18px;
-  color: #555;
+  color: #fff;
 }
 
 .stat-info p {
   margin: 5px 0;
   font-size: 24px;
   font-weight: bold;
-  color: #333;
+  color: #fff;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .custom-link {
@@ -152,6 +170,7 @@ export default {
   display: flex;
   gap: 20px;
   margin-bottom: 40px;
+  margin-left: 410px;
 }
 
 .card {
@@ -220,6 +239,7 @@ export default {
   margin: 5px 0;
 }
 
+/* codigo de proximos eventos */
 .extra-cards {
   display: flex;
   gap: 20px;
@@ -229,10 +249,27 @@ export default {
   flex: 2;
 }
 
+/* Empieza el nuevo código para agregar fondo a cada title en los eventos destacados */
 .highlight-event h4 {
-  margin-bottom: 5px;
-  font-size: 18px;
+  background-color: #f0f0f0; /* Cambia este color al que desees para el fondo */
+  padding: 10px;
+  border-radius: 8px;
+  margin: 0 0 10px 0; /* Espacio entre el título y el siguiente contenido */
+  color: #333; /* Color del texto */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Sombra opcional para el título */
 }
+
+.highlight-event p {
+  margin: 0 0 5px 0; /* Espacio entre los párrafos */
+  color: #555;
+}
+
+.card h3 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+/* Termina el nuevo código para agregar fondo a cada title en los eventos destacados */
 
 .map-card {
   flex: 1;
@@ -244,8 +281,8 @@ export default {
 }
 
 .map-details img.icon {
-  width: 20px;
-  height: 20px;
+  width: 50px;
+  height: 25px;
   margin-right: 5px;
   vertical-align: middle;
 }

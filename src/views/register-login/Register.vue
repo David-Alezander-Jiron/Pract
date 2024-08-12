@@ -19,11 +19,13 @@
           </div>
           <div class="input-group animated fadeInRight">
             <label for="contrasena">Contraseña:</label>
-            <input type="password" id="contrasena" v-model="contrasena" placeholder="Contraseña" required />
+            <input type="password" id="contrasena" v-model="contrasena" placeholder="Contraseña" required
+              pattern=".{8,16}" title="La contraseña debe tener entre 8 y 16 caracteres" />
           </div>
           <div class="input-group animated fadeInLeft">
             <label for="telefono">Teléfono:</label>
-            <input type="text" id="telefono" v-model="telefono" placeholder="Teléfono" required />
+            <input type="text" id="telefono" v-model="telefono" placeholder="Teléfono" required pattern="09\d{8}"
+              title="El teléfono debe tener 10 dígitos y comenzar con 09" />
           </div>
           <input type="hidden" v-model="estado" value="activo" />
           <button type="submit" class="animated pulse">Registrarse</button>
@@ -57,13 +59,15 @@
   background-repeat: no-repeat;
   background-position: center;
   position: relative;
-  background-color: #ffffff; /* Cambiado a gris claro */
+  background-color: #ffffff;
+  /* Cambiado a gris claro */
 }
 
 .register-content {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.85); /* Cambiado a blanco con transparencia */
+  background: rgba(255, 255, 255, 0.85);
+  /* Cambiado a blanco con transparencia */
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
@@ -72,7 +76,8 @@
 }
 
 .logo-img {
-  max-width: 200px; /* Hacer el logo un poco más pequeño */
+  max-width: 200px;
+  /* Hacer el logo un poco más pequeño */
   height: auto;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -107,19 +112,23 @@ input[type="password"],
 select {
   width: 100%;
   padding: 0.75rem;
-  background-color: #495057; /* Cambiado a gris oscuro */
+  background-color: #495057;
+  /* Cambiado a gris oscuro */
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
-  color: #fff; /* Cambiado a blanco */
+  color: #fff;
+  /* Cambiado a blanco */
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 button {
   width: 100%;
   padding: 0.75rem;
-  background-color: #00bfa5; /* Cambiado a verde azulado */
-  color: #fff; /* Cambiado a blanco */
+  background-color: #00bfa5;
+  /* Cambiado a verde azulado */
+  color: #fff;
+  /* Cambiado a blanco */
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -127,7 +136,8 @@ button {
 }
 
 button:hover {
-  background-color: #009e8e; /* Cambiado a verde azulado oscuro */
+  background-color: #009e8e;
+  /* Cambiado a verde azulado oscuro */
   transform: translateY(-2px);
 }
 
@@ -170,14 +180,17 @@ button:disabled {
   border-radius: 12px;
   text-align: center;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  max-width: 400px; /* Ajusta este valor según tus necesidades */
-  width: 100%; /* Asegura que el ancho no exceda el máximo especificado */
+  max-width: 400px;
+  /* Ajusta este valor según tus necesidades */
+  width: 100%;
+  /* Asegura que el ancho no exceda el máximo especificado */
 }
 
 .success-img {
   max-width: 100px;
   margin-bottom: 1rem;
-  margin-left: 110px; /* Ajusta este valor según sea necesario */
+  margin-left: 110px;
+  /* Ajusta este valor según sea necesario */
 
 }
 
@@ -237,7 +250,7 @@ export default {
         if (response.data.redirect) {
           this.$router.push(response.data.redirect);
         }
-        
+
         Swal.fire({
           icon: 'success',
           title: response.data.message,

@@ -3,7 +3,7 @@
     <div class="register-content">
       <img src="@/assets/logopra.png" alt="EventTix Logo" class="logo-img animated bounceIn">
       <div class="register-box">
-        <h1 class="animated fadeInDown">EventTix</h1>
+        <h1 class="animated fadeInDown">EvenTix</h1>
         <form @submit.prevent="registro">
           <div class="input-group animated fadeInLeft">
             <label for="nombres">Nombres:</label>

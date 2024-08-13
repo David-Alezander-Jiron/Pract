@@ -5,10 +5,10 @@
 
     <div class="container-fluid">
       <div class="row">
-        <!-- Mostrar SidebarComponent y HeaderComponent solo si no estamos en las rutas de login, registro o una ruta inexistente -->
-        <SidebarComponent v-if="shouldShowNavbar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar" />
+        <!-- Mostrar SidebarComponent y HeaderComponent solo si no estamos en las rutas de login, registro o una ruta inexistente y no estamos en un móvil -->
+        <SidebarComponent v-if="shouldShowNavbar && !isMobile" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar" />
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-          <HeaderComponent v-if="shouldShowNavbar" />
+          <HeaderComponent v-if="shouldShowNavbar && !isMobile" />
         </main>
       </div>
     </div>
@@ -37,6 +37,11 @@ export default {
     NavbarComponent,
     SidebarComponent,
   },
+  data() {
+    return {
+      isMobile: window.innerWidth <= 768, // Define un tamaño de pantalla móvil, aquí 768px
+    };
+  },
   computed: {
     shouldShowNavbar() {
       // Verifica si la ruta actual está en la lista de rutas permitidas
@@ -52,14 +57,25 @@ export default {
       const isAllowedRoute = allowedRoutes.includes(this.$route.path);
       return isAllowedRoute;
     }
+  },
+  mounted() {
+    window.addEventListener('resize', this.checkMobile);
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.checkMobile);
+  },
+  methods: {
+    checkMobile() {
+      this.isMobile = window.innerWidth <= 768;
+    }
   }
 };
 </script>
 
+<style scoped>
+/* Aquí siguen los estilos proporcionados */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
 
-
-
-<style>
 .router-pag {
   padding-left: 0;
 }
@@ -68,8 +84,38 @@ export default {
   padding-left: 280px;
 }
 
+/* Ajusta el padding-left a 0 en pantallas menores a 768px */
+@media (max-width: 768px) {
+  .existing-route {
+    padding-left: 0;
+  }
+}
+
 .container-fluid {
   padding: 0;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  padding: 48px 0 0;
+  /* Ajuste para que no se superponga con el header */
+}
+
+.main-content {
+  margin-top: 0px;
+  /* Ajuste para que no se superponga con el header */
+  padding: 5px;
+}
+
+.content {
+  padding: 20px;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 80px);
+  /* Ajusta la altura del contenido para que no se superponga con el header */
 }
 
 .sidebar {

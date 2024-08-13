@@ -8,14 +8,29 @@
         <form @submit.prevent="crearRol">
           <div class="form-group">
             <label for="nombre">Nombre:</label>
-            <input type="text" v-model.trim="nuevoRol.nombre" class="form-control" id="nombre" required>
+            <input 
+              type="text" 
+              v-model.trim="nuevoRol.nombre" 
+              class="form-control" 
+              id="nombre" 
+              required 
+              placeholder="Ingresa el nombre del rol"
+            />
           </div>
           
           <div class="form-group">
             <label for="descripcion">Descripción:</label>
-            <textarea v-model.trim="nuevoRol.descripcion" class="form-control" id="descripcion"></textarea>
+            <textarea 
+              v-model.trim="nuevoRol.descripcion" 
+              class="form-control" 
+              id="descripcion" 
+              rows="3" 
+              placeholder="Ingresa una descripción del rol"
+            ></textarea>
           </div>
-          <button type="submit" class="btn btn-primary animated pulse">Crear Rol</button>
+          <button type="submit" class="btn btn-primary animated pulse">
+            Crear Rol
+          </button>
         </form>
       </div>
     </div>
@@ -25,28 +40,35 @@
         Lista de Roles
       </div>
       <div class="card-body">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Estado</th>
-              <th>Descripción</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="rol in roles" :key="rol.id" class="animated fadeIn">
-              <td>{{ rol.id }}</td>
-              <td>{{ rol.nombre }}</td>
-              <td>{{ rol.estado }}</td>
-              <td>{{ rol.descripcion }}</td>
-              <td>
-                <button @click="eliminarRol(rol.id)" class="btn btn-danger animated shake">Eliminar</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Estado</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="rol in roles" :key="rol.id" class="animated fadeIn">
+                <td>{{ rol.id }}</td>
+                <td>{{ rol.nombre }}</td>
+                <td>{{ rol.estado }}</td>
+                <td>{{ rol.descripcion }}</td>
+                <td>
+                  <button 
+                    @click="eliminarRol(rol.id)" 
+                    class="btn btn-danger btn-sm animated shake"
+                  >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -71,13 +93,9 @@ export default {
   },
   async mounted() {
     try {
-      // Obtén el token CSRF del backend
       const response = await instance.get('/');
       this.csrfToken = response.data.csrfToken;
-      // Configura el token CSRF en Axios
       instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
-
-      // Cargar la lista de roles
       await this.fetchRoles();
     } catch (error) {
       console.error('Error al obtener el token CSRF o los roles:', error);
@@ -96,20 +114,18 @@ export default {
       try {
         await instance.post('/roles', this.nuevoRol, {
           headers: {
-            'X-CSRF-Token': this.csrfToken // Asegúrate de enviar el token CSRF
+            'X-CSRF-Token': this.csrfToken
           }
         });
-        await this.fetchRoles(); // Recargar la lista de roles después de crear uno nuevo
+        await this.fetchRoles();
         this.nuevoRol = {
           nombre: '',
           estado: 'activo',
           descripcion: ''
-        }; // Limpiar el formulario después de crear el rol
+        };
       } catch (error) {
         console.error('Error al crear el rol:', error);
-        const message = error.response && error.response.data && error.response.data.message
-          ? error.response.data.message
-          : 'No se pudo crear el rol.';
+        const message = error.response?.data?.message || 'No se pudo crear el rol.';
 
         Swal.fire({
           icon: 'error',
@@ -122,15 +138,13 @@ export default {
       try {
         await instance.delete(`/roles/${id}`, {
           headers: {
-            'X-CSRF-Token': this.csrfToken // Asegúrate de enviar el token CSRF
+            'X-CSRF-Token': this.csrfToken
           }
         });
-        await this.fetchRoles(); // Recargar la lista de roles después de eliminar
+        await this.fetchRoles();
       } catch (error) {
         console.error('Error al eliminar el rol:', error);
-        const message = error.response && error.response.data && error.response.data.message
-          ? error.response.data.message
-          : 'No se pudo eliminar el rol.';
+        const message = error.response?.data?.message || 'No se pudo eliminar el rol.';
 
         Swal.fire({
           icon: 'error',
@@ -144,7 +158,6 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos adicionales si es necesario */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
 
 .card {
@@ -158,7 +171,14 @@ export default {
 }
 
 .container {
-  padding: 2em;
+  max-width: 1200px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-control {
+  font-size: 1rem;
+  padding: 10px;
 }
 
 .btn-primary {
@@ -183,5 +203,18 @@ export default {
   background-color: #c82333;
   border-color: #bd2130;
   color: #fff;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.table {
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f5f5f5;
 }
 </style>

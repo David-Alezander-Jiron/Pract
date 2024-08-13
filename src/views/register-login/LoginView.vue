@@ -23,10 +23,13 @@
   </div>
 </template>
 
-
 <style scoped>
 /* Estilos adicionales si es necesario */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
+
+* {
+  box-sizing: border-box;
+}
 
 .login-container {
   display: flex;
@@ -38,10 +41,14 @@
   background-repeat: no-repeat;
   background-position: center;
   position: relative;
+  background-color: #ffffff;
+  overflow: auto;
+  max-height: 100vh;
 }
 
 .login-content {
   display: flex;
+  flex-direction: column; /* Cambiado a columna para móviles */
   align-items: center;
   background: rgba(255, 255, 255, 0.85);
   padding: 2rem;
@@ -52,16 +59,17 @@
 }
 
 .logo-img {
-  max-width: 200px; /* Hacer el logo un poco más pequeño */
+  max-width: 150px;
   height: auto;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin-right: 2rem;
+  margin-bottom: 1.5rem; /* Cambiado para que el logo esté arriba */
 }
 
 .login-box {
   flex-grow: 1;
   text-align: center;
+  width: 100%; /* Asegura que el formulario ocupe todo el ancho */
 }
 
 h1 {
@@ -117,6 +125,19 @@ button:focus {
 
 .router-link:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .login-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .logo-img {
+    margin-right: 0;
+    margin-bottom: 2rem;
+  }
 }
 </style>
 

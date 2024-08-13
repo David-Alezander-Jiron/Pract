@@ -6,7 +6,7 @@
     <div class="container-fluid">
       <div class="row">
         <!-- Mostrar SidebarComponent y HeaderComponent solo si no estamos en las rutas de login, registro o una ruta inexistente -->
-        <SidebarComponent v-if="shouldShowNavbar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar" />
+        <SidebarComponent v-if="shouldShowNavbar" class="col-md-3 col-lg-2 sidebar" />
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
           <HeaderComponent v-if="shouldShowNavbar" />
         </main>
@@ -14,11 +14,9 @@
     </div>
   </div>
 
-  <div class="router-pag" v-bind:class="{ 'existing-route': isExistingRoute }">
+  <div class="router-pag" :class="{ 'existing-route': isExistingRoute }">
     <!-- Solo mostrar el router-view en las rutas de login o registro -->
     <router-view v-if="isAuthRoute" />
-
-    <!-- En otras rutas, muestra el router-view normalmente -->
     <router-view v-else />
   </div>
 </template>
@@ -27,9 +25,7 @@
 import NavbarComponent from './components/NavbarComponent.vue';
 import SidebarComponent from './components/SidebarComponent.vue';
 
-// Importa allowedRoutes desde el archivo donde lo definiste
 import { allowedRoutes } from './router';
-
 
 export default {
   name: 'App',
@@ -39,25 +35,18 @@ export default {
   },
   computed: {
     shouldShowNavbar() {
-      // Verifica si la ruta actual está en la lista de rutas permitidas
-      const isAllowedRoute = allowedRoutes.includes(this.$route.path);
-      return isAllowedRoute;
+      return allowedRoutes.includes(this.$route.path);
     },
     isAuthRoute() {
       const routePath = this.$route.path;
       return routePath === '/login' || routePath === '/register';
     },
     isExistingRoute() {
-      // Verifica si la ruta actual está en la lista de rutas permitidas
-      const isAllowedRoute = allowedRoutes.includes(this.$route.path);
-      return isAllowedRoute;
+      return allowedRoutes.includes(this.$route.path);
     }
   }
 };
 </script>
-
-
-
 
 <style>
 .router-pag {
@@ -65,7 +54,7 @@ export default {
 }
 
 .existing-route {
-  padding-left: 280px;
+  padding-left: 0; /* Elimina padding izquierdo en rutas existentes */
 }
 
 .container-fluid {
@@ -79,19 +68,16 @@ export default {
   left: 0;
   z-index: 100;
   padding: 48px 0 0;
-  /* Ajuste para que no se superponga con el header */
+  background-color: transparent; /* Fondo transparente */
 }
 
 .main-content {
-  margin-top: 0px;
-  /* Ajuste para que no se superponga con el header */
-  padding: 5px;
+  padding: 0; /* Elimina padding extra */
 }
 
 .content {
   padding: 20px;
-  background-color: #f8f9fa;
+  background-color: transparent; /* Fondo transparente */
   min-height: calc(100vh - 80px);
-  /* Ajusta la altura del contenido para que no se superponga con el header */
 }
 </style>

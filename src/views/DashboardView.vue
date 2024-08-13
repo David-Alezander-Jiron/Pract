@@ -115,12 +115,22 @@ export default {
   padding: 20px;
   background-color: #f4f7fc;
   color: #333;
+  transition: margin-left 0.3s; /* Animación para acomodar contenido */
+}
+
+.sidebar-collapsed .dashboard {
+  margin-left: 80px; /* Ajustar el espacio cuando el sidebar esté colapsado */
 }
 
 .stat-cards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+  transition: grid-template-columns 0.3s; /* Animación para cambiar el diseño */
+}
+
+.sidebar-collapsed .stat-cards {
+  grid-template-columns: repeat(3, 1fr); /* Reducir el número de columnas */
 }
 
 .stat-card {
@@ -165,6 +175,11 @@ export default {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 20px;
+  transition: grid-template-columns 0.3s;
+}
+
+.sidebar-collapsed .content-container {
+  grid-template-columns: 1fr; /* Cambiar a una sola columna */
 }
 
 .card {
@@ -210,5 +225,41 @@ export default {
   width: 100%;
   border-radius: 8px;
   margin-top: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .stat-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .stat-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .content-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .stat-card {
+    padding: 10px;
+  }
+
+  .highlight-event h4 {
+    font-size: 1rem;
+  }
+
+  .highlight-event p {
+    font-size: 0.875rem;
+  }
+
+  .map-details img.icon {
+    width: 40px;
+    height: 20px;
+  }
 }
 </style>

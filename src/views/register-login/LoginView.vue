@@ -1,30 +1,31 @@
 <template>
-  <div class="login-container animated fadeIn">
+  <div class="login-container">
     <div class="login-content">
-      <img src="@/assets/logopra.png" alt="EventTix Logo" class="logo-img">
+      <div class="logo-container">
+        <img src="@/assets/logopra.png" alt="EventTix Logo" class="logo-img">
+      </div>
       <div class="login-box">
-        <h1 class="animated fadeInDown">EvenTix</h1>
+        <h1>EventTix</h1>
         <form @submit.prevent="login">
-          <div class="input-group animated fadeInLeft">
+          <div class="input-group">
             <input type="text" v-model="username" placeholder="Correo" required />
           </div>
-          <div class="input-group animated fadeInRight">
+          <div class="input-group">
             <input type="password" v-model="password" placeholder="Contraseña" required />
           </div>
-          <div class="input-group remember-me animated fadeInLeft">
+          <div class="input-group remember-me">
             <input type="checkbox" id="rememberMe" v-model="rememberMe" />
             <label for="rememberMe">Recordar usuario</label>
           </div>
-          <button type="submit" class="animated pulse">Iniciar sesión</button>
+          <button type="submit">Iniciar sesión</button>
         </form>
-        <router-link to="/register" class="animated fadeInUp">¿No tienes cuenta? Regístrate</router-link>
+        <router-link to="/register">¿No tienes cuenta? Regístrate</router-link>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* Estilos adicionales si es necesario */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
 
 * {
@@ -37,44 +38,45 @@
   align-items: center;
   height: 100vh;
   width: 100%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  position: relative;
-  background-color: #ffffff;
-  overflow: auto;
-  max-height: 100vh;
+  background-color: #f7f7f7;
 }
 
 .login-content {
   display: flex;
-  flex-direction: column; /* Cambiado a columna para móviles */
+  flex-direction: row;
   align-items: center;
-  background: rgba(255, 255, 255, 0.85);
+  background: #ffffff;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  max-width: 800px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
   width: 100%;
 }
 
-.logo-img {
-  max-width: 150px;
-  height: auto;
+.logo-container {
+  background-color: #f7f7f7;
+  padding: 1rem;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1.5rem; /* Cambiado para que el logo esté arriba */
+  margin-right: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+}
+
+.logo-img {
+  max-width: 100%;
+  height: auto;
 }
 
 .login-box {
-  flex-grow: 1;
+  width: 100%;
   text-align: center;
-  width: 100%; /* Asegura que el formulario ocupe todo el ancho */
 }
 
 h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  margin-bottom: 2rem;
   color: #333;
 }
 
@@ -104,6 +106,7 @@ button {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-bottom: 1rem;
 }
 
 button:hover {
@@ -120,7 +123,6 @@ button:focus {
   color: #007bff;
   text-decoration: none;
   display: block;
-  margin-top: 1rem;
 }
 
 .router-link:hover {
@@ -130,21 +132,23 @@ button:focus {
 @media (max-width: 768px) {
   .login-content {
     flex-direction: column;
-    align-items: center;
-    text-align: center;
   }
 
-  .logo-img {
+  .logo-container {
     margin-right: 0;
     margin-bottom: 2rem;
+    width: 70%;
+  }
+
+  .login-box {
+    text-align: center;
   }
 }
 </style>
 
-
 <script>
 import Swal from 'sweetalert2';
-import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
+import instance from '@/pluggins/axios';
 
 export default {
   name: 'newLogin',
@@ -160,11 +164,9 @@ export default {
   methods: {
     async login() {
       try {
-        // Obtener el token CSRF
         const csrfResponse = await instance.get('/');
         const csrfToken = csrfResponse.data.csrfToken;
 
-        // Enviar la solicitud de login
         const response = await instance.post('/login', {
           correo: this.username,
           contrasena: this.password
@@ -174,7 +176,6 @@ export default {
           }
         });
 
-        // Guardar el token de autenticación en localStorage
         localStorage.setItem('authToken', response.data.token);
 
         Swal.fire({
@@ -184,11 +185,10 @@ export default {
           timer: 1500
         });
 
-        // Redirigir si la autenticación es exitosa
         this.$router.push(response.data.redirect || '/');
       } catch (error) {
         this.error = true;
-        this.errorMessage = 'Correo o contraseña incorrecto'; // Mensaje de error personalizado
+        this.errorMessage = 'Correo o contraseña incorrecto';
 
         Swal.fire({
           icon: 'error',

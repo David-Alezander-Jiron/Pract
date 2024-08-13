@@ -8,15 +8,37 @@
         <form @submit.prevent="submitForm">
           <div class="form-group">
             <label for="nombre">Nombre del Patrocinador:</label>
-            <input type="text" class="form-control" required v-model="patrocinador.nombre" id="nombre" placeholder="Nombre del Patrocinador">
+            <input 
+              type="text" 
+              class="form-control" 
+              required 
+              v-model="patrocinador.nombre" 
+              id="nombre" 
+              placeholder="Nombre del Patrocinador">
           </div>
           <div class="form-group">
             <label for="descripcion">Descripción:</label>
-            <textarea class="form-control" required v-model="patrocinador.descripcion" id="descripcion" rows="3" placeholder="Descripción del Patrocinador"></textarea>
+            <textarea 
+              class="form-control" 
+              required 
+              v-model="patrocinador.descripcion" 
+              id="descripcion" 
+              rows="3" 
+              placeholder="Descripción del Patrocinador">
+            </textarea>
           </div>
           <div class="form-group">
             <label for="contacto">Contacto:</label>
-            <input type="text" class="form-control" required v-model="patrocinador.contacto" id="contacto" placeholder="Contacto del Patrocinador">
+            <input 
+              type="text" 
+              class="form-control" 
+              required 
+              v-model="patrocinador.contacto" 
+              id="contacto" 
+              placeholder="Contacto del Patrocinador"
+              maxlength="10"
+              pattern="09\d{8}"
+              title="El número debe comenzar con 09 y tener 10 dígitos">
           </div>
           <div class="btn-group" role="group" aria-label="">
             <button type="submit" class="btn btn-success animated pulse">Agregar Patrocinador</button>
@@ -27,7 +49,6 @@
     </div>
   </div>
 </template>
-
 
 <style scoped>
 /* Estilos adicionales si es necesario */
@@ -78,7 +99,6 @@
 }
 </style>
 
-
 <script>
 import Swal from 'sweetalert2';
 import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
@@ -108,7 +128,23 @@ export default {
     }
   },
   methods: {
+    validatePhone() {
+      const phonePattern = /^09\d{8}$/;
+      if (!phonePattern.test(this.patrocinador.contacto)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Número de Contacto Inválido',
+          text: 'El número debe comenzar con 09 y tener 10 dígitos.',
+        });
+      }
+    },
     async submitForm() {
+      this.validatePhone(); // Validar antes de enviar el formulario
+
+      if (!/^09\d{8}$/.test(this.patrocinador.contacto)) {
+        return; // No enviar si la validación falla
+      }
+
       try {
         await instance.post('/patrocinadores', this.patrocinador, {
           headers: {
@@ -132,4 +168,3 @@ export default {
   }
 };
 </script>
-

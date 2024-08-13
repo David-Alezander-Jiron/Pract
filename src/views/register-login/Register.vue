@@ -27,10 +27,76 @@
             <input type="text" id="telefono" v-model="telefono" placeholder="Teléfono" required pattern="09\d{8}"
               title="El teléfono debe tener 10 dígitos y comenzar con 09" />
           </div>
+          <div class="input-group animated fadeInRight">
+            <label for="accept-terms" class="checkbox-label">
+              <input type="checkbox" id="accept-terms" v-model="acceptTerms" required />
+              Acepto los <a href="#" @click.prevent="showTermsModal = true">términos y condiciones</a>
+            </label>
+          </div>
+          <div class="input-group animated fadeInLeft">
+            <label for="accept-data-sharing" class="checkbox-label">
+              <input type="checkbox" id="accept-data-sharing" v-model="acceptDataSharing" />
+              Acepto compartir mis datos para recibir información sobre esta página
+            </label>
+          </div>
           <input type="hidden" v-model="estado" value="activo" />
-          <button type="submit" class="animated pulse">Registrarse</button>
+          <button type="submit" :disabled="!acceptTerms" class="animated pulse">Registrarse</button>
         </form>
         <router-link to="/login" class="animated fadeInUp">¿Ya tienes una cuenta? Inicia sesión</router-link>
+      </div>
+    </div>
+
+    <!-- Modal para Términos y Condiciones -->
+    <div v-if="showTermsModal" class="modal-overlay">
+      <div class="modal-content">
+        <h2>Términos y Condiciones</h2>
+        <p>
+          Términos y Condiciones
+          </p>
+          <p>
+1. Introducción
+Bienvenido a EventTix, una plataforma dedicada a la venta y creación de eventos.
+          </p>
+<p> 2. Definiciones
+- "Patrocinadores": Aquellos que financian nuestros eventos.
+- "Participantes": Aquellos que asisten a nuestros eventos.
+- "Personal de Servicio": Aquellos que proporcionan servicios en nuestros eventos.
+- "Tickets": Las entradas vendidas para nuestros eventos.
+</p>
+
+<p> 3. Condiciones de Uso
+Al utilizar EventTix, aceptas cumplir con estos términos y condiciones.
+</p>
+ <p> 4. Registro y Cuentas de Usuario
+Para comprar tickets o participar en nuestros eventos, debes registrarte y crear una cuenta.
+ </p>
+
+ <p> 5. Patrocinadores
+Los patrocinadores deben firmar un acuerdo de patrocinio y cumplir con sus obligaciones según ese acuerdo.
+ </p>
+<p> 6. Participantes
+Los participantes deben comportarse de manera respetuosa y segura durante nuestros eventos.
+</p>
+<p> 7. Personal de Servicio
+El personal de servicio debe cumplir con sus obligaciones laborales y seguir todas las políticas de seguridad y salud.
+</p>
+<p> 8. Venta de Tickets
+Los tickets se venden en un primer llegado, primer servido. No ofrecemos reembolsos a menos que el evento sea cancelado.
+</p>
+<p>9. Política de Privacidad
+Por favor, consulta nuestra Política de Privacidad para obtener información sobre cómo recopilamos y utilizamos tus datos.
+</p>
+<p>10. Limitación de Responsabilidad
+EventosXYZ no se hace responsable de ningún daño o pérdida que puedas sufrir como resultado de utilizar nuestra plataforma, a menos que dicho daño o pérdida sea causado por nuestra negligencia.
+</p>
+<p> 11. Ley Aplicable
+Estos términos y condiciones están regidos por las leyes de Ecuador.
+</p>
+<p> 12. Contacto
+Si tienes alguna pregunta sobre estos términos y condiciones, por favor contáctanos a info@EventTix.com.
+
+        </p>
+        <button @click="showTermsModal = false" class="btn btn-secondary">Cerrar</button>
       </div>
     </div>
 
@@ -48,6 +114,15 @@
 <style scoped>
 /* Estilos adicionales si es necesario */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
 
 .register-container {
   display: flex;
@@ -213,7 +288,58 @@ button:disabled {
   background-color: #45a049;
   transform: translateY(-2px);
 }
+
+/* Estilos adicionales para el modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  max-width: 600px;
+  width: 100%;
+}
+
+.modal-content h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.modal-content p {
+  text-align: left;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+.btn-secondary {
+  background-color: #00bfa5;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
 </style>
+
 
 <script>
 import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
@@ -227,7 +353,11 @@ export default {
       correo: '',
       contrasena: '',
       telefono: '',
-      estado: 'activo'
+      estado: 'activo',
+      acceptTerms: false,
+      acceptDataSharing: false,
+      showTermsModal: false,
+      showSuccessModal: false,
     };
   },
   methods: {
@@ -240,7 +370,8 @@ export default {
           correo: this.correo,
           contrasena: this.contrasena,
           telefono: this.telefono,
-          estado: this.estado
+          estado: this.estado,
+          acceptDataSharing: this.acceptDataSharing // Incluye la aceptación del uso de datos si está marcada
         }, {
           headers: {
             'X-CSRF-Token': csrfToken // Incluye el token CSRF en el header

@@ -26,6 +26,9 @@
             <router-link to="/eventos" class="nav-link text-white">Listado de Eventos</router-link>
           </li>
           <li class="nav-item">
+            <router-link to="/eventospersonal" class="nav-link text-white">Personal de Eventos</router-link>
+          </li>
+          <li class="nav-item">
             <router-link to="/eventos/crear" class="nav-link text-white">Formulario de Eventos</router-link>
           </li>
         </ul>

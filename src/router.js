@@ -7,6 +7,7 @@ import Login from '@/views/register-login/LoginView.vue'; // Importa la vista de
 import RegisterNew from '@/views/register-login/Register.vue'; // Importa la vista de registro
 import Error404 from '@/views/Pagina404.vue';
 import Roles from '@/views/roles.vue';
+import Evento_personal from '@/views/Eventos_personal.vue';
 
 // Rutas de usuarios
 import ListadoUsuarios from '@/views/ListadoUsuarios.vue'; // Lista de usuarios
@@ -68,7 +69,8 @@ export const allowedRoutes = [
   '/tickets/crear', 
   '/tickets/editar/:id', 
   '/pagina-gestion', 
-  '/pagina/:id'
+  '/pagina/:id',
+  '/eventospersonal'
 ];
 
 const routes = [
@@ -90,6 +92,7 @@ const routes = [
       { path: 'personal/crear', component: CrearPersonal, meta: { requiresAuth: true } },
       { path: 'personal/editar/:id', name: 'EditarPersonal', component: EditarPersonal, meta: { requiresAuth: true } },
       { path: 'personal', component: ListarPersonal, meta: { requiresAuth: true } },
+      { path: 'eventospersonal', component: Evento_personal, meta: { requiresAuth: true } },
 
       // Rutas de eventos
       { path: 'eventos', component: ListarEventos, meta: { requiresAuth: true } },

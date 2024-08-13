@@ -115,7 +115,9 @@ export default {
   padding: 20px;
   background-color: #f4f7fc;
   color: #333;
-  transition: margin-left 0.3s; /* Animación para acomodar contenido */
+  margin-left: auto; /* Asegura que el dashboard se ajuste a la derecha */
+  max-width: calc(100% - 250px); /* Ajusta el tamaño máximo del dashboard */
+  transition: margin-left 0.3s, max-width 0.3s; /* Añadir transición para suavizar los cambios de tamaño */
 }
 
 .sidebar-collapsed .dashboard {
@@ -229,24 +231,36 @@ export default {
 
 /* Responsive adjustments */
 @media (max-width: 1200px) {
+  .dashboard {
+    max-width: calc(100% - 200px); /* Ajusta para pantallas medianas */
+  }
+
   .stat-cards {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr); /* Reducir columnas en pantallas medianas */
+  }
+
+  .content-container {
+    grid-template-columns: 1fr; /* Cambiar a una sola columna en pantallas medianas */
   }
 }
 
 @media (max-width: 900px) {
-  .stat-cards {
-    grid-template-columns: repeat(2, 1fr);
+  .dashboard {
+    max-width: calc(100% - 100px); /* Ajusta para pantallas pequeñas */
   }
-  
-  .content-container {
-    grid-template-columns: 1fr;
+
+  .stat-cards {
+    grid-template-columns: repeat(2, 1fr); /* Reducir columnas en pantallas pequeñas */
   }
 }
 
 @media (max-width: 600px) {
-  .stat-card {
-    padding: 10px;
+  .dashboard {
+    max-width: 100%; /* Ajusta para pantallas muy pequeñas */
+  }
+
+  .stat-cards {
+    grid-template-columns: 1fr; /* Cambiar a una columna en pantallas muy pequeñas */
   }
 
   .highlight-event h4 {

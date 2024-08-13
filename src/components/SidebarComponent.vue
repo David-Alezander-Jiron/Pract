@@ -1,9 +1,9 @@
 <template>
   <div>
-    <button @click="toggleSidebar" class="hamburger-btn">
+    <button @click="toggleSidebar" class="hamburger-btn" v-if="isMobile">
       <i :class="sidebarVisible ? 'fas fa-times' : 'fas fa-bars'"></i>
     </button>
-    <div v-if="sidebarVisible" class="sidebar-container animated fadeIn">
+    <div v-if="sidebarVisible || !isMobile" class="sidebar-container animated fadeIn">
       <router-link to="/" class="brand-link">
         <span class="brand-name">EventTix</span>
       </router-link>
@@ -79,6 +79,7 @@
   </div>
 </template>
 
+
 <style scoped>
 @import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
 
@@ -97,10 +98,11 @@
   z-index: 1000;
 }
 
-.brand-name{
+.brand-name {
   text-align: center;
   margin-left: 50px;
 }
+
 .hamburger-btn {
   position: fixed;
   top: 10px;
@@ -149,6 +151,18 @@
   margin: 0 auto 20px;
 }
 
+@media (max-width: 767px) {
+  .hamburger-btn {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  .hamburger-btn {
+    display: none;
+  }
+}
+
 @media (max-width: 375px) {
   .sidebar-container {
     width: 100%;
@@ -171,6 +185,7 @@
 }
 </style>
 
+
 <script>
 export default {
   name: 'SidebarMenu',
@@ -181,7 +196,8 @@ export default {
         adminDropdown: false,
         personalDropdown: false,
       },
-      sidebarVisible: false,
+      sidebarVisible: true, // Mostrar siempre el sidebar en la pantalla principal
+      isMobile: window.innerWidth <= 767, // Determina si es una vista móvil
     };
   },
   methods: {
@@ -191,6 +207,18 @@ export default {
     toggleSidebar() {
       this.sidebarVisible = !this.sidebarVisible;
     },
+    updateWindowDimensions() {
+      this.isMobile = window.innerWidth <= 767;
+      if (!this.isMobile) {
+        this.sidebarVisible = true; // Asegura que el sidebar esté visible en pantallas grandes
+      }
+    },
+  },
+  created() {
+    window.addEventListener('resize', this.updateWindowDimensions);
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
   },
 };
 </script>

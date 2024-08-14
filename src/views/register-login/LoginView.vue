@@ -1,72 +1,64 @@
 <template>
-  <div class="login-container">
-    <div class="login-content">
+  <div class="login-container animated fadeIn">
+    <div class="login-content animated fadeInDown">
       <div class="logo-container">
-        <img src="@/assets/logopra.png" alt="EventTix Logo" class="logo-img">
+        <img src="@/assets/logopra.png" alt="EventTix Logo" class="logo-img animated bounceIn" />
       </div>
-      <div class="login-box">
+      <div class="login-box animated fadeInUp">
         <h1>EventTix</h1>
         <form @submit.prevent="login">
-          <div class="input-group">
+          <div class="input-group animated fadeInLeft">
             <input type="text" v-model="username" placeholder="Correo" required />
           </div>
-          <div class="input-group">
+          <div class="input-group animated fadeInRight">
             <input type="password" v-model="password" placeholder="Contraseña" required />
           </div>
-          <div class="input-group remember-me">
+          <div class="input-group remember-me animated fadeInLeft">
             <input type="checkbox" id="rememberMe" v-model="rememberMe" />
             <label for="rememberMe">Recordar usuario</label>
           </div>
-          <button type="submit">Iniciar sesión</button>
+          <button type="submit" class="btn animated pulse">Iniciar sesión</button>
         </form>
-        <router-link to="/register">¿No tienes cuenta? Regístrate</router-link>
+        <router-link to="/register" class="register-link animated fadeInUp">¿No tienes cuenta? Regístrate</router-link>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
-
-* {
-  box-sizing: border-box;
-}
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
 
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 100%;
-  background-color: #f7f7f7;
+  min-height: 100vh;
+  background: linear-gradient(45deg, #f3ec78, #af4261);
+  font-family: 'Roboto', sans-serif;
 }
 
 .login-content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  background: #ffffff;
+  background: #fff;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  max-width: 900px;
+  border-radius: 1rem;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .logo-container {
-  background-color: #f7f7f7;
-  padding: 1rem;
-  border-radius: 12px;
-  margin-right: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 200px;
 }
 
 .logo-img {
-  max-width: 100%;
-  height: auto;
+  width: 70%;
+  max-width: 150px;
 }
 
 .login-box {
@@ -75,74 +67,64 @@
 }
 
 h1 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
+  font-weight: 500;
+  font-size: 1.5rem;
   color: #333;
+  margin-bottom: 1rem;
 }
 
 .input-group {
+  width: 100%;
   margin-bottom: 1rem;
-  text-align: left;
 }
 
 .input-group input {
-  display: block;
   width: 100%;
   padding: 0.75rem;
-  background-color: #495057;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border: none;
+  border-radius: 0.5rem;
+  background: #eee;
   font-size: 1rem;
-  color: #fff;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: #333;
 }
 
-button {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: #00bfa5;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+.remember-me {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
   margin-bottom: 1rem;
 }
 
-button:hover {
-  background-color: #009e8e;
-  transform: translateY(-2px);
+.remember-me input {
+  margin-right: 0.5rem;
 }
 
-button:focus {
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 191, 165, 0.5);
+.btn {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: #af4261;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.5s;
 }
 
-.router-link {
-  color: #007bff;
+.btn:hover {
+  background: #f3ec78;
+  color: #333;
+}
+
+.register-link {
+  color: #333;
   text-decoration: none;
-  display: block;
+  margin-top: 1rem;
+  font-size: 0.875rem;
 }
 
-.router-link:hover {
+.register-link:hover {
   text-decoration: underline;
-}
-
-@media (max-width: 768px) {
-  .login-content {
-    flex-direction: column;
-  }
-
-  .logo-container {
-    margin-right: 0;
-    margin-bottom: 2rem;
-    width: 70%;
-  }
-
-  .login-box {
-    text-align: center;
-  }
 }
 </style>
 

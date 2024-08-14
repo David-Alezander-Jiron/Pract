@@ -1,8 +1,8 @@
 <template>
   <div class="register-container animated fadeIn">
-    <div class="register-content">
+    <div class="register-content animated fadeInDown">
       <img src="@/assets/logopra.png" alt="EventTix Logo" class="logo-img animated bounceIn">
-      <div class="register-box">
+      <div class="register-box animated fadeInUp">
         <h1 class="animated fadeInDown">EvenTix</h1>
         <form @submit.prevent="registro">
           <div class="input-group animated fadeInLeft">
@@ -40,25 +40,54 @@
             </label>
           </div>
           <input type="hidden" v-model="estado" value="activo" />
-          <button type="submit" :disabled="!acceptTerms" class="animated pulse">Registrarse</button>
+          <button type="submit" :disabled="!acceptTerms" class="animated pulse btn">Registrarse</button>
         </form>
-        <router-link to="/login" class="animated fadeInUp">¿Ya tienes una cuenta? Inicia sesión</router-link>
+        <router-link to="/login" class="animated fadeInUp register-link">¿Ya tienes una cuenta? Inicia sesión</router-link>
       </div>
     </div>
 
     <!-- Modal para Términos y Condiciones -->
-    <div v-if="showTermsModal" class="modal-overlay" @click="showTermsModal = false">
-      <div class="modal-content" @click.stop>
+    <div v-if="showTermsModal" class="modal-overlay animated fadeIn" @click="showTermsModal = false">
+      <div class="modal-content animated bounceIn" @click.stop>
         <h2>Términos y Condiciones</h2>
-        <p>
-          Términos y Condiciones
-        </p>
+        <div class="terms-content">
+          <p># Términos y Condiciones</p>
+          <p>## 1. Introducción</p>
+          <p>Bienvenido a EventosXYZ, una plataforma dedicada a la venta y creación de eventos.</p>
+          <p>## 2. Definiciones</p>
+          <ul>
+            <li>"Patrocinadores": Aquellos que financian nuestros eventos.</li>
+            <li>"Participantes": Aquellos que asisten a nuestros eventos.</li>
+            <li>"Personal de Servicio": Aquellos que proporcionan servicios en nuestros eventos.</li>
+            <li>"Tickets": Las entradas vendidas para nuestros eventos.</li>
+          </ul>
+          <p>## 3. Condiciones de Uso</p>
+          <p>Al utilizar EventosXYZ, aceptas cumplir con estos términos y condiciones.</p>
+          <p>## 4. Registro y Cuentas de Usuario</p>
+          <p>Para comprar tickets o participar en nuestros eventos, debes registrarte y crear una cuenta.</p>
+          <p>## 5. Patrocinadores</p>
+          <p>Los patrocinadores deben firmar un acuerdo de patrocinio y cumplir con sus obligaciones según ese acuerdo.</p>
+          <p>## 6. Participantes</p>
+          <p>Los participantes deben comportarse de manera respetuosa y segura durante nuestros eventos.</p>
+          <p>## 7. Personal de Servicio</p>
+          <p>El personal de servicio debe cumplir con sus obligaciones laborales y seguir todas las políticas de seguridad y salud.</p>
+          <p>## 8. Venta de Tickets</p>
+          <p>Los tickets se venden en un primer llegado, primer servido. No ofrecemos reembolsos a menos que el evento sea cancelado.</p>
+          <p>## 9. Política de Privacidad</p>
+          <p>Por favor, consulta nuestra Política de Privacidad para obtener información sobre cómo recopilamos y utilizamos tus datos.</p>
+          <p>## 10. Limitación de Responsabilidad</p>
+          <p>EventosXYZ no se hace responsable de ningún daño o pérdida que puedas sufrir como resultado de utilizar nuestra plataforma, a menos que dicho daño o pérdida sea causado por nuestra negligencia.</p>
+          <p>## 11. Ley Aplicable</p>
+          <p>Estos términos y condiciones están regidos por las leyes de Ecuador.</p>
+          <p>## 12. Contacto</p>
+          <p>Si tienes alguna pregunta sobre estos términos y condiciones, por favor contáctanos a info@eventosxyz.com.</p>
+        </div>
         <button @click="showTermsModal = false" class="btn btn-secondary">Cerrar</button>
       </div>
     </div>
 
-    <div v-if="showSuccessModal" class="modal-overlay">
-      <div class="modal-content">
+    <div v-if="showSuccessModal" class="modal-overlay animated fadeIn">
+      <div class="modal-content animated bounceIn">
         <img src="@/assets/visto.png" alt="Success" class="success-img">
         <h2>Registro exitoso</h2>
         <button @click="redirectToLogin" class="btn btn-secondary">Aceptar</button>
@@ -68,8 +97,9 @@
 </template>
 
 <script>
-import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
+import instance from '@/pluggins/axios';
 import Swal from 'sweetalert2';
+
 export default {
   name: 'newRegistro',
   data() {
@@ -89,7 +119,7 @@ export default {
   methods: {
     async registro() {
       try {
-        const csrfToken = await this.obtenerCsrfToken(); // Obtén el token CSRF
+        const csrfToken = await this.obtenerCsrfToken();
         const response = await instance.post('/Register', {
           nombres: this.nombres,
           apellidos: this.apellidos,
@@ -97,10 +127,10 @@ export default {
           contrasena: this.contrasena,
           telefono: this.telefono,
           estado: this.estado,
-          acceptDataSharing: this.acceptDataSharing // Incluye la aceptación del uso de datos si está marcada
+          acceptDataSharing: this.acceptDataSharing
         }, {
           headers: {
-            'X-CSRF-Token': csrfToken // Incluye el token CSRF en el header
+            'X-CSRF-Token': csrfToken
           }
         });
 
@@ -128,7 +158,7 @@ export default {
     },
     async obtenerCsrfToken() {
       try {
-        const response = await instance.get("/"); // Endpoint para obtener el token CSRF
+        const response = await instance.get("/");
         return response.data.csrfToken;
       } catch (error) {
         console.error('Error al obtener el token CSRF:', error.message);
@@ -140,70 +170,49 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
-
-* {
-  box-sizing: border-box;
-}
-
-.checkbox-label {
-  display: flex;
-  align-items: center;
-}
-
-.checkbox-label input[type="checkbox"] {
-  margin-right: 0.5rem;
-}
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
 
 .register-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 100%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  position: relative;
-  background-color: #ffffff;
-  overflow: auto;
-  max-height: 100vh;
+  min-height: 100vh; /* Asegura que el contenedor ocupe el 100% de la altura de la ventana */
+  background: linear-gradient(45deg, #f3ec78, #af4261);
+  font-family: 'Roboto', sans-serif;
 }
 
 .register-content {
-  display: flex;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.85);
+  background: #fff;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  max-width: 800px;
+  border-radius: 1rem;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
-  flex-direction: row;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .logo-img {
-  max-width: 200px;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin-right: 2rem;
+  width: 70%;
 }
 
 .register-box {
-  flex-grow: 1;
+  width: 100%;
   text-align: center;
 }
 
 h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
+  font-weight: 500;
+  font-size: 1.5rem;
   color: #333;
+  margin-bottom: 1rem;
 }
 
 .input-group {
+  width: 100%;
   margin-bottom: 1rem;
-  text-align: left;
 }
 
 .input-group label {
@@ -218,48 +227,38 @@ input[type="password"],
 select {
   width: 100%;
   padding: 0.75rem;
-  background-color: #495057;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border: none;
+  border-radius: 0.5rem;
+  background: #eee;
   font-size: 1rem;
-  color: #fff;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: #333;
 }
 
-button {
+.btn {
   width: 100%;
   padding: 0.75rem;
-  background-color: #00bfa5;
-  color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 0.5rem;
+  background: #af4261;
+  color: #fff;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background 0.5s;
 }
 
-button:hover {
-  background-color: #009e8e;
-  transform: translateY(-2px);
+.btn:hover {
+  background: #f3ec78;
+  color: #af4261;
 }
 
-button:focus {
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 191, 165, 0.5);
-}
-
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.router-link {
-  color: #007bff;
+.register-link {
+  color: #333;
   text-decoration: none;
-  display: block;
   margin-top: 1rem;
+  font-size: 0.875rem;
 }
 
-.router-link:hover {
+.register-link:hover {
   text-decoration: underline;
 }
 
@@ -267,60 +266,52 @@ button:disabled {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
 .modal-content {
   background: #fff;
   padding: 2rem;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  max-width: 400px;
-  width: 100%;
-  overflow: auto;
-}
-
-.success-img {
-  max-width: 100px;
-  margin-bottom: 1rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
 }
 
 .modal-content h2 {
   margin-bottom: 1rem;
-  color: #00bfa5;
+  color: #af4261;
 }
 
-.btn-secondary {
-  background-color: #00bfa5;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+.terms-content {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  text-align: left;
+  font-size: 0.9rem;
 }
 
-.btn-secondary:hover {
-  background-color: #45a049;
-  transform: translateY(-2px);
+.success-img {
+  width: 50px;
+  margin-bottom: 1rem;
 }
 
-@media (max-width: 768px) {
-  .register-content {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+@media (min-width: 768px) {
+  .register-container {
+    padding: 40px;
   }
-
   .logo-img {
-    display: none;
-    /* Ocultar el logo en pantallas pequeñas */
+    width: 50%;
+  }
+  .modal-content {
+    width: 70%;
+    max-width: 600px;
   }
 }
 </style>

@@ -38,20 +38,6 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link" @click="toggleDropdown('personalDropdown')">
-            <i class="fas fa-user me-2"></i> Personal
-            <i :class="dropdowns.personalDropdown ? 'fas fa-chevron-up ms-auto' : 'fas fa-chevron-down ms-auto'"></i>
-          </a>
-          <ul v-show="dropdowns.personalDropdown" class="nav flex-column ms-3">
-            <li class="nav-item">
-              <router-link to="/personal" class="nav-link">Listado de Personal</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/personal/crear" class="nav-link">Formulario de Personal</router-link>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
           <a href="#" class="nav-link" @click="toggleDropdown('adminDropdown')">
             <i class="fas fa-user-cog me-2"></i> Administrador
             <i :class="dropdowns.adminDropdown ? 'fas fa-chevron-up ms-auto' : 'fas fa-chevron-down ms-auto'"></i>

@@ -1,38 +1,40 @@
 <template>
-  <div class="container">
-    <div class="card animated fadeIn">
-      <div class="card-header">
-        Lista de Participantes
+  <div class="container animated fadeIn">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Lista de Participantes</span>
+        <router-link to="/participantes/crear" class="btn btn-crear animated pulse">Agregar Participante</router-link>
       </div>
       <div class="card-body">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Correo</th>
-              <th>Teléfono</th>
-              <th>Nombre del Evento</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="participante in participantes" :key="participante.id" class="animated fadeIn">
-              <td>{{ participante.id }}</td>
-              <td>{{ participante.nombre }}</td>
-              <td>{{ participante.correo }}</td>
-              <td>{{ participante.telefono }}</td>
-              <td>{{ participante.evento ? participante.evento.nombre : 'Evento no disponible' }}</td>
-              <td>{{ participante.estado }}</td>
-              <td>
-                <router-link :to="`/participantes/editar/${participante.id}`" class="btn btn-warning animated pulse">Editar</router-link>
-                <button @click="eliminarParticipante(participante.id)" class="btn btn-danger animated shake">Eliminar</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <router-link to="/participantes/crear" class="btn btn-primary animated pulse">Agregar Participante</router-link>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Nombre del Evento</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="participante in participantes" :key="participante.id" class="animated fadeIn">
+                <td>{{ participante.id }}</td>
+                <td>{{ participante.nombre }}</td>
+                <td>{{ participante.correo }}</td>
+                <td>{{ participante.telefono }}</td>
+                <td>{{ participante.evento ? participante.evento.nombre : 'Evento no disponible' }}</td>
+                <td>{{ participante.estado }}</td>
+                <td class="actions">
+                  <router-link :to="`/participantes/editar/${participante.id}`" class="btn btn-warning btn-sm animated pulse">Editar</router-link>
+                  <button @click="eliminarParticipante(participante.id)" class="btn btn-danger btn-sm animated shake">Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -107,27 +109,58 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos adicionales si es necesario */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
 
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  border-radius: 5px;
-}
-
-.card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
-
 .container {
-  padding: 2em;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-top: 15px;
 }
 
-.btn-warning {
-  background-color: #ffc107;
-  border-color: #ffc107;
-  color: #212529;
+.card-header {
+  background-color: #f8f9fa;
+  font-size: 1rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.table-responsive {
+  margin-top: 15px;
+}
+
+.table th, .table td {
+  padding: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.actions {
+  white-space: nowrap;
+}
+
+.btn-crear {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+  border-radius: 15px;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  border: 1px solid transparent;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-warning, .btn-danger {
+  font-size: 0.8rem;
+  padding: 5px 10px;
 }
 
 .btn-warning:hover {
@@ -136,27 +169,9 @@ export default {
   color: #212529;
 }
 
-.btn-danger {
-  background-color: #dc3545;
-  border-color: #dc3545;
-  color: #fff;
-}
-
 .btn-danger:hover {
   background-color: #c82333;
   border-color: #bd2130;
-  color: #fff;
-}
-
-.btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
-  color: #fff;
-}
-
-.btn-primary:hover {
-  background-color: #0069d9;
-  border-color: #0062cc;
   color: #fff;
 }
 </style>

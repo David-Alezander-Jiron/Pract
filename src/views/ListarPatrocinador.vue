@@ -1,93 +1,98 @@
 <template>
   <div class="container animated fadeIn">
     <div class="card">
-      <div class="card-header">
-        Lista de Patrocinadores
-        <div class="text-center">
-          <router-link to="/patrocinadores/crear" class="btn btn-crear animated pulse">Crear Nuevo Patrocinador</router-link>
-        </div>
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Lista de Patrocinadores</span>
+        <router-link to="/patrocinadores/crear" class="btn btn-crear animated pulse">Crear</router-link>
       </div>
       <div class="card-body">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Descripción</th>
-              <th>Contacto</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="patrocinador in patrocinadores" :key="patrocinador.id" class="animated fadeIn">
-              <td>{{ patrocinador.id }}</td>
-              <td>{{ patrocinador.nombre }}</td>
-              <td>{{ patrocinador.descripcion }}</td>
-              <td>{{ patrocinador.contacto }}</td>
-              <td>
-                <router-link :to="`/patrocinadores/editar/${patrocinador.id}`" class="btn btn-warning animated pulse">Editar</router-link>
-                <button @click="eliminarPatrocinador(patrocinador.id)" class="btn btn-danger animated shake">Eliminar</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Contacto</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="patrocinador in patrocinadores" :key="patrocinador.id" class="animated fadeIn">
+                <td>{{ patrocinador.id }}</td>
+                <td>{{ patrocinador.nombre }}</td>
+                <td>{{ patrocinador.descripcion }}</td>
+                <td>{{ patrocinador.contacto }}</td>
+                <td class="actions">
+                  <router-link :to="`/patrocinadores/editar/${patrocinador.id}`" class="btn btn-warning animated pulse btn-sm">Editar</router-link>
+                  <button @click="eliminarPatrocinador(patrocinador.id)" class="btn btn-danger animated shake btn-sm">Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-
-
 <style scoped>
-/* Estilos adicionales si es necesario */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
 
 .container {
-  max-width: 800px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
   background-color: #fff;
-  border-radius: 10px; /* Bordes más redondeados */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Sombra más profunda */
-  margin-top: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-top: 15px;
 }
 
 .card-header {
   background-color: #f8f9fa;
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: bold;
 }
 
 .card-body {
-  padding: 20px;
+  padding: 15px;
+}
+
+.table-responsive {
+  margin-top: 15px;
+}
+
+.table th, .table td {
+  padding: 8px;
+  font-size: 0.9rem; /* Reduce el tamaño de la fuente para pantallas pequeñas */
+  text-align: center;
+}
+
+.actions {
+  white-space: nowrap;
 }
 
 .btn-crear {
   background-color: #17A1FA;
   border-color: #17A1FA;
   color: white;
-  border-radius: 15px; /* Esquinas redondeadas */
-  padding: 10px 20px; /* Espaciado interno */
-  border: 1px solid transparent; /* Asegura que el borde sea visible */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Sombra en los botones */
+  border-radius: 15px;
+  padding: 5px 10px;
+  font-size: 0.8rem; /* Reduce el tamaño de la fuente */
+  border: 1px solid transparent;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.btn-warning {
-  background-color: #ffc107;
-  border-color: #ffc107;
-  color: #212529;
+.btn-warning, .btn-danger {
+  font-size: 0.8rem; /* Ajuste para pantallas pequeñas */
+  padding: 5px 10px;
 }
 
 .btn-warning:hover {
   background-color: #d39e00;
   border-color: #c69500;
   color: #212529;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-  border-color: #dc3545;
-  color: #fff;
 }
 
 .btn-danger:hover {

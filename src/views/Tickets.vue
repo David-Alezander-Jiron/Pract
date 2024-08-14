@@ -172,4 +172,33 @@ export default {
   border-color: #0062cc;
   color: #fff;
 }
+
+/* Media Query para pantallas de tamaño del Galaxy S8+ (360px de ancho) */
+@media (max-width: 360px) {
+  .container {
+    padding: 1em;
+  }
+
+  .card-body table {
+    font-size: 0.8em; 
+  }
+
+  .card-body table th, .card-body table td {
+    padding: 0.5em; 
+  }
+
+  .card-body table .btn {
+    font-size: 0.75em; 
+    padding: 0.4em 0.6em; 
+  }
+
+  .card-body table qrcode-vue {
+    width: 75px; 
+    height: 75px; 
+  }
+
+  .card-header {
+    font-size: 1.2em; 
+  }
+}
 </style>

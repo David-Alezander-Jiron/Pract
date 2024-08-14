@@ -84,6 +84,60 @@
   border-color: #bd2130;
   color: #fff;
 }
+/* Ajustes para dispositivos con un ancho máximo de 360px */
+@media (max-width: 360px) {
+  .container {
+    padding: 1em;
+  }
+
+  .form-group {
+    margin-bottom: 1em;
+  }
+
+  .form-control {
+    font-size: 14px;
+    padding: 0.5em;
+  }
+
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 0.5em;
+  }
+
+  .btn-primary, .btn-danger {
+    width: 100%;
+  }
+}
+
+.btn-primary {
+  background-color: #007BFF;
+  border-color: #007BFF;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+  color: #fff;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  color: #fff;
+}
 </style>
 
 

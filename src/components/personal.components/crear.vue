@@ -1,4 +1,3 @@
-
 <template>
   <div class="container">
     <div class="card animated fadeIn">
@@ -33,8 +32,8 @@
             <small id="helpId" class="form-text text-muted">Selecciona el rol del personal</small>
           </div>
           <div class="btn-group" role="group" aria-label="">
-            <button type="submit" class="btn btn-primary animated pulse">Agregar</button> <!-- Cambiado a azul -->
-            <router-link to="/personal" class="btn btn-danger animated pulse">Cancelar</router-link> <!-- Cambiado a rojo -->
+            <button type="submit" class="btn btn-primary animated pulse">Agregar</button>
+            <router-link to="/personal" class="btn btn-danger animated pulse">Cancelar</router-link>
           </div>
         </form>
       </div>
@@ -42,9 +41,7 @@
   </div>
 </template>
 
-
 <style scoped>
-/* Estilos adicionales si es necesario */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
 
 .card {
@@ -59,6 +56,36 @@
 
 .container {
   padding: 2em;
+}
+
+/* Solo para pantallas pequeñas */
+@media (max-width: 360px) {
+  .container {
+    padding: 1em; /* Ajuste de padding para pantallas pequeñas */
+  }
+
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-group .btn {
+    margin-bottom: 10px; /* Espacio entre botones */
+  }
+
+  .form-group label {
+    font-size: 0.9rem; /* Ajuste de tamaño de fuente para etiquetas */
+  }
+
+  .form-group input,
+  .form-group select {
+    font-size: 0.9rem; /* Ajuste de tamaño de fuente para inputs y selects */
+  }
+
+  .card-header {
+    font-size: 1.2rem; /* Ajuste de tamaño de fuente para el encabezado */
+  }
 }
 
 .btn-primary {
@@ -86,11 +113,9 @@
 }
 </style>
 
-
-
 <script>
 import Swal from 'sweetalert2';
-import instance from '@/pluggins/axios'; // Asegúrate de que la ruta sea correcta
+import instance from '@/pluggins/axios'; 
 
 export default {
   name: 'AgregarPersonal',
@@ -102,20 +127,17 @@ export default {
         telefono: '',
         rol: ''
       },
-      roles: [], // Añadir aquí para almacenar los roles obtenidos de la API
+      roles: [], 
       csrfToken: ''
     };
   },
   async mounted() {
     try {
-      // Obtén el token CSRF del backend
       const response = await instance.get('/');
       this.csrfToken = response.data.csrfToken;
-      // Configura el token CSRF en Axios
       instance.defaults.headers['X-CSRF-Token'] = this.csrfToken;
 
-      // Obtener los roles desde la API
-      const rolesResponse = await instance.get('/roles'); // Asegúrate de que la ruta sea correcta
+      const rolesResponse = await instance.get('/roles');
       this.roles = rolesResponse.data;
     } catch (error) {
       console.error('Error al obtener los datos:', error);
@@ -126,7 +148,7 @@ export default {
       try {
         await instance.post('/personal', this.personal, {
           headers: {
-            'X-CSRF-Token': this.csrfToken // Asegúrate de que este valor sea correcto
+            'X-CSRF-Token': this.csrfToken
           }
         });
         this.$router.push('/personal');
@@ -146,4 +168,5 @@ export default {
   }
 };
 </script>
+
 

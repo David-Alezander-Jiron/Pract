@@ -30,15 +30,13 @@
             </tr>
           </tbody>
         </table>
-        
       </div>
       <div class="text-center">
-          <router-link to="/personal/crear" class="btn btn-crear animated pulse">Crear Nuevo Personal</router-link>
-        </div>
+        <router-link to="/personal/crear" class="btn btn-crear animated pulse">Crear Nuevo Personal</router-link>
+      </div>
     </div>
   </div>
 </template>
-
 
 <style scoped>
 /* Estilos adicionales si es necesario */
@@ -56,6 +54,11 @@
 
 .container {
   padding: 2em;
+}
+
+.table {
+  width: 100%;
+  overflow-x: auto; /* Permite el desplazamiento horizontal en pantallas pequeñas */
 }
 
 .btn-warning {
@@ -91,8 +94,21 @@
   border: 1px solid transparent; /* Asegura que el borde sea visible */
   box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Sombra en los botones */
 }
-</style>
 
+@media (max-width: 360px) {
+  .container {
+    padding: 1em;
+  }
+
+  .card {
+    margin: 0.5em;
+  }
+
+  .btn-crear {
+    width: 100%; /* Botón ocupa todo el ancho en pantallas muy pequeñas */
+  }
+}
+</style>
 
 <script>
 import Swal from 'sweetalert2';
@@ -152,4 +168,5 @@ export default {
   }
 };
 </script>
+
 

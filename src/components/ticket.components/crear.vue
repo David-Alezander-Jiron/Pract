@@ -149,6 +149,37 @@ export default {
   padding: 2em;
 }
 
+/* Ajustes para dispositivos con un ancho máximo de 360px */
+@media (max-width: 360px) {
+  .container {
+    padding: 1em;
+  }
+
+  .form-group {
+    margin-bottom: 1em;
+  }
+
+  .form-control {
+    font-size: 14px;
+    padding: 0.5em;
+  }
+
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 0.5em;
+  }
+
+  .btn-success, .btn-warning {
+    width: 100%;
+  }
+}
+
 .btn-success {
   background-color: #28a745;
   border-color: #28a745;
@@ -173,3 +204,4 @@ export default {
   color: #212529;
 }
 </style>
+

@@ -109,15 +109,15 @@ export default {
 
 <style scoped>
 .dashboard {
-  display: grid;
-  grid-template-rows: auto auto;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
   padding: 20px;
   background-color: #f4f7fc;
   color: #333;
-  margin-left: auto; /* Asegura que el dashboard se ajuste a la derecha */
-  max-width: calc(100% - 250px); /* Ajusta el tamaño máximo del dashboard */
-  transition: margin-left 0.3s, max-width 0.3s; /* Añadir transición para suavizar los cambios de tamaño */
+  margin: 0 auto; /* Centra el dashboard horizontalmente */
+  max-width: 100%; /* Asegura que el dashboard no exceda el ancho de la pantalla */
+  box-sizing: border-box; /* Asegura que el padding y el borde estén incluidos en el ancho y alto */
 }
 
 .sidebar-collapsed .dashboard {
@@ -125,10 +125,10 @@ export default {
 }
 
 .stat-cards {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se ajusten a la siguiente línea si no hay suficiente espacio */
+  justify-content: space-between; /* Distribuye el espacio de manera uniforme entre los elementos */
   gap: 20px;
-  transition: grid-template-columns 0.3s; /* Animación para cambiar el diseño */
 }
 
 .sidebar-collapsed .stat-cards {
@@ -136,6 +136,7 @@ export default {
 }
 
 .stat-card {
+  flex: 1 0 200px; /* Permite que las tarjetas crezcan y se encojan, pero no sean más pequeñas que 200px */
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -174,10 +175,10 @@ export default {
 }
 
 .content-container {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se ajusten a la siguiente línea si no hay suficiente espacio */
+  justify-content: space-between; /* Distribuye el espacio de manera uniforme entre los elementos */
   gap: 20px;
-  transition: grid-template-columns 0.3s;
 }
 
 .sidebar-collapsed .content-container {
@@ -185,11 +186,13 @@ export default {
 }
 
 .card {
+  
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 20px;
   transition: transform 0.3s, box-shadow 0.3s;
+  flex: 1 0 200px;
 }
 
 .card:hover {
